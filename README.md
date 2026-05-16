@@ -1172,12 +1172,12 @@ Multilingual Parkinson’s disease detection from speech using self-supervised s
 
 **Prosenjit Chowdhury**
 
-M.Sc. Artificial Intelligence
-Friedrich-Alexander University Erlangen-Nürnberg, Germany
+M.Sc. Artificial Intelligence,
+Friedrich-Alexander University Erlangen-Nürnberg, Germany,
 
-Master’s Thesis
-Time Series Intelligence Group
-Pattern Recognition Lab
+Master’s Thesis,
+Time Series Intelligence Group,
+Pattern Recognition Lab,
 FAU Erlangen-Nürnberg
 
 ---
@@ -1188,7 +1188,7 @@ Alongside my academic research, I work as a Working Student at **SAP SE**, where
 
 ## SAP SE — Working Student Experience
 
-| Department / Team | Focus Area |
+| Core Department | Focus Area |
 | ----------------- | ---------- |
 | **SAP LeanIX & SAP Signavio Content Marketing** | Content marketing, product communication, SAP Sapphire live content, digital library management, AI implementation in Oil & Gas Industry, SAP Sapphire 2026 Content management, Social Media usecase |
 | **Professional Services & EC&O Industries** | Industry content coordination, customer reference stories, go-live stories, business updates |
@@ -1205,10 +1205,10 @@ GitHub:
 
 # 📜 Supervisor
 
-**Dr.-Ing. Tomás Arias-Vergara**
-Head, Time Series Intelligence Group
-Pattern Recognition Lab
-Lehrstuhl für Informatik 5
+**Dr.-Ing. Tomás Arias-Vergara**,
+Head, Time Series Intelligence Group,
+Pattern Recognition Lab,
+Lehrstuhl für Informatik 5,
 Friedrich-Alexander-Universität Erlangen-Nürnberg
 
 ---
