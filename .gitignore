@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# Private medical/audio datasets
+data/
+*.wav
+*.mp3
+*.m4a
+*.flac
+*.aac
+*.ogg
+
+# Large generated artifacts
+features/
+outputs/
+checkpoints/
+models/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Excel temporary files
+~$*.xlsx

@@ -1,0 +1,33 @@
+# Baseline configuration for multilingual Parkinson's disease speech classification
+
+project:
+  name: pd-speech-crosslingual
+  task: PD_vs_HC
+  first_milestone: Spanish-German readtext baseline
+
+data:
+  spanish_readtext: data/spanish/readtext_PDvsHC
+  german_readtext: data/german/Parkinson_German/Recordings/readtext
+  index_file: metadata/dataset_index_readtext.csv
+
+audio:
+  target_sample_rate: 16000
+  mono: true
+  normalize: true
+
+embedding:
+  model: xlsr
+  layers: [0, 4, 8, 11]
+  pooling: mean
+
+classification:
+  classifier: svm
+  primary_metric: balanced_accuracy
+  inner_folds: 5
+  planned_outer_folds: 10
+
+outputs:
+  features_dir: features/xlsr
+  figures_dir: outputs/figures
+  tables_dir: outputs/tables
+  reports_dir: outputs/reports
