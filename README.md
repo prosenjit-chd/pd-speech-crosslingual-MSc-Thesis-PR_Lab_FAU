@@ -1,7 +1,3 @@
-Yes Prosenjit, I understood the style from your previous README. It starts with a clear project title, explains the objective, dataset, workflow, feature engineering, models, evaluation, project structure, running steps, and author profile in a professional way. 
-
-Below is a **full README.md** for your thesis repository. You can copy and paste this directly into GitHub.
-
 ````markdown
 # 🧠 Multilingual Parkinson’s Disease Detection from Speech using Self-Supervised Speech Embeddings
 
@@ -864,34 +860,7 @@ No patient-identifiable audio data or private metadata will be published.
 
 ---
 
-# 👨‍💻 Author
-
-**Prosenjit Chowdhury**
-
-M.Sc. Artificial Intelligence
-Friedrich-Alexander University Erlangen-Nürnberg, Germany
-
-Master’s Thesis
-Pattern Recognition Lab
-FAU Erlangen-Nürnberg
-
-Working Student
-SAP SE, Germany
-
-GitHub:
-[https://github.com/prosenjit-chd](https://github.com/prosenjit-chd)
-
 ---
-
-# 📜 Supervisor
-
-**Dr.-Ing. Tomás Arias-Vergara**
-Pattern Recognition Lab
-Lehrstuhl für Informatik 5
-Friedrich-Alexander-Universität Erlangen-Nürnberg
-
----
-
 # 📌 Current Status
 
 Current phase:
@@ -1195,8 +1164,51 @@ My suggested GitHub repository name for this README:
 pd-speech-crosslingual
 ````
 
-And use this short GitHub description:
-
 ```text
 Multilingual Parkinson’s disease detection from speech using self-supervised speech embeddings and cross-language classification.
 ```
+---
+# 👨‍💻 Author
+
+**Prosenjit Chowdhury**
+
+M.Sc. Artificial Intelligence
+Friedrich-Alexander University Erlangen-Nürnberg, Germany
+
+Master’s Thesis
+Time Series Intelligence Group
+Pattern Recognition Lab
+FAU Erlangen-Nürnberg
+
+---
+
+# 💼 Professional Experience
+
+Alongside my academic research, I work as a Working Student at **SAP SE**, where I have gained experience across multiple departments related to content, enterprise software, digital transformation, and product communication.
+
+## SAP SE — Working Student Experience
+
+| Department / Team | Focus Area |
+| ----------------- | ---------- |
+| **SAP LeanIX & SAP Signavio Content Marketing** | Content marketing, product communication, SAP Sapphire live content, digital library management, AI implementation in Oil & Gas Industry, SAP Sapphire 2026 Content management, Social Media usecase |
+| **Professional Services & EC&O Industries** | Industry content coordination, customer reference stories, go-live stories, business updates |
+| **ERP PCX Department** | SAP S/4HANA content quality, metadata checks, process support, automation |
+
+This experience strengthens my ability to connect **AI research**, **enterprise software**, and **real-world business communication**.
+
+---
+
+GitHub:
+[https://github.com/prosenjit-chd](https://github.com/prosenjit-chd)
+
+---
+
+# 📜 Supervisor
+
+**Dr.-Ing. Tomás Arias-Vergara**
+Head, Time Series Intelligence Group
+Pattern Recognition Lab
+Lehrstuhl für Informatik 5
+Friedrich-Alexander-Universität Erlangen-Nürnberg
+
+---
