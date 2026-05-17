@@ -1,174 +1,104 @@
-"""
-dataset_index.py
-
-Builds a dataset index for multilingual Parkinson's disease speech datasets.
-
-This module creates a single metadata table where every row corresponds to
-one audio file and includes language, task, label, and speaker identifier.
-
-The index is the first reproducibility step of the thesis pipeline:
-audio files -> dataset index -> embeddings -> visualization/classification.
-
-Author: Prosenjit Chowdhury
-"""
-
-from __future__ import annotations
-
-from dataclasses import dataclass, asdict
-from pathlib import Path
-from typing import Iterable, List, Optional
-
+import os
 import pandas as pd
+import logging
 
+logger = logging.getLogger(__name__)
 
-SUPPORTED_AUDIO_EXTENSIONS = {".wav", ".flac", ".mp3", ".m4a", ".ogg", ".aac"}
-
-
-@dataclass(frozen=True)
-class AudioRecord:
-    """One row in the dataset index."""
-
-    file_path: str
-    speaker_id: str
-    language: str
-    task: str
-    label: str
-    dataset: str
-
-
-def infer_label_from_path(path: Path) -> Optional[str]:
+def normalize_label(label_str):
     """
-    Infer PD/HC label from folder names.
-
-    Expected folder names can vary between datasets:
-    - Spanish: PD / HC
-    - German: pd / control / hc / ips
-
-    Returns
-    -------
-    "PD", "HC", or None
+    Normalizes dataset labels to standard 'PD' and 'HC'.
+    Handles variations like 'pd', 'hc', 'control', 'ips'.
     """
-    parts = {p.lower() for p in path.parts}
-
-    if "pd" in parts or "ips" in parts or "parkinson" in parts:
-        return "PD"
-
-    if "hc" in parts or "control" in parts or "healthy" in parts:
-        return "HC"
-
+    label_str = label_str.lower()
+    if label_str in ['pd', 'ips']:
+        return 'PD'
+    elif label_str in ['hc', 'control']:
+        return 'HC'
     return None
 
-
-def infer_speaker_id(path: Path) -> str:
+def infer_speaker_id(filename, language):
     """
-    Infer a speaker ID from the file name.
-
-    This function intentionally uses a conservative generic strategy because
-    dataset naming conventions can differ. It can later be replaced by
-    metadata-based speaker mapping when the final metadata sheet is available.
+    Attempts to infer the speaker ID from the filename.
+    Extracts the prefix before any underscores or hyphens.
     """
-    stem = path.stem
+    base_name = os.path.splitext(filename)[0]
+    
+    # Split by common delimiters and take the first part
+    for delimiter in ['_', '-']:
+        if delimiter in base_name:
+            return base_name.split(delimiter)[0]
+            
+    return base_name
 
-    for sep in ["_", "-", "."]:
-        if sep in stem:
-            return stem.split(sep)[0]
-
-    return stem
-
-
-def scan_audio_files(
-    root_dir: str | Path,
-    language: str,
-    task: str,
-    dataset: str,
-) -> List[AudioRecord]:
+def create_dataset_index(input_dir, target_task="readtext"):
     """
-    Recursively scan a folder and create AudioRecord entries.
-
-    Parameters
-    ----------
-    root_dir:
-        Folder containing audio files.
-    language:
-        Language label, for example "Spanish" or "German".
-    task:
-        Speech task label, for example "readtext".
-    dataset:
-        Dataset name/source.
+    Scans the input directory and creates a dataset index dataframe.
     """
-    root = Path(root_dir)
-    if not root.exists():
-        raise FileNotFoundError(f"Dataset folder does not exist: {root}")
-
-    records: List[AudioRecord] = []
-
-    for audio_path in sorted(root.rglob("*")):
-        if audio_path.suffix.lower() not in SUPPORTED_AUDIO_EXTENSIONS:
+    records = []
+    
+    # Expected structure: input/{Language}/{Task}/... OR input/{Language}/...
+    for language in ['Spanish', 'German']:
+        lang_dir = os.path.join(input_dir, language)
+        if not os.path.exists(lang_dir):
+            logger.warning(f"Language directory not found: {lang_dir}")
             continue
+            
+        # Walk through the language directory looking for audio files
+        for root, _, files in os.walk(lang_dir):
+            # Check if the current directory path contains the target task
+            # Or if the files themselves might belong to the task
+            if target_task.lower() not in root.lower():
+                # Some datasets might not have a task folder, but task in filename
+                pass
+            
+            for file in files:
+                if not file.lower().endswith(('.wav', '.mp3', '.flac')):
+                    continue
+                    
+                # To be strict about the readtext task, we check if the path or filename contains 'readtext'
+                if target_task.lower() not in root.lower() and target_task.lower() not in file.lower():
+                    continue
 
-        label = infer_label_from_path(audio_path)
-        if label is None:
-            # Keep the scan strict to avoid silently mixing unknown labels.
-            continue
-
-        records.append(
-            AudioRecord(
-                file_path=str(audio_path.resolve()),
-                speaker_id=infer_speaker_id(audio_path),
-                language=language,
-                task=task,
-                label=label,
-                dataset=dataset,
-            )
-        )
-
-    return records
-
-
-def build_dataset_index(records: Iterable[AudioRecord]) -> pd.DataFrame:
-    """
-    Convert records to a clean DataFrame and validate required columns.
-    """
-    df = pd.DataFrame([asdict(record) for record in records])
-
-    required = ["file_path", "speaker_id", "language", "task", "label", "dataset"]
-    if df.empty:
-        return pd.DataFrame(columns=required)
-
-    missing = set(required) - set(df.columns)
-    if missing:
-        raise ValueError(f"Missing required dataset index columns: {missing}")
-
-    df = df[required].copy()
-    df["label"] = df["label"].str.upper()
-    df["language"] = df["language"].str.strip()
-    df["task"] = df["task"].str.strip()
-
-    return df.sort_values(["language", "label", "speaker_id", "file_path"]).reset_index(drop=True)
-
-
-def summarize_index(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Summarize number of files and speakers per language/task/label.
-    """
-    if df.empty:
-        return pd.DataFrame()
-
-    return (
-        df.groupby(["language", "task", "label"])
-        .agg(
-            n_files=("file_path", "count"),
-            n_speakers=("speaker_id", "nunique"),
-        )
-        .reset_index()
-        .sort_values(["language", "task", "label"])
-    )
-
-
-def save_index(df: pd.DataFrame, output_csv: str | Path) -> None:
-    """
-    Save the dataset index to CSV.
-    """
-    output_path = Path(output_csv)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    df.to_csv(output_path, index=False)
+                file_path = os.path.join(root, file)
+                
+                # Try to infer label from filename or parent folder
+                label = None
+                parent_dir = os.path.basename(root)
+                grandparent_dir = os.path.basename(os.path.dirname(root))
+                
+                # Check filename
+                for l in ['PD', 'HC', 'control', 'ips']:
+                    if l.lower() in file.lower().split('_') or l.lower() in file.lower().split('-'):
+                        label = normalize_label(l)
+                        break
+                
+                # Check parent dirs if not found
+                if not label:
+                    for l in ['PD', 'HC', 'control', 'ips']:
+                        if l.lower() in parent_dir.lower() or l.lower() in grandparent_dir.lower():
+                            label = normalize_label(l)
+                            break
+                            
+                if not label:
+                    logger.warning(f"Could not infer label for {file_path}. Skipping.")
+                    continue
+                
+                speaker_id = infer_speaker_id(file, language)
+                dataset_name = "PCGITA" if language == "Spanish" else "German_Sabine_Skoda"
+                
+                records.append({
+                    "file_path": file_path,
+                    "speaker_id": speaker_id,
+                    "language": language,
+                    "task": target_task,
+                    "label": label,
+                    "dataset": dataset_name
+                })
+                
+    df = pd.DataFrame(records)
+    if len(df) == 0:
+        logger.error("Dataset index is empty! Please check your input folder structure.")
+    else:
+        logger.info(f"Found {len(df)} {target_task} recordings.")
+        
+    return df

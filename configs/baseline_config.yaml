@@ -1,33 +1,37 @@
-# Baseline configuration for multilingual Parkinson's disease speech classification
+# Baseline Pipeline Configuration
 
-project:
-  name: pd-speech-crosslingual
-  task: PD_vs_HC
-  first_milestone: Spanish-German readtext baseline
+paths:
+  input_dir: "input"
+  spanish_dir: "input/Spanish"
+  german_dir: "input/German"
+  metadata_file: "input/Metdata_PCGITA.xlsx"
+  features_dir: "features"
+  outputs_dir: "outputs"
+  metadata_out_dir: "metadata"
+  figures_out_dir: "outputs/figures"
+  tables_out_dir: "outputs/tables"
+  reports_out_dir: "outputs/reports"
 
 data:
-  spanish_readtext: data/spanish/readtext_PDvsHC
-  german_readtext: data/german/Parkinson_German/Recordings/readtext
-  index_file: metadata/dataset_index_readtext.csv
+  target_task: "readtext"
+  target_sr: 16000
 
-audio:
-  target_sample_rate: 16000
-  mono: true
-  normalize: true
+model:
+  name: "facebook/wav2vec2-large-xlsr-53"
+  type: "xlsr"
+  target_layers: [0, 4, 8, 11]
 
-embedding:
-  model: xlsr
-  layers: [0, 4, 8, 11]
-  pooling: mean
+evaluation:
+  outer_folds: 10
+  inner_folds: 9
+  classifiers:
+    - "linear_svm"
+    - "logistic_regression"
+  metrics:
+    - "uar"
+    - "accuracy"
+    - "sensitivity"
+    - "specificity"
+    - "auc"
 
-classification:
-  classifier: svm
-  primary_metric: balanced_accuracy
-  inner_folds: 5
-  planned_outer_folds: 10
-
-outputs:
-  features_dir: features/xlsr
-  figures_dir: outputs/figures
-  tables_dir: outputs/tables
-  reports_dir: outputs/reports
+random_seed: 42

@@ -1,100 +1,81 @@
-"""
-visualization.py
-
-Embedding visualization utilities for multilingual PD speech experiments.
-
-The goal is to inspect whether speech embeddings separate:
-1. PD vs HC disease labels
-2. Spanish vs German language labels
-3. Combined groups such as Spanish-PD, Spanish-HC, German-PD, German-HC
-
-Author: Prosenjit Chowdhury
-"""
-
-from __future__ import annotations
-
-from pathlib import Path
-
-import matplotlib.pyplot as plt
+import os
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.manifold import TSNE
-from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+import logging
 
+logger = logging.getLogger(__name__)
 
-FEATURE_PREFIX = "feature_"
-
-
-def run_tsne(
-    features_df: pd.DataFrame,
-    perplexity: float = 30.0,
-    random_state: int = 42,
-) -> pd.DataFrame:
+def plot_embeddings(df, feature_cols, output_dir, prefix):
     """
-    Run t-SNE on feature columns and return a plotting DataFrame.
+    Generates t-SNE and PCA plots colored by label, language, and group.
     """
-    feature_cols = [col for col in features_df.columns if col.startswith(FEATURE_PREFIX)]
-    if not feature_cols:
-        raise ValueError("No feature columns found for t-SNE.")
+    if len(df) < 5:
+        logger.warning(f"Not enough samples to run t-SNE for {prefix}")
+        return
 
-    X = features_df[feature_cols].to_numpy()
-    X = StandardScaler().fit_transform(X)
+    features = df[feature_cols].values
+    
+    # Run PCA
+    try:
+        pca = PCA(n_components=2, random_state=42)
+        pca_result = pca.fit_transform(features)
+        df['pca-one'] = pca_result[:, 0]
+        df['pca-two'] = pca_result[:, 1]
+    except Exception as e:
+        logger.error(f"PCA failed: {e}")
+        return
 
-    n_samples = len(features_df)
-    safe_perplexity = min(perplexity, max(2, (n_samples - 1) / 3))
+    # Run t-SNE
+    try:
+        perplexity = min(30, max(5, len(df) - 1))
+        tsne = TSNE(n_components=2, perplexity=perplexity, random_state=42)
+        tsne_result = tsne.fit_transform(features)
+        df['tsne-one'] = tsne_result[:, 0]
+        df['tsne-two'] = tsne_result[:, 1]
+    except Exception as e:
+        logger.error(f"t-SNE failed: {e}")
+        return
 
-    tsne = TSNE(
-        n_components=2,
-        perplexity=safe_perplexity,
-        init="pca",
-        learning_rate="auto",
-        random_state=random_state,
-    )
+    # Create Group column: e.g., "Spanish PD"
+    df['group'] = df['language'] + ' ' + df['label']
 
-    coords = tsne.fit_transform(X)
+    plot_types = [
+        ('label', 'by_label'),
+        ('language', 'by_language'),
+        ('group', 'by_group')
+    ]
 
-    plot_df = features_df[["speaker_id", "language", "task", "label"]].copy()
-    plot_df["tsne_1"] = coords[:, 0]
-    plot_df["tsne_2"] = coords[:, 1]
-    plot_df["group"] = plot_df["language"].astype(str) + " - " + plot_df["label"].astype(str)
-
-    return plot_df
-
-
-def save_tsne_plot(
-    plot_df: pd.DataFrame,
-    color_by: str,
-    output_path: str | Path,
-    title: str,
-) -> None:
-    """
-    Save a t-SNE scatter plot.
-
-    color_by can be:
-    - label
-    - language
-    - group
-    """
-    if color_by not in plot_df.columns:
-        raise ValueError(f"Column not found in plotting DataFrame: {color_by}")
-
-    output = Path(output_path)
-    output.parent.mkdir(parents=True, exist_ok=True)
-
-    plt.figure(figsize=(8, 6))
-
-    for name, group_df in plot_df.groupby(color_by):
-        plt.scatter(
-            group_df["tsne_1"],
-            group_df["tsne_2"],
-            label=str(name),
-            alpha=0.75,
-            s=35,
+    for hue_col, suffix in plot_types:
+        # Plot t-SNE
+        plt.figure(figsize=(10, 8))
+        sns.scatterplot(
+            x="tsne-one", y="tsne-two",
+            hue=hue_col,
+            palette=sns.color_palette("hls", df[hue_col].nunique()),
+            data=df,
+            legend="full",
+            alpha=0.8
         )
-
-    plt.title(title)
-    plt.xlabel("t-SNE 1")
-    plt.ylabel("t-SNE 2")
-    plt.legend()
-    plt.tight_layout()
-    plt.savefig(output, dpi=300)
-    plt.close()
+        plt.title(f't-SNE {prefix} ({suffix})')
+        plt.tight_layout()
+        plt.savefig(os.path.join(output_dir, f'tsne_{prefix}_{suffix}.png'), dpi=300)
+        plt.close()
+        
+        # Plot PCA
+        plt.figure(figsize=(10, 8))
+        sns.scatterplot(
+            x="pca-one", y="pca-two",
+            hue=hue_col,
+            palette=sns.color_palette("hls", df[hue_col].nunique()),
+            data=df,
+            legend="full",
+            alpha=0.8
+        )
+        plt.title(f'PCA {prefix} ({suffix})')
+        plt.tight_layout()
+        plt.savefig(os.path.join(output_dir, f'pca_{prefix}_{suffix}.png'), dpi=300)
+        plt.close()

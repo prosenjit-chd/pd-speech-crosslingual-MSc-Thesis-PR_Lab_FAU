@@ -1,77 +1,91 @@
-"""
-02_extract_embeddings.py
-
-Extract layer-wise XLSR/Wav2Vec2/WavLM embeddings from a dataset index.
-
-Example:
-    python scripts/02_extract_embeddings.py \
-        --index metadata/dataset_index_readtext.csv \
-        --model xlsr \
-        --layers 0 4 8 11 \
-        --output-dir features/xlsr
-"""
-
-from __future__ import annotations
-
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import argparse
-from pathlib import Path
-
 import pandas as pd
+import logging
+import numpy as np
 from tqdm import tqdm
 
-from src.audio_utils import load_audio
-from src.embedding_extractor import (
-    EmbeddingConfig,
-    SpeechEmbeddingExtractor,
-    embedding_to_feature_row,
-)
+from src.utils import load_config, setup_logging, ensure_dir, get_device, set_seed
+from src.audio_utils import load_and_preprocess_audio
+from src.embedding_extractor import FeatureExtractor
 
+def main():
+    setup_logging()
+    logger = logging.getLogger(__name__)
+    config = load_config()
+    set_seed(config['random_seed'])
+    
+    parser = argparse.ArgumentParser(description="Extract XLSR embeddings")
+    parser.add_argument("--model", type=str, default=config['model']['type'], help="Model type (e.g. xlsr)")
+    parser.add_argument("--layers", type=int, nargs='+', default=config['model']['target_layers'], help="Layers to extract")
+    parser.add_argument("--subset", type=int, default=None, help="Process only N files for a dry run")
+    args = parser.parse_args()
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Extract self-supervised speech embeddings.")
-    parser.add_argument("--index", type=Path, required=True, help="Dataset index CSV.")
-    parser.add_argument("--model", type=str, default="xlsr", choices=["xlsr", "wav2vec2", "wavlm"])
-    parser.add_argument("--layers", type=int, nargs="+", default=[0, 4, 8, 11])
-    parser.add_argument("--output-dir", type=Path, default=Path("features/xlsr"))
-    parser.add_argument("--task", type=str, default="readtext")
-    return parser.parse_args()
-
-
-def main() -> None:
-    args = parse_args()
-
-    df = pd.read_csv(args.index)
-    if df.empty:
-        raise ValueError("Dataset index is empty.")
-
-    config = EmbeddingConfig(model_name=args.model, layers=tuple(args.layers))
-    extractor = SpeechEmbeddingExtractor(config)
-
-    rows_by_layer = {layer: [] for layer in args.layers}
-
-    for _, row in tqdm(df.iterrows(), total=len(df), desc="Extracting embeddings"):
-        waveform, sample_rate = load_audio(row["file_path"])
-        embeddings = extractor.extract_from_waveform(waveform, sample_rate=sample_rate)
-
-        metadata = {
-            "file_path": row["file_path"],
-            "speaker_id": row["speaker_id"],
-            "language": row["language"],
-            "task": row["task"],
-            "label": row["label"],
-            "dataset": row["dataset"],
-        }
-
-        for layer, embedding in embeddings.items():
-            rows_by_layer[layer].append(embedding_to_feature_row(metadata, embedding))
-
-    args.output_dir.mkdir(parents=True, exist_ok=True)
-
-    for layer, rows in rows_by_layer.items():
-        output_path = args.output_dir / f"{args.model}_{args.task}_layer{layer}.csv"
-        pd.DataFrame(rows).to_csv(output_path, index=False)
-        print(f"Saved layer {layer} features to: {output_path}")
-
+    target_task = config['data']['target_task']
+    index_file = os.path.join(config['paths']['metadata_out_dir'], f"dataset_index_{target_task}.csv")
+    
+    if not os.path.exists(index_file):
+        logger.error(f"Dataset index not found at {index_file}. Run script 01 first.")
+        sys.exit(1)
+        
+    df = pd.read_csv(index_file)
+    if len(df) == 0:
+        logger.error("Dataset index is empty.")
+        sys.exit(1)
+        
+    if args.subset is not None:
+        logger.info(f"Subset mode active: Limiting to {args.subset} files.")
+        df = df.head(args.subset)
+        
+    features_out_dir = os.path.join(config['paths']['features_dir'], args.model)
+    from pathlib import Path
+    Path(features_out_dir).mkdir(parents=True, exist_ok=True)
+    
+    device = get_device()
+    extractor = FeatureExtractor(model_name=config['model']['name'], device=device)
+    target_sr = config['data']['target_sr']
+    
+    # We will collect features layer by layer
+    layer_data = {layer: [] for layer in args.layers}
+    valid_indices = []
+    
+    logger.info(f"Extracting features for {len(df)} files...")
+    
+    for idx, row in tqdm(df.iterrows(), total=len(df)):
+        file_path = row['file_path']
+        waveform = load_and_preprocess_audio(file_path, target_sr=target_sr)
+        
+        if waveform is None:
+            continue
+            
+        features = extractor.extract_features(waveform, target_layers=args.layers)
+        if features is None:
+            continue
+            
+        valid_indices.append(idx)
+        for layer in args.layers:
+            if layer in features:
+                layer_data[layer].append(features[layer])
+                
+    # Save a CSV for each layer
+    valid_df = df.iloc[valid_indices].reset_index(drop=True)
+    
+    for layer in args.layers:
+        if len(layer_data[layer]) == 0:
+            continue
+            
+        feature_matrix = np.array(layer_data[layer])
+        num_features = feature_matrix.shape[1]
+        feature_cols = [f"feature_{i}" for i in range(num_features)]
+        
+        feature_df = pd.DataFrame(feature_matrix, columns=feature_cols)
+        final_df = pd.concat([valid_df, feature_df], axis=1)
+        
+        out_file = os.path.join(features_out_dir, f"{args.model}_{target_task}_layer{layer}.csv")
+        final_df.to_csv(out_file, index=False)
+        logger.info(f"Saved layer {layer} features to {out_file}")
 
 if __name__ == "__main__":
     main()
