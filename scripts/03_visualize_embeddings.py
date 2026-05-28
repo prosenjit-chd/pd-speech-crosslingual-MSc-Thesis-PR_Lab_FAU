@@ -16,6 +16,7 @@ def main():
     
     parser = argparse.ArgumentParser(description="Visualize Embeddings")
     parser.add_argument("--features", type=str, help="Path to specific features CSV (optional)")
+    parser.add_argument("--model", type=str, default=config['model']['type'], help="Model type to visualize (e.g. xlsr, wav2vec2, wavlm)")
     args = parser.parse_args()
 
     figures_out_dir = config['paths']['figures_out_dir']
@@ -31,8 +32,8 @@ def main():
             logger.error(f"File not found: {args.features}")
             sys.exit(1)
     else:
-        # Otherwise find all feature files in features/xlsr/
-        features_dir = os.path.join(config['paths']['features_dir'], config['model']['type'])
+        # Otherwise find all feature files in features/model/
+        features_dir = os.path.join(config['paths']['features_dir'], args.model)
         if os.path.exists(features_dir):
             for file in os.listdir(features_dir):
                 if file.endswith('.csv'):

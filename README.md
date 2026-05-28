@@ -137,13 +137,14 @@ The final objective is not only to generate natural-sounding converted speech. T
 
 <div align="center">
 
-### ✅ First Baseline Implementation Completed
+### ✅ Baseline Stage Extended for Full Model Comparison
 
 </div>
 
 The current completed milestone is the **first XLSR baseline implementation**.
+Tomás has approved this direction. The pipeline is now being extended to include **Wav2Vec2** and **WavLM** for a full model comparison before voice conversion.
 
-This stage does **not yet apply voice conversion**. Instead, it establishes a reproducible baseline for Parkinson’s Disease classification using Spanish and German read-text speech recordings.
+This stage does **not yet apply voice conversion**. Instead, it establishes a reproducible baseline for Parkinson’s Disease classification using Spanish and German read-text speech recordings across multiple state-of-the-art speech representation models.
 
 The baseline answers the following questions:
 
@@ -312,17 +313,15 @@ These embeddings are then used for visualization and classification.
 
 ## 9. Planned Follow-up Models
 
-The first completed baseline uses only XLSR.
+The first completed baseline used XLSR. The pipeline now supports full comparison across three models:
 
-The following models are planned for follow-up comparison:
-
-| Model | Provider / Model ID | Planned Role |
+| Model | Provider / Model ID | Role |
 |---|---|---|
 | **XLSR** | `facebook/wav2vec2-large-xlsr-53` | Completed first baseline |
-| **Wav2Vec2** | `facebook/wav2vec2-base` | Planned comparison model |
-| **WavLM** | `microsoft/wavlm-base` | Planned comparison model |
+| **Wav2Vec2** | `facebook/wav2vec2-base` | Extended comparison model |
+| **WavLM** | `microsoft/wavlm-base` | Extended comparison model |
 
-These models will allow comparison between multilingual XLSR representations and other self-supervised speech representations.
+These models allow comparison between multilingual representations (XLSR) and other state-of-the-art self-supervised speech representations (Wav2Vec2, WavLM).
 
 ---
 

@@ -16,6 +16,7 @@ def main():
     
     parser = argparse.ArgumentParser(description="Cross-language Classification")
     parser.add_argument("--features", type=str, help="Path to specific features CSV (optional)")
+    parser.add_argument("--model", type=str, default=config['model']['type'], help="Model type to classify (e.g. xlsr, wav2vec2, wavlm)")
     args = parser.parse_args()
 
     tables_out_dir = config['paths']['tables_out_dir']
@@ -35,8 +36,8 @@ def main():
             logger.error(f"File not found: {args.features}")
             sys.exit(1)
     else:
-        # Otherwise find all feature files in features/xlsr/
-        features_dir = os.path.join(config['paths']['features_dir'], config['model']['type'])
+        # Otherwise find all feature files in features/model/
+        features_dir = os.path.join(config['paths']['features_dir'], args.model)
         if os.path.exists(features_dir):
             for file in os.listdir(features_dir):
                 if file.endswith('.csv'):
@@ -81,9 +82,9 @@ def main():
 
     if all_results:
         final_comparison = pd.concat(all_results, ignore_index=True)
-        comparison_out = os.path.join(tables_out_dir, "model_layer_comparison.csv")
+        comparison_out = os.path.join(tables_out_dir, f"model_layer_comparison_{args.model}.csv")
         final_comparison.to_csv(comparison_out, index=False)
-        logger.info(f"Saved full comparison to {comparison_out}")
+        logger.info(f"Saved full comparison for {args.model} to {comparison_out}")
 
 if __name__ == "__main__":
     main()

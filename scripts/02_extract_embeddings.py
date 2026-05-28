@@ -36,15 +36,39 @@ def main():
         sys.exit(1)
         
     if args.subset is not None:
-        logger.info(f"Subset mode active: Limiting to {args.subset} files.")
-        df = df.head(args.subset)
+        logger.info(f"Subset mode active: Attempting to select a balanced subset of {args.subset} files.")
+        
+        # Determine how many files we need per combination of language and label
+        # We have 4 groups: (Spanish, PD), (Spanish, HC), (German, PD), (German, HC)
+        per_group = max(1, args.subset // 4)
+        
+        sampled_dfs = []
+        for lang in ['Spanish', 'German']:
+            for lbl in ['PD', 'HC']:
+                group_df = df[(df['language'] == lang) & (df['label'] == lbl)]
+                if len(group_df) > per_group:
+                    sampled_dfs.append(group_df.sample(n=per_group, random_state=config['random_seed']))
+                else:
+                    sampled_dfs.append(group_df)
+                    logger.warning(f"Not enough samples in {lang} {lbl} for perfect balance. Taking all {len(group_df)}.")
+                    
+        df = pd.concat(sampled_dfs).reset_index(drop=True)
+        # If we slightly overshot or undershot due to rounding/shortage, trim to exact subset size if possible
+        if len(df) > args.subset:
+            df = df.sample(n=args.subset, random_state=config['random_seed']).reset_index(drop=True)
+        
+        logger.info(f"Final subset size: {len(df)}")
         
     features_out_dir = os.path.join(config['paths']['features_dir'], args.model)
     from pathlib import Path
     Path(features_out_dir).mkdir(parents=True, exist_ok=True)
     
     device = get_device()
-    extractor = FeatureExtractor(model_name=config['model']['name'], device=device)
+    
+    # Get specific HuggingFace model string from config mapping
+    hf_model_name = config['model'].get('mapping', {}).get(args.model, 'facebook/wav2vec2-large-xlsr-53')
+    
+    extractor = FeatureExtractor(model_name=hf_model_name, device=device)
     target_sr = config['data']['target_sr']
     
     # We will collect features layer by layer

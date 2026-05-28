@@ -5,20 +5,31 @@ import pandas as pd
 import logging
 from src.utils import load_config, setup_logging, ensure_dir
 
+import argparse
+
 def main():
     setup_logging()
     logger = logging.getLogger(__name__)
     config = load_config()
+    
+    parser = argparse.ArgumentParser(description="Generate Experiment Summary")
+    parser.add_argument("--model", type=str, default=config['model']['type'], help="Model type to summarize (e.g. xlsr, wav2vec2, wavlm)")
+    args = parser.parse_args()
     
     tables_dir = config['paths']['tables_out_dir']
     reports_dir = config['paths']['reports_out_dir']
     from pathlib import Path
     Path(reports_dir).mkdir(parents=True, exist_ok=True)
     
-    comp_file = os.path.join(tables_dir, "model_layer_comparison.csv")
+    comp_file = os.path.join(tables_dir, f"model_layer_comparison_{args.model}.csv")
     if not os.path.exists(comp_file):
-        logger.error(f"Comparison file not found: {comp_file}")
-        return
+        # Fallback for older XLSR results if they exist under the old name
+        fallback_file = os.path.join(tables_dir, "model_layer_comparison.csv")
+        if args.model == "xlsr" and os.path.exists(fallback_file):
+            comp_file = fallback_file
+        else:
+            logger.error(f"Comparison file not found: {comp_file}")
+            return
         
     df = pd.read_csv(comp_file)
     
@@ -34,7 +45,7 @@ def main():
     else:
         total_rec = es_rec = de_rec = pd_rec = hc_rec = "Unknown"
 
-    md_content = "# Multilingual Parkinson's Speech Detection Baseline\n\n"
+    md_content = f"# Multilingual Parkinson's Speech Detection Baseline - {args.model.upper()}\n\n"
     md_content += "## 1. Dataset Summary\n"
     md_content += f"- **Task**: {config['data']['target_task']}\n"
     md_content += f"- **Total Recordings**: {total_rec}\n"
@@ -42,7 +53,8 @@ def main():
     md_content += f"- **Labels**: PD ({pd_rec}), HC ({hc_rec})\n\n"
     
     md_content += "## 2. Experimental Setup\n"
-    md_content += f"- **Model Used**: {config['model']['name']}\n"
+    hf_model_name = config['model'].get('mapping', {}).get(args.model, 'facebook/wav2vec2-large-xlsr-53')
+    md_content += f"- **Model Used**: {hf_model_name}\n"
     md_content += f"- **Layers Evaluated**: {config['model']['target_layers']}\n"
     md_content += f"- **Classifiers Used**: {config['evaluation']['classifiers']}\n\n"
     
@@ -110,7 +122,7 @@ def main():
         
     md_content += md_df.to_markdown(index=False)
     
-    out_file = os.path.join(reports_dir, "baseline_summary.md")
+    out_file = os.path.join(reports_dir, f"baseline_summary_{args.model}.md")
     with open(out_file, 'w', encoding='utf-8') as f:
         f.write(md_content)
         

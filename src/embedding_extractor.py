@@ -1,5 +1,5 @@
 import torch
-from transformers import AutoFeatureExtractor, Wav2Vec2Model
+from transformers import AutoFeatureExtractor, Wav2Vec2Model, WavLMModel
 import logging
 import numpy as np
 
@@ -14,7 +14,10 @@ class FeatureExtractor:
         try:
             self.processor = AutoFeatureExtractor.from_pretrained(model_name)
             # output_hidden_states=True is critical to get layer-wise embeddings
-            self.model = Wav2Vec2Model.from_pretrained(model_name, output_hidden_states=True).to(self.device)
+            if "wavlm" in model_name.lower():
+                self.model = WavLMModel.from_pretrained(model_name, output_hidden_states=True).to(self.device)
+            else:
+                self.model = Wav2Vec2Model.from_pretrained(model_name, output_hidden_states=True).to(self.device)
             self.model.eval()
             logger.info("Model loaded successfully.")
         except Exception as e:

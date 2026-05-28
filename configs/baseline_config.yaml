@@ -17,9 +17,12 @@ data:
   target_sr: 16000
 
 model:
-  name: "facebook/wav2vec2-large-xlsr-53"
-  type: "xlsr"
+  type: "xlsr"  # Default
   target_layers: [0, 4, 8, 11]
+  mapping:
+    xlsr: "facebook/wav2vec2-large-xlsr-53"
+    wav2vec2: "facebook/wav2vec2-base"
+    wavlm: "microsoft/wavlm-base"
 
 evaluation:
   outer_folds: 10
