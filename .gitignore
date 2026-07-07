@@ -28,3 +28,24 @@ Thumbs.db
 
 # Excel temporary files
 ~$*.xlsx
+
+# Voice Conversion
+features/
+voice_conversion/checkpoints/
+voice_conversion/input_pilot/
+voice_conversion/input_pilot_22050/
+voice_conversion/generated/
+voice_conversion/**/*.wav
+voice_conversion/**/*.pt
+voice_conversion/**/*.pth
+voice_conversion/**/*.ckpt
+voice_conversion/**/*.npy
+voice_conversion/**/*.pkl
+voice_conversion/**/*.jsonl
+voice_conversion/**/*.log
+voice_conversion/hifi-gan/
+voice_conversion/features_generated_pilot/
+voice_conversion/features_original_pilot/
+voice_conversion/metadata_generated_pilot/
+voice_conversion/outputs_generated_pilot/
+voice_conversion/outputs_original_pilot/

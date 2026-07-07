@@ -1,0 +1,13 @@
+filename,path,sample_rate,duration_sec,num_samples,channels,max_abs_amplitude,rms,status
+DE_HC_001.wav,C:\pd-speech-crosslingual\voice_conversion\input_pilot_22050\DE_HC_001.wav,22050,40.76408163265306,898848,1,1.0,0.13903427124023438,success
+DE_HC_002.wav,C:\pd-speech-crosslingual\voice_conversion\input_pilot_22050\DE_HC_002.wav,22050,46.50231292517007,1025376,1,0.999969482421875,0.14095599949359894,success
+DE_HC_003.wav,C:\pd-speech-crosslingual\voice_conversion\input_pilot_22050\DE_HC_003.wav,22050,37.35945578231293,823776,1,1.0,0.131783589720726,success
+DE_PD_001.wav,C:\pd-speech-crosslingual\voice_conversion\input_pilot_22050\DE_PD_001.wav,22050,47.46013605442177,1046496,1,1.0,0.10662990808486938,success
+DE_PD_002.wav,C:\pd-speech-crosslingual\voice_conversion\input_pilot_22050\DE_PD_002.wav,22050,38.54371882086168,849889,1,0.999969482421875,0.14567315578460693,success
+DE_PD_003.wav,C:\pd-speech-crosslingual\voice_conversion\input_pilot_22050\DE_PD_003.wav,22050,40.476780045351475,892513,1,1.0,0.16004864871501923,success
+SP_HC_001.wav,C:\pd-speech-crosslingual\voice_conversion\input_pilot_22050\SP_HC_001.wav,22050,17.4702947845805,385220,1,0.999969482421875,0.11755180358886719,success
+SP_HC_002.wav,C:\pd-speech-crosslingual\voice_conversion\input_pilot_22050\SP_HC_002.wav,22050,16.99206349206349,374675,1,0.999969482421875,0.07980260998010635,success
+SP_HC_003.wav,C:\pd-speech-crosslingual\voice_conversion\input_pilot_22050\SP_HC_003.wav,22050,17.076190476190476,376530,1,0.999969482421875,0.1102268323302269,success
+SP_PD_001.wav,C:\pd-speech-crosslingual\voice_conversion\input_pilot_22050\SP_PD_001.wav,22050,15.129206349206349,333599,1,0.999969482421875,0.11619549989700317,success
+SP_PD_002.wav,C:\pd-speech-crosslingual\voice_conversion\input_pilot_22050\SP_PD_002.wav,22050,26.137732426303856,576337,1,1.0,0.0939943715929985,success
+SP_PD_003.wav,C:\pd-speech-crosslingual\voice_conversion\input_pilot_22050\SP_PD_003.wav,22050,25.133832199546486,554201,1,0.999969482421875,0.0766829401254654,success
