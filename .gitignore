@@ -49,3 +49,18 @@ voice_conversion/features_original_pilot/
 voice_conversion/metadata_generated_pilot/
 voice_conversion/outputs_generated_pilot/
 voice_conversion/outputs_original_pilot/
+
+
+# Voice conversion Stage 3 large/generated files
+voice_conversion/input_subset_80/
+voice_conversion/input_subset_80_22050/
+voice_conversion/generated_subset_80/
+voice_conversion/metadata_subset_80/
+voice_conversion/features_original_subset_80/
+voice_conversion/features_generated_subset_80/
+voice_conversion/outputs_original_subset_80/
+voice_conversion/outputs_generated_subset_80/
+
+# Local HiFi-GAN repo/checkpoints/env
+voice_conversion/hifi-gan/
+voice_conversion/checkpoints/
