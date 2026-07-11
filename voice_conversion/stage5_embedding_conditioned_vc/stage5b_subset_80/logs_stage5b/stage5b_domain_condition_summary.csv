@@ -1,0 +1,3 @@
+condition_model,condition_layer,domain,num_files,embedding_dimension,mean_embedding_value,std_embedding_value
+xlsr,11,german-domain,40,1024,1.0468702012139277,2.138824186280465
+xlsr,11,spanish-domain,40,1024,1.021023476815886,2.333231668235017

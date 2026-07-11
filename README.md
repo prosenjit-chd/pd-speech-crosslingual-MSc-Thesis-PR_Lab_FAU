@@ -1,1102 +1,583 @@
-<div align="center">
+# Voice Conversion for Crosslingual Detection of Parkinson’s Disease Using Speech Signals
 
-# 🧠 Voice Conversion for Multilingual Detection of Parkinson’s Disease Using Speech Signals
-
-### Spanish-German Read-Text Classification using XLSR, Wav2Vec2, and WavLM Speech Embeddings  
+### Spanish–German Parkinson’s Disease Speech Classification using XLSR, Wav2Vec2, WavLM, HiFi-GAN, and Prototype Embedding-Conditioned Voice Conversion
 ### Master’s Thesis Project | Pattern Recognition Lab | FAU Erlangen-Nürnberg
 
-<br>
-
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)
-[![Speech AI](https://img.shields.io/badge/Speech%20AI-XLSR%20%7C%20Wav2Vec2%20%7C%20WavLM-purple)]()
-[![Machine Learning](https://img.shields.io/badge/ML-SVM%20%7C%20Logistic%20Regression-green)]()
-[![Research](https://img.shields.io/badge/Research-Parkinson's%20Disease-orange)]()
-[![Privacy](https://img.shields.io/badge/Data-Private%20Medical%20Speech-red)]()
-
-</div>
-
 ---
 
-## 📌 Project Information
+## 👤 Author & Professional Profile
 
-| Field | Details |
+**Prosenjit Chowdhury**  
+M.Sc. Artificial Intelligence, Friedrich-Alexander-Universität Erlangen-Nürnberg  
+Master’s Thesis Researcher, Pattern Recognition Lab, FAU  
+Working Student at SAP SE  
+GitHub: [github.com/prosenjit-chd](https://github.com/prosenjit-chd)
+
+I am an M.Sc. Artificial Intelligence student at FAU Erlangen-Nürnberg with hands-on experience in Speech AI, Machine Learning, Biomedical AI, Data Analysis, Enterprise Systems, Process Automation, and Digital Transformation.
+
+Alongside my thesis research, I work as a Working Student at SAP SE, where I have contributed across SAP LeanIX and SAP Signavio Content Marketing, Industry Content Coordination for Professional Services and Engineering, Construction & Operations, and ERP PCX / Enterprise Systems and Process Automation.
+
+This project demonstrates my ability to design, implement, evaluate, document, and communicate a complete applied AI research pipeline from baseline modeling to speech generation, voice conversion, and full-dataset experimental analysis.
+
+| Area | Skills Demonstrated |
 |---|---|
-| **Author** | Prosenjit Chowdhury |
-| **Degree Program** | M.Sc. Artificial Intelligence |
-| **University** | Friedrich-Alexander-Universität Erlangen-Nürnberg |
-| **Research Lab** | Pattern Recognition Lab, FAU Erlangen-Nürnberg |
-| **Supervisor** | Dr.-Ing. Tomás Arias-Vergara |
-| **Project Repository** | `pd-speech-crosslingual-MSc-Thesis-PR_Lab_FAU` |
-| **GitHub** | [github.com/prosenjit-chd](https://github.com/prosenjit-chd) |
-| **Current Milestone** | Full first baseline model comparison completed |
-| **Main Research Area** | Speech AI, Biomedical AI, Multilingual Machine Learning, Voice Conversion |
+| AI / ML | Speech embeddings, classification, cross-validation, UAR/AUC evaluation |
+| Speech AI | XLSR, Wav2Vec2, WavLM, HiFi-GAN, audio preprocessing |
+| Biomedical AI | Parkinson’s Disease vs Healthy Control speech analysis |
+| Research Engineering | Reproducible pipeline, staged experiments, structured reporting |
+| Data Analysis | Result comparison, model/layer/scenario analysis |
+| Software Engineering | Python pipeline, modular scripts, local privacy-safe execution |
+| Enterprise Experience | SAP SE, content operations, process automation, stakeholder communication |
 
 ---
 
-## 📖 Table of Contents
+## 🚀 Current Project Status
 
-- [1. Project Overview](#1-project-overview)
-- [2. Research Motivation](#2-research-motivation)
-- [3. Thesis Goal](#3-thesis-goal)
-- [4. Current Project Phase](#4-current-project-phase)
-- [5. Dataset Overview](#5-dataset-overview)
-- [6. Data Privacy and Repository Policy](#6-data-privacy-and-repository-policy)
-- [7. AI and Machine Learning Approach](#7-ai-and-machine-learning-approach)
-- [8. Speech Representation Models](#8-speech-representation-models)
-- [9. Processing Pipeline](#9-processing-pipeline)
-- [10. Classification Scenarios](#10-classification-scenarios)
-- [11. Evaluation Metrics](#11-evaluation-metrics)
-- [12. Full Baseline Model Comparison Results](#12-full-baseline-model-comparison-results)
-- [13. Model-Level Observations](#13-model-level-observations)
-- [14. Visualization Results](#14-visualization-results)
-- [15. Current Implementation Status](#15-current-implementation-status)
-- [16. Repository Structure](#16-repository-structure)
-- [17. How to Run the Project](#17-how-to-run-the-project)
-- [18. Running Scripts Individually](#18-running-scripts-individually)
-- [19. Output Files](#19-output-files)
-- [20. Deliverables Generated](#20-deliverables-generated)
-- [21. Interpretation of the Full Baseline](#21-interpretation-of-the-full-baseline)
-- [22. Limitations](#22-limitations)
-- [23. Next Steps](#23-next-steps)
-- [24. Future Extension: Voice Conversion](#24-future-extension-voice-conversion)
-- [25. Technical Skills Demonstrated](#25-technical-skills-demonstrated)
-- [26. Professional Context](#26-professional-context)
-- [27. Selected References](#27-selected-references)
-- [28. Contact](#28-contact)
+| Phase | Status | Description |
+|---|---|---|
+| Project Proposal | ✅ Completed | Research direction defined with Spanish–German PD speech and voice conversion |
+| Baseline Model Comparison | ✅ Completed | XLSR, Wav2Vec2, and WavLM evaluated across layers and scenarios |
+| HiFi-GAN Reconstruction Pilot | ✅ Completed | 12-file reconstruction validation |
+| HiFi-GAN Reconstruction Subset | ✅ Completed | 80-file reconstruction validation |
+| HiFi-GAN Reconstruction Full Dataset | ✅ Completed | 276-file reconstruction validation |
+| Stage 5A Voice Conversion Pilot | ✅ Completed | 12-file prototype embedding-conditioned conversion |
+| Stage 5A-Refinement | ✅ Completed | 15-setting alpha/model grid search |
+| Stage 5B Subset Evaluation | ✅ Completed | 80-file prototype conversion evaluation |
+| Stage 5C Full Evaluation | ✅ Completed | 276-file full prototype conversion evaluation |
+| Thesis Writing / Final Interpretation | 🔄 In Progress | Formal thesis documentation and result interpretation |
 
 ---
 
-## 1. Project Overview
+## 📌 Project Overview
 
-This repository contains the implementation work for my Master’s thesis:
+This repository contains the implementation work for my Master’s thesis at the Pattern Recognition Lab, FAU Erlangen-Nürnberg:
 
-> **Voice Conversion for Multilingual Detection of Parkinson’s Disease Using Speech Signals**
+**Voice Conversion for Crosslingual Detection of Parkinson’s Disease Using Speech Signals**
 
-The thesis investigates whether speech-based artificial intelligence can detect **Parkinson’s Disease (PD)** from multilingual speech recordings and whether **Voice Conversion (VC)** can reduce language or domain mismatch between different speech datasets.
+The project investigates whether AI-based speech representations and voice conversion can support Parkinson’s Disease detection across languages. The work focuses on Spanish and German read-text speech recordings and evaluates whether converted speech can reduce language/domain mismatch while preserving Parkinson’s Disease-related acoustic cues.
 
-The current implementation focuses on Spanish and German Parkinson’s speech data. The first major objective was to build a reproducible baseline before applying voice conversion. This baseline measures how well self-supervised speech embeddings can support PD vs healthy control classification within and across languages.
+The project follows a staged research pipeline:
 
-The baseline stage has now been extended from the first XLSR implementation to a complete model comparison using:
+1. Build a strong baseline using original Spanish and German speech.
+2. Compare XLSR, Wav2Vec2, and WavLM embeddings for PD vs HC classification.
+3. Validate HiFi-GAN reconstruction to ensure generated speech preserves diagnostic information.
+4. Develop and test a prototype embedding-conditioned conversion method.
+5. Scale the conversion experiments from 12 files to 80 files and finally to the full 276-file dataset.
+6. Compare original vs converted speech using UAR, accuracy, sensitivity, specificity, and AUC.
 
-```text
-XLSR
-Wav2Vec2
-WavLM
-````
-
-The broader research direction is to evaluate Parkinson’s Disease classification across languages and later apply voice conversion or speech-domain transformation to improve cross-language generalization.
-
-> **Main Research Question**
-> Can voice conversion reduce language mismatch in multilingual Parkinson’s Disease speech classification while preserving pathology-related acoustic information?
+The final Stage 5C experiment confirms that the prototype conversion method is technically feasible on the full dataset and preserves most diagnostic information, although strong crosslingual improvement remains limited.
 
 ---
 
-## 2. Research Motivation
+## 🎯 Main Research Question
 
-Parkinson’s Disease can affect speech production. Symptoms may appear in:
+Can prototype embedding-conditioned voice conversion reduce Spanish–German language/domain mismatch in Parkinson’s Disease speech classification while preserving disease-relevant acoustic information?
 
-* phonation,
-* articulation,
-* prosody,
-* loudness,
-* pitch variation,
-* rhythm,
-* pauses,
-* voice stability.
+In simpler terms:
 
-These speech characteristics can be measured from audio and used as non-invasive digital biomarkers for computer-aided Parkinson’s Disease assessment.
-
-However, speech is strongly language-dependent. A model trained on Spanish speech may learn Spanish-specific acoustic or phonetic patterns instead of disease-related speech characteristics. When the same model is tested on German speech, performance may drop because the language domain is different.
-
-This project focuses on the following core challenge:
-
-> A Parkinson’s Disease classifier should learn disease-relevant speech patterns, not only language-specific patterns.
-
-Therefore, the first stage of the thesis builds a strong baseline system before moving to voice conversion.
+> If a classifier is trained in one language, can converted speech from another language become acoustically closer to the training domain without losing PD/HC diagnostic cues?
 
 ---
 
-## 3. Thesis Goal
+## 🗂️ Dataset Overview
 
-The main goal of this thesis is to investigate whether **voice conversion** can reduce language or domain mismatch in multilingual Parkinson’s Disease speech classification while preserving disease-related acoustic cues.
+The current experiments use Spanish and German read-text Parkinson’s Disease speech recordings.
 
-In simple terms:
+| Group | Count |
+|---|---:|
+| Spanish HC | 50 |
+| Spanish PD | 50 |
+| German HC | 88 |
+| German PD | 88 |
+| **Total** | **276** |
 
-```text
-Original speech
-        ↓
-Speech representation model
-        ↓
-PD vs HC classifier
-        ↓
-Cross-language performance analysis
-        ↓
-Voice conversion / speech-domain transformation
-        ↓
-Re-evaluate PD classification
-```
+| Label | Meaning |
+|---|---|
+| PD | Parkinson’s Disease patient |
+| HC | Healthy Control |
 
-The final objective is not only to generate natural-sounding converted speech. The scientific goal is to test whether converted speech still preserves the Parkinson’s-related acoustic information needed for reliable classification.
+Only read-text speech is used in the current full pipeline because this task is available in both Spanish and German datasets and supports controlled crosslingual comparison.
 
 ---
 
-## 4. Current Project Phase
+## 🔒 Data Privacy and Repository Policy
 
-<div align="center">
+This project uses sensitive medical speech data. Raw speech recordings, patient metadata, speaker-identifiable information, and local dataset paths are **not included** in this repository.
 
-### ✅ Full First Baseline Model Comparison Completed
+The following must remain local and must not be uploaded to GitHub:
 
-</div>
+- raw audio files (`*.wav`, `*.mp3`, `*.flac`, `*.m4a`)
+- private metadata
+- patient-related information
+- local dataset paths
+- raw input folders
+- large derived features if they expose dataset structure
+- checkpoint files and local generated audio folders unless explicitly safe
 
-The current completed milestone is the **full first baseline model comparison** for Spanish-German Parkinson’s speech detection.
+This repository is intended to contain:
 
-The first implementation started with **XLSR**, and the initial direction was reviewed and approved by the supervisor. The baseline was then extended to include **standard Wav2Vec2** and **WavLM**, using the same dataset, classification scenarios, selected layers, metrics, and evaluation structure.
-
-This stage does **not yet apply voice conversion**. Instead, it establishes a reproducible baseline for Parkinson’s Disease classification using Spanish and German read-text speech recordings across multiple state-of-the-art speech representation models.
-
-The full baseline answers the following questions:
-
-| Question                                                          | Purpose                                                                  |
-| ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| Can pretrained speech embeddings support PD vs HC classification? | Tests whether speech representations contain disease-related information |
-| Which model performs best among XLSR, Wav2Vec2, and WavLM?        | Compares three self-supervised speech representation models              |
-| Which layer gives the strongest result?                           | Compares layers 0, 4, 8, and 11                                          |
-| How much performance is lost across languages?                    | Measures Spanish-German language mismatch                                |
-| Do embeddings separate more by disease label or by language?      | Uses PCA and t-SNE visual analysis                                       |
-| Which baseline should be used before voice conversion?            | Establishes the reference point for the next thesis stage                |
-
----
-
-## 5. Dataset Overview
-
-The current baseline uses Spanish and German Parkinson’s Disease speech recordings.
-
-### Current Baseline Task
-
-Only the **read-text speech task** is used in the current implementation.
-
-This decision was made because read-text recordings are available in both Spanish and German datasets. This makes the first comparison more controlled and fair.
-
-### Dataset Summary
-
-| Item                   |                                 Value |
-| ---------------------- | ------------------------------------: |
-| **Task**               |                        Read-text only |
-| **Total recordings**   |                                   276 |
-| **Spanish recordings** |                                   100 |
-| **German recordings**  |                                   176 |
-| **PD recordings**      |                                   138 |
-| **HC recordings**      |                                   138 |
-| **Dataset index file** | `metadata/dataset_index_readtext.csv` |
-
-### Label Meaning
-
-| Label  | Meaning                     |
-| ------ | --------------------------- |
-| **PD** | Parkinson’s Disease patient |
-| **HC** | Healthy Control             |
-
-The Spanish and German read-text setup follows the planned first dataset decision: use comparable read-text recordings before expanding to other speech tasks such as monologue, vowel, pataka/DDK, words, sentences, or full recordings.
+- source code
+- configuration files
+- documentation
+- safe result summaries
+- non-identifying plots
+- non-sensitive tables
+- reproducible experiment structure
 
 ---
 
-## 6. Data Privacy and Repository Policy
+# 🧪 Experimental Pipeline and Results
 
-> **Important:** This project uses sensitive medical speech data.
+## Phase 1 — Project Proposal
 
-The raw speech recordings and patient metadata are not included in this repository.
+The original research direction was to investigate voice conversion for multilingual Parkinson’s Disease detection. After supervisor feedback, the wording was updated from **Multilingual** to **Crosslingual**, because the main focus is language transfer between Spanish and German.
 
-The following files and folders must remain local and must not be uploaded to GitHub:
+The thesis goal became:
 
-```text
-input/
-data/
-metadata/
-features/
-outputs/
-*.wav
-*.mp3
-*.flac
-*.m4a
-*.xlsx
-raw metadata files
-speaker-identifiable files
-local dataset paths
-raw embedding feature files
-```
-
-This repository is intended to contain only:
-
-* source code,
-* configuration files,
-* documentation,
-* non-sensitive result summaries,
-* non-identifying plots,
-* safe result tables.
-
-Raw audio files, clinical metadata, dataset index files with local paths, and private patient-related information are excluded through `.gitignore`.
+> Investigate whether voice conversion can support crosslingual Parkinson’s Disease detection from speech signals by reducing Spanish–German language mismatch while preserving disease-relevant acoustic cues.
 
 ---
 
-## 7. AI and Machine Learning Approach
+## Phase 2 — Baseline Model Comparison
 
-This project uses both **Deep Learning** and **Machine Learning**.
+The baseline evaluates original speech without conversion. It compares XLSR, Wav2Vec2, and WavLM embeddings across layers 0, 4, 8, and 11 using Linear SVM and Logistic Regression.
 
-### Deep Learning Part
+### Baseline Scenarios
 
-Pretrained self-supervised speech models are used to convert raw audio into high-dimensional speech embeddings.
+| Scenario | Purpose |
+|---|---|
+| Spanish → Spanish | Within-language Spanish baseline |
+| German → German | Within-language German baseline |
+| Spanish → German | Crosslingual transfer from Spanish to German |
+| German → Spanish | Crosslingual transfer from German to Spanish |
+| Spanish + German → Spanish + German | Combined bilingual training/testing |
 
-The baseline uses:
+### Best Baseline Results
 
-```text
-XLSR
-Wav2Vec2
-WavLM
-```
+| Scenario | Best Model | Layer | Classifier | UAR |
+|---|---|---:|---|---:|
+| Spanish → Spanish | XLSR | 4 | Linear SVM | 0.8400 |
+| German → German | WavLM | 8 | Logistic Regression | 0.8182 |
+| Spanish → German | WavLM | 11 | Logistic Regression | 0.7273 |
+| German → Spanish | WavLM | 0 | Logistic Regression | 0.6900 |
+| Spanish + German → Spanish + German | Wav2Vec2 | 8 | Logistic Regression | 0.8080 |
 
-These models are used as **feature extractors**, not as speech-to-text systems.
+### Baseline Interpretation
 
-### Machine Learning Part
-
-The extracted embeddings are used to train classical machine learning classifiers:
-
-```text
-Linear SVM
-Logistic Regression
-```
-
-These classifiers predict:
-
-```text
-PD = Parkinson’s Disease
-HC = Healthy Control
-```
-
-### Overall AI Flow
-
-```text
-Raw speech audio
-        ↓
-Pretrained deep learning speech model
-        ↓
-Speech embeddings
-        ↓
-Classical machine learning classifier
-        ↓
-PD or HC prediction
-```
+The baseline confirms that within-language classification is stronger than crosslingual transfer. This shows a clear Spanish–German language/domain mismatch and motivates the voice conversion stage.
 
 ---
 
-## 8. Speech Representation Models
+## Phase 3 — HiFi-GAN Reconstruction / Vocoder Validation
 
-The completed baseline compares three pretrained speech representation models.
+Before testing true conversion, HiFi-GAN reconstruction was validated to check whether generated/reconstructed audio can preserve PD/HC diagnostic information.
 
-| Model        | Provider / Model ID               | Role in Baseline                                                                                      |
-| ------------ | --------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| **XLSR**     | `facebook/wav2vec2-large-xlsr-53` | Multilingual Wav2Vec2-based model and first approved baseline                                         |
-| **Wav2Vec2** | `facebook/wav2vec2-base`          | Standard Wav2Vec2 baseline for comparison                                                             |
-| **WavLM**    | `microsoft/wavlm-base`            | Strong general-purpose speech representation model with best cross-language transfer in this baseline |
+This stage is not true Spanish↔German conversion. It is a vocoder validation stage.
 
-Selected hidden layers:
+### HiFi-GAN Setup
 
-```text
-0, 4, 8, 11
-```
+| Item | Value |
+|---|---|
+| Vocoder | HiFi-GAN |
+| Repository | `jik876/hifi-gan` |
+| Checkpoint | `voice_conversion/checkpoints/universal_v1/generator_v1` |
+| Config | `voice_conversion/checkpoints/universal_v1/config.json` |
+| Target sample rate | 22050 Hz |
+| Output format | mono WAV |
 
-For each audio file:
+### Reconstruction Stages
 
-```text
-audio recording
-        ↓
-speech representation model
-        ↓
-hidden layer output
-        ↓
-mean pooling over time
-        ↓
-one fixed-length embedding vector
-```
+| Stage | Files | Purpose | Result |
+|---|---:|---|---|
+| Pilot reconstruction | 12 | Small technical validation | Successful |
+| Controlled subset reconstruction | 80 | Balanced subset validation | Successful |
+| Full reconstruction | 276 | Full-dataset reconstruction validation | Successful |
 
-These embeddings are then used for visualization and classification.
+### 80-File Reconstruction Result
 
----
+| Metric | Value |
+|---|---:|
+| Files generated | 80/80 |
+| Average UAR original | 0.6467 |
+| Average UAR reconstructed | 0.6538 |
+| Average UAR delta | +0.0071 |
+| Rows within ±0.05 UAR change | 96/120 |
+| Rows within ±0.15 UAR change | 120/120 |
 
-## 9. Processing Pipeline
+### 276-File Reconstruction Result
 
-The baseline pipeline follows this structure:
+| Metric | Value |
+|---|---:|
+| Files generated | 276/276 |
+| Average UAR original | 0.7016 |
+| Average UAR reconstructed | 0.7047 |
+| Average UAR delta | +0.0030 |
+| Mean absolute UAR change | 0.0264 |
+| Median absolute UAR change | 0.0158 |
 
-```text
-Audio recordings
-        ↓
-Audio preprocessing
-        ↓
-XLSR / Wav2Vec2 / WavLM feature extraction
-        ↓
-Layer-wise embedding creation
-        ↓
-PCA and t-SNE visualization
-        ↓
-PD vs HC classification
-        ↓
-Within-language and cross-language evaluation
-        ↓
-Model comparison
-        ↓
-Result tables, figures, and summary report
-```
+### Reconstruction Interpretation
 
-### Pipeline Steps
-
-| Step                       | Description                                                                       | Output                                       |
-| -------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------- |
-| **1. Dataset indexing**    | Scans Spanish and German read-text folders and creates a structured dataset index | `metadata/dataset_index_readtext.csv`        |
-| **2. Audio preprocessing** | Loads audio, converts to mono, resamples to 16 kHz, and normalizes                | Preprocessed waveform                        |
-| **3. Feature extraction**  | Extracts hidden states from selected model layers                                 | Layer-wise hidden states                     |
-| **4. Embedding creation**  | Mean-pools hidden states over time                                                | One fixed-length vector per recording        |
-| **5. Visualization**       | Generates PCA and t-SNE plots                                                     | `outputs/figures/`                           |
-| **6. Classification**      | Trains Linear SVM and Logistic Regression                                         | Classification result tables                 |
-| **7. Evaluation**          | Tests within-language, cross-language, and multilingual scenarios                 | UAR, accuracy, sensitivity, specificity, AUC |
-| **8. Model comparison**    | Compares XLSR, Wav2Vec2, and WavLM                                                | `full_model_comparison.csv`                  |
-| **9. Reporting**           | Generates summary tables and reports                                              | `outputs/reports/`                           |
+HiFi-GAN reconstruction did not collapse diagnostic performance. This means generated speech remained usable for downstream PD/HC classification and justified moving toward voice conversion.
 
 ---
 
-## 10. Classification Scenarios
+## Phase 4 — Stage 5A: 12-File Prototype Embedding-Conditioned Conversion
 
-The baseline evaluates five scenarios:
+Stage 5A introduced the first prototype embedding-conditioned conversion experiment.
 
-| Scenario                                | Purpose                                        |
-| --------------------------------------- | ---------------------------------------------- |
-| **Spanish → Spanish**                   | Within-language Spanish baseline               |
-| **Spanish → German**                    | Cross-language transfer from Spanish to German |
-| **German → German**                     | Within-language German baseline                |
-| **German → Spanish**                    | Cross-language transfer from German to Spanish |
-| **Spanish + German → Spanish + German** | Combined multilingual baseline                 |
+### Stage 5A Setup
 
-These scenarios are designed to measure whether the classifier learns disease-relevant cues or language-dependent patterns.
+| Item | Value |
+|---|---|
+| Files | 12 |
+| Composition | 3 Spanish HC, 3 Spanish PD, 3 German HC, 3 German PD |
+| Conversion method | Prototype embedding-conditioned conversion |
+| Conditioning feature | XLSR layer 11 |
+| Alpha | 0.5 |
+| Vocoder | HiFi-GAN universal_v1 |
 
----
+### Stage 5A Output
 
-## 11. Evaluation Metrics
+| Output | Result |
+|---|---:|
+| Spanish → German-domain files | 6 |
+| German → Spanish-domain files | 6 |
+| Total converted files | 12 |
+| Audio validation success | 12/12 |
 
-The main metric is:
+### Stage 5A Interpretation
 
-```text
-UAR = Unweighted Average Recall
-```
-
-UAR is also commonly interpreted as balanced accuracy. It is useful because it treats both classes equally.
-
-Additional metrics:
-
-| Metric          | Meaning                                   |
-| --------------- | ----------------------------------------- |
-| **Accuracy**    | Overall percentage of correct predictions |
-| **Sensitivity** | Ability to correctly detect PD            |
-| **Specificity** | Ability to correctly detect HC            |
-| **AUC**         | Area under the ROC curve                  |
+The first Stage 5A pilot showed that the conversion pipeline could generate technically valid converted audio. However, classification results were mixed. Therefore, a refinement experiment was needed before scaling to 80 files.
 
 ---
 
-## 12. Full Baseline Model Comparison Results
+## Phase 5 — Stage 5A-Refinement: Parameter Search
 
-The full model comparison has been completed successfully.
+Because the first 12-file conversion result was mixed, a refinement grid search was performed before scaling.
 
-### Best Result Summary
+### Tested Settings
 
-| Scenario                                     | Best Model | Layer | Classifier          |    UAR | Accuracy | Sensitivity | Specificity |    AUC |
-| -------------------------------------------- | ---------- | ----: | ------------------- | -----: | -------: | ----------: | ----------: | -----: |
-| **Best Spanish → Spanish**                   | XLSR       |     4 | Linear SVM          | 0.8400 |   0.8400 |      0.8400 |      0.8400 | 0.8636 |
-| **Best German → German**                     | WavLM      |     8 | Logistic Regression | 0.8182 |   0.8182 |      0.8068 |      0.8295 | 0.8680 |
-| **Best Spanish → German**                    | WavLM      |    11 | Logistic Regression | 0.7273 |   0.7273 |      0.8750 |      0.5795 | 0.7487 |
-| **Best German → Spanish**                    | WavLM      |     0 | Logistic Regression | 0.6900 |   0.6900 |      0.6200 |      0.7600 | 0.7488 |
-| **Best Spanish + German → Spanish + German** | Wav2Vec2   |     8 | Logistic Regression | 0.8080 |   0.8080 |      0.8116 |      0.8043 | 0.8427 |
+| Conditioning Model | Layer |
+|---|---:|
+| XLSR | 11 |
+| WavLM | 8 |
+| WavLM | 11 |
 
-### Main Finding
+| Alpha Values |
+|---|
+| 0.1 |
+| 0.25 |
+| 0.5 |
+| 0.75 |
+| 1.0 |
 
-The results show that within-language performance is stronger than cross-language transfer.
+Total:
 
-Example:
+| Item | Count |
+|---|---:|
+| Parameter settings | 15 |
+| Files per setting | 12 |
+| Converted files | 180 |
 
-```text
-Spanish → Spanish: UAR = 0.8400
-Spanish → German: UAR = 0.7273
-```
+### Stage 5A-Refinement Result
 
-This is a performance drop of approximately:
+| Setting | Mean UAR Delta | Positive Rows | Negative Rows | Audio Success |
+|---|---:|---:|---:|---:|
+| XLSR layer 11, alpha 1.0 | +0.1250 | 5 | 0 | 100% |
+| XLSR layer 11, alpha 0.75 | +0.0972 | 5 | 0 | 100% |
+| XLSR layer 11, alpha 0.5 | +0.0278 | 2 | 0 | 100% |
+| WavLM layer 8, all alpha values | +0.0139 | 1 | 0 | 100% |
+| WavLM layer 11, all alpha values | +0.0139 | 1 | 0 | 100% |
 
-```text
-0.1127 UAR
-```
+### Selected Setting
 
-For the German direction:
-
-```text
-German → German: UAR = 0.8182
-German → Spanish: UAR = 0.6900
-```
-
-This is a performance drop of approximately:
-
-```text
-0.1282 UAR
-```
-
-This confirms a clear Spanish-German language/domain mismatch, even after comparing multiple speech representation models.
-
----
-
-## 13. Model-Level Observations
-
-The full comparison shows that each model contributes a different insight.
-
-| Model        | Best Result                                                         | Main Observation                                |
-| ------------ | ------------------------------------------------------------------- | ----------------------------------------------- |
-| **XLSR**     | 0.8400 UAR for Spanish → Spanish                                    | Strongest single within-language Spanish result |
-| **Wav2Vec2** | 0.8080 UAR for Spanish + German → Spanish + German                  | Strongest combined multilingual result          |
-| **WavLM**    | 0.7273 UAR for Spanish → German and 0.6900 UAR for German → Spanish | Strongest cross-language transfer model         |
+| Parameter | Selected Value |
+|---|---|
+| Conditioning model | XLSR |
+| Layer | 11 |
+| Alpha | 1.0 |
 
 ### Interpretation
 
-* **XLSR** achieved the strongest single result in the Spanish within-language setting.
-* **WavLM** achieved the best cross-language transfer in both transfer directions.
-* **Wav2Vec2** achieved the strongest combined multilingual training result.
-* **Layer 8** appears important for several strong results, especially German within-language and combined multilingual classification.
-* **Layer 11** produced the strongest Spanish to German transfer result with WavLM.
-* **Layer 0** produced the strongest German to Spanish transfer result with WavLM.
+Stage 5A-Refinement solved the parameter-selection problem. It identified XLSR layer 11 with alpha 1.0 as the strongest prototype setting for the next scale-up.
 
 ---
 
-## 14. Visualization Results
+## Phase 6 — Stage 5B: 80-File Subset Evaluation
 
-PCA and t-SNE plots were generated for every model and every evaluated layer.
+Stage 5B tested whether the selected setting from Stage 5A-Refinement remains stable on a larger 80-file subset.
 
-Each layer was visualized in three ways:
+### Stage 5B Setup
 
-| Plot Type             | Purpose                                                          |
-| --------------------- | ---------------------------------------------------------------- |
-| **By label**          | Checks whether PD and HC form distinguishable regions            |
-| **By language**       | Checks whether Spanish and German dominate the embedding space   |
-| **By combined group** | Checks Spanish HC, Spanish PD, German HC, and German PD together |
+| Item | Value |
+|---|---|
+| Files | 80 |
+| Composition | 20 Spanish HC, 20 Spanish PD, 20 German HC, 20 German PD |
+| Conditioning model | XLSR |
+| Layer | 11 |
+| Alpha | 1.0 |
+| Converted files | 80 |
 
-The main visualization finding is:
+### Stage 5B Audio Validation
 
-> The embedding space often separates more strongly by language than by PD/HC label.
+| Metric | Value |
+|---|---:|
+| Converted files | 80/80 |
+| Validation success | 100% |
+| Sample rate | 22050 Hz |
+| Mono | Yes |
+| Clipping rate | 0% |
+| Maximum peak amplitude | 0.9999 |
+| Average RMS | 0.1122 |
 
-This means that Spanish and German recordings can form clearer regions than Parkinson’s Disease and Healthy Control recordings.
+### Stage 5B Classification Summary
 
-This supports the classification result:
+| Metric | Original | Converted | Delta |
+|---|---:|---:|---:|
+| All-scenario average UAR | 0.6560 | 0.7392 | +0.0831 |
+| Crosslingual-only average UAR | 0.5339 | 0.5312 | -0.0026 |
+| Spanish → German-domain UAR delta | — | — | -0.0115 |
+| German → Spanish-domain UAR delta | — | — | +0.0062 |
 
-```text
-Within-language performance > Cross-language performance
-```
+### Stage 5B Interpretation
 
-Therefore, the visualizations confirm that language/domain mismatch is a major challenge for this thesis.
-
-Recommended visualizations to inspect:
-
-```text
-baseline_multimodel_pipeline_diagram.png
-pca_xlsr_readtext_layer4_by_language.png
-tsne_wavlm_readtext_layer11_by_language.png
-tsne_wavlm_readtext_layer11_by_group.png
-pca_wav2vec2_readtext_layer8_by_label.png
-tsne_wavlm_readtext_layer8_by_label.png
-pca_wavlm_readtext_layer8_by_language.png
-```
-
----
-
-## 15. Current Implementation Status
-
-<div align="center">
-
-### ✅ Full First Baseline Task Completed
-
-</div>
-
-Completed tasks:
-
-* Created project folder structure.
-* Created dataset index for Spanish and German read-text data.
-* Processed 276 recordings.
-* Extracted embeddings using XLSR, Wav2Vec2, and WavLM.
-* Extracted features from layers 0, 4, 8, and 11.
-* Generated PCA and t-SNE plots.
-* Ran Linear SVM and Logistic Regression classifiers.
-* Evaluated all five Spanish-German scenarios.
-* Generated model-specific result tables.
-* Generated full model comparison table.
-* Generated model-specific summary reports.
-* Generated full baseline comparison summary report.
-* Created a safe deliverable package.
-* Excluded raw audio, private metadata, dataset index, and sensitive files.
-
-Current safe package:
-
-```text
-full_baseline_outputs_for_tomas.zip
-```
+Stage 5B confirmed that the selected setting scales from 12 files to 80 files. It achieved perfect technical validation and improved the all-scenario average UAR. Crosslingual-only UAR remained nearly stable but did not clearly improve.
 
 ---
 
-## 16. Repository Structure
+## Phase 7 — Stage 5C: Full 276-File Evaluation
+
+Stage 5C applied the selected prototype conversion setting to the full 276-file read-text dataset.
+
+### Stage 5C Setup
+
+| Item | Value |
+|---|---|
+| Files | 276 |
+| Spanish HC | 50 |
+| Spanish PD | 50 |
+| German HC | 88 |
+| German PD | 88 |
+| Conditioning model | XLSR |
+| Layer | 11 |
+| Alpha | 1.0 |
+| Converted files | 276 |
+
+### Stage 5C Audio Validation
+
+| Metric | Value |
+|---|---:|
+| Converted files | 276/276 |
+| Validation success | 100% |
+| Sample rate | 22050 Hz |
+| Mono | Yes |
+| Clipped files | 3/276 |
+| Clipping rate | 1.1% |
+| Warning threshold | 5% |
+| Validation status | Passed |
+
+### Stage 5C Classification Summary
+
+| Metric | Original | Converted | Delta |
+|---|---:|---:|---:|
+| All-scenario average UAR | 0.6979 | 0.7330 | +0.0352 |
+| Crosslingual-only average UAR | 0.6021 | 0.5663 | -0.0358 |
+
+### Stage 5C Interpretation
+
+Stage 5C confirms that the prototype embedding-conditioned conversion method is technically valid on the full 276-file dataset. The all-scenario average improved after conversion, while the crosslingual-only average decreased slightly.
+
+Therefore, the method supports technical feasibility and diagnostic preservation, but it does not yet prove strong crosslingual performance improvement.
+
+---
+
+## 📊 Full Stage-by-Stage Result Summary
+
+| Phase | Files | Method | Key Output | Result |
+|---|---:|---|---|---|
+| Baseline | 276 | XLSR/Wav2Vec2/WavLM embeddings | Original speech classification | Completed |
+| HiFi-GAN Pilot | 12 | Reconstruction | Reconstructed speech | 12/12 generated |
+| HiFi-GAN Subset | 80 | Reconstruction | Reconstructed speech | 80/80 generated |
+| HiFi-GAN Full | 276 | Reconstruction | Reconstructed speech | 276/276 generated |
+| Stage 5A | 12 | Prototype conversion, XLSR L11, alpha 0.5 | Converted audio | 12/12 valid |
+| Stage 5A-Refinement | 180 generated files | Grid search | Best setting selected | XLSR L11 alpha 1.0 |
+| Stage 5B | 80 | Prototype conversion, XLSR L11, alpha 1.0 | Subset conversion | 80/80 valid |
+| Stage 5C | 276 | Prototype conversion, XLSR L11, alpha 1.0 | Full conversion | 276/276 valid |
+
+---
+
+## 📁 Important Local Paths
+
+| Item | Local Path |
+|---|---|
+| Project root | `C:\pd-speech-crosslingual` |
+| Voice conversion root | `C:\pd-speech-crosslingual\voice_conversion` |
+| HiFi-GAN repo | `C:\pd-speech-crosslingual\voice_conversion\hifi-gan` |
+| HiFi-GAN environment | `C:\pd-speech-crosslingual\voice_conversion\hifi-gan\hifigan_env` |
+| HiFi-GAN checkpoint | `C:\pd-speech-crosslingual\voice_conversion\checkpoints\universal_v1\generator_v1` |
+| HiFi-GAN config | `C:\pd-speech-crosslingual\voice_conversion\checkpoints\universal_v1\config.json` |
+| Stage 5 root | `C:\pd-speech-crosslingual\voice_conversion\stage5_embedding_conditioned_vc` |
+| Stage 5A | `C:\pd-speech-crosslingual\voice_conversion\stage5_embedding_conditioned_vc` |
+| Stage 5A-Refinement | `C:\pd-speech-crosslingual\voice_conversion\stage5_embedding_conditioned_vc\stage5a_refinement` |
+| Stage 5B | `C:\pd-speech-crosslingual\voice_conversion\stage5_embedding_conditioned_vc\stage5b_subset_80` |
+| Stage 5C | `C:\pd-speech-crosslingual\voice_conversion\stage5_embedding_conditioned_vc\stage5c_full_276` |
+
+---
+
+## 🧾 Key Output Files
+
+| Stage | Key Output |
+|---|---|
+| Baseline | `outputs/reports/full_baseline_model_comparison_summary.md` |
+| Baseline | `outputs/tables/full_model_comparison.csv` |
+| HiFi-GAN Full | `voice_conversion/logs_full/hifigan_stage4_evaluation_report.md` |
+| Stage 5A | `voice_conversion/stage5_embedding_conditioned_vc/logs_stage5/stage5a_embedding_conditioned_conversion_report.md` |
+| Stage 5A-Refinement | `voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/logs_refinement/stage5a_refinement_report.md` |
+| Stage 5A-Refinement Best Setting | `voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/logs_refinement/stage5a_refinement_best_setting.md` |
+| Stage 5B | `voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/logs_stage5b/stage5b_subset_80_report.md` |
+| Stage 5C | `voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/logs_stage5c/stage5c_full_276_report.md` |
+
+---
+
+## 🏗️ Repository Structure
 
 ```text
 pd-speech-crosslingual/
 │
 ├── configs/
-│   └── baseline_config.yaml
-│
-├── input/
-│   ├── Spanish/
-│   ├── German/
-│   └── metadata files
-│
 ├── metadata/
-│   └── dataset_index_readtext.csv
-│
 ├── features/
-│   ├── xlsr/
-│   │   ├── xlsr_readtext_layer0.csv
-│   │   ├── xlsr_readtext_layer4.csv
-│   │   ├── xlsr_readtext_layer8.csv
-│   │   └── xlsr_readtext_layer11.csv
-│   │
-│   ├── wav2vec2/
-│   │   ├── wav2vec2_readtext_layer0.csv
-│   │   ├── wav2vec2_readtext_layer4.csv
-│   │   ├── wav2vec2_readtext_layer8.csv
-│   │   └── wav2vec2_readtext_layer11.csv
-│   │
-│   └── wavlm/
-│       ├── wavlm_readtext_layer0.csv
-│       ├── wavlm_readtext_layer4.csv
-│       ├── wavlm_readtext_layer8.csv
-│       └── wavlm_readtext_layer11.csv
-│
 ├── outputs/
-│   ├── figures/
-│   │   ├── pca_*.png
-│   │   └── tsne_*.png
-│   │
-│   ├── tables/
-│   │   ├── classification_results_xlsr_readtext_layer*.csv
-│   │   ├── classification_results_wav2vec2_readtext_layer*.csv
-│   │   ├── classification_results_wavlm_readtext_layer*.csv
-│   │   ├── model_layer_comparison_xlsr.csv
-│   │   ├── model_layer_comparison_wav2vec2.csv
-│   │   ├── model_layer_comparison_wavlm.csv
-│   │   └── full_model_comparison.csv
-│   │
-│   └── reports/
-│       ├── baseline_summary_xlsr.md
-│       ├── baseline_summary_wav2vec2.md
-│       ├── baseline_summary_wavlm.md
-│       └── full_baseline_model_comparison_summary.md
-│
 ├── scripts/
-│   ├── 00_prepare_project.py
-│   ├── 01_create_dataset_index.py
-│   ├── 02_extract_embeddings.py
-│   ├── 03_visualize_embeddings.py
-│   ├── 04_cross_language_classification.py
-│   ├── 05_experiment_summary.py
-│   ├── 06_run_full_baseline.py
-│   ├── 07_package_deliverable.py
-│   ├── 08_compare_all_models.py
-│   └── 09_package_full_baseline_deliverable.py
-│
 ├── src/
-│   ├── audio_utils.py
-│   ├── classification.py
-│   ├── dataset_index.py
-│   ├── embedding_extractor.py
-│   ├── metrics.py
-│   ├── utils.py
-│   └── visualization.py
 │
-├── requirements.txt
+├── voice_conversion/
+│   ├── hifi-gan/
+│   ├── checkpoints/
+│   ├── input_pilot/
+│   ├── input_subset_80/
+│   ├── input_full/
+│   ├── generated/
+│   ├── generated_subset_80/
+│   ├── generated_full/
+│   ├── logs_subset_80/
+│   ├── logs_full/
+│   │
+│   └── stage5_embedding_conditioned_vc/
+│       ├── input_pilot_12/
+│       ├── converted_spanish_to_german/
+│       ├── converted_german_to_spanish/
+│       ├── logs_stage5/
+│       │
+│       ├── stage5a_refinement/
+│       ├── stage5b_subset_80/
+│       └── stage5c_full_276/
+│
 ├── README.md
+├── requirements.txt
 └── .gitignore
 ```
 
-> **Note:**
-> The `input/`, raw audio files, private metadata, dataset index, and large feature files should remain excluded from GitHub depending on privacy and file-size requirements.
+Sensitive raw audio, private metadata, generated audio, checkpoints, large features, and local experiment outputs should remain excluded from public GitHub unless explicitly reviewed and anonymized.
 
 ---
 
-## 17. How to Run the Project
-
-### Step 1: Clone the repository
-
-```bash
-git clone https://github.com/prosenjit-chd/pd-speech-crosslingual-MSc-Thesis-PR_Lab_FAU.git
-cd pd-speech-crosslingual-MSc-Thesis-PR_Lab_FAU
-```
-
-### Step 2: Create a virtual environment
-
-```bash
-python -m venv .venv
-```
-
-Activate it on Windows:
-
-```bash
-.venv\Scripts\activate
-```
-
-Activate it on Linux or macOS:
-
-```bash
-source .venv/bin/activate
-```
-
-### Step 3: Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### Step 4: Prepare local data
-
-Place the local datasets inside:
-
-```text
-input/
-```
-
-Expected local structure:
-
-```text
-input/
-├── Spanish/
-├── German/
-└── metadata files
-```
-
-Raw data is not included in the repository.
-
-### Step 5: Initialize project folders
-
-```bash
-python scripts/00_prepare_project.py
-```
-
-### Step 6: Create dataset index
-
-```bash
-python scripts/01_create_dataset_index.py
-```
-
-Expected output:
-
-```text
-metadata/dataset_index_readtext.csv
-```
-
-### Step 7: Run the full baseline for each model
-
-Run XLSR:
+## ⚙️ How to Run Baseline
 
 ```bash
 python scripts/06_run_full_baseline.py --model xlsr
-```
-
-Run Wav2Vec2:
-
-```bash
 python scripts/06_run_full_baseline.py --model wav2vec2
-```
-
-Run WavLM:
-
-```bash
 python scripts/06_run_full_baseline.py --model wavlm
-```
-
-### Step 8: Compare all models
-
-```bash
 python scripts/08_compare_all_models.py
 ```
 
-Expected outputs:
-
-```text
-outputs/tables/full_model_comparison.csv
-outputs/reports/full_baseline_model_comparison_summary.md
-```
-
-### Step 9: Package safe deliverables
+## ⚙️ How to Run Stage 5C Full Evaluation
 
 ```bash
-python scripts/09_package_full_baseline_deliverable.py
+python voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/scripts/01_prepare_stage5c_full_276_inputs.py
+python voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/scripts/02_extract_stage5c_xlsr_layer11_embeddings.py
+python voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/scripts/03_create_stage5c_domain_conditions.py
+python voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/scripts/04_generate_stage5c_converted_audio.py
+python voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/scripts/05_validate_stage5c_converted_audio.py
+python voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/scripts/06_evaluate_stage5c_classification.py
+python voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/scripts/07_write_stage5c_report.py
 ```
 
-Expected output:
-
-```text
-full_baseline_outputs_for_tomas/
-full_baseline_outputs_for_tomas.zip
-```
+These commands require local private data, local HiFi-GAN checkpoints, and local generated feature folders. They will not run from a public repository without the private research data.
 
 ---
 
-## 18. Running Scripts Individually
+## 🧠 Final Current Scientific Interpretation
 
-The pipeline can also be run step by step.
+The completed experiments show that speech representation models can detect Parkinson’s Disease from Spanish and German read-text speech with strong within-language performance and weaker crosslingual transfer.
 
-Create the dataset index:
+HiFi-GAN reconstruction experiments showed that generated/reconstructed audio remains diagnostically usable and does not collapse PD/HC classification.
 
-```bash
-python scripts/01_create_dataset_index.py
-```
+The prototype embedding-conditioned conversion pipeline successfully generated technically valid converted speech across 12, 80, and 276-file stages. The full 276-file Stage 5C result improved the all-scenario average UAR from 0.6979 to 0.7330, while crosslingual-only UAR decreased from 0.6021 to 0.5663.
 
-Extract embeddings:
+Therefore, the current conclusion is:
 
-```bash
-python scripts/02_extract_embeddings.py --model xlsr --layers 0 4 8 11
-python scripts/02_extract_embeddings.py --model wav2vec2 --layers 0 4 8 11
-python scripts/02_extract_embeddings.py --model wavlm --layers 0 4 8 11
-```
+> The proposed prototype conversion method is technically feasible and diagnostically stable, but it does not yet provide strong evidence of crosslingual improvement.
 
-Generate PCA and t-SNE visualizations:
-
-```bash
-python scripts/03_visualize_embeddings.py --model xlsr
-python scripts/03_visualize_embeddings.py --model wav2vec2
-python scripts/03_visualize_embeddings.py --model wavlm
-```
-
-Run cross-language classification:
-
-```bash
-python scripts/04_cross_language_classification.py --model xlsr
-python scripts/04_cross_language_classification.py --model wav2vec2
-python scripts/04_cross_language_classification.py --model wavlm
-```
-
-Generate model-specific experiment summaries:
-
-```bash
-python scripts/05_experiment_summary.py --model xlsr
-python scripts/05_experiment_summary.py --model wav2vec2
-python scripts/05_experiment_summary.py --model wavlm
-```
-
-Compare all models:
-
-```bash
-python scripts/08_compare_all_models.py
-```
-
-Package final safe deliverable:
-
-```bash
-python scripts/09_package_full_baseline_deliverable.py
-```
+This result is valuable because it gives a complete, reproducible experimental answer rather than only a positive claim.
 
 ---
 
-## 19. Output Files
+## 💼 Professional Context
 
-### Reports
+This thesis project connects my academic research in Artificial Intelligence with my professional experience in enterprise technology at SAP SE.
 
-```text
-outputs/reports/baseline_summary_xlsr.md
-outputs/reports/baseline_summary_wav2vec2.md
-outputs/reports/baseline_summary_wavlm.md
-outputs/reports/full_baseline_model_comparison_summary.md
-```
+My SAP experience includes:
 
-### Tables
+| SAP Area | Experience Focus |
+|---|---|
+| SAP LeanIX and SAP Signavio Content Marketing | Digital content operations, publishing workflows, product communication, global content coordination |
+| Professional Services and Engineering, Construction & Operations Industries | Industry content coordination, stakeholder communication, customer success stories, go-live stories |
+| ERP PCX / Enterprise Systems and Process Automation | Data validation, metadata quality, enterprise system support, Excel automation, VBA, Power Automate |
 
-```text
-outputs/tables/full_model_comparison.csv
-outputs/tables/model_layer_comparison_xlsr.csv
-outputs/tables/model_layer_comparison_wav2vec2.csv
-outputs/tables/model_layer_comparison_wavlm.csv
-outputs/tables/classification_results_xlsr_readtext_layer0.csv
-outputs/tables/classification_results_xlsr_readtext_layer4.csv
-outputs/tables/classification_results_xlsr_readtext_layer8.csv
-outputs/tables/classification_results_xlsr_readtext_layer11.csv
-outputs/tables/classification_results_wav2vec2_readtext_layer0.csv
-outputs/tables/classification_results_wav2vec2_readtext_layer4.csv
-outputs/tables/classification_results_wav2vec2_readtext_layer8.csv
-outputs/tables/classification_results_wav2vec2_readtext_layer11.csv
-outputs/tables/classification_results_wavlm_readtext_layer0.csv
-outputs/tables/classification_results_wavlm_readtext_layer4.csv
-outputs/tables/classification_results_wavlm_readtext_layer8.csv
-outputs/tables/classification_results_wavlm_readtext_layer11.csv
-```
-
-### Figures
-
-```text
-outputs/figures/pca_*.png
-outputs/figures/tsne_*.png
-```
-
-The figure files include visualizations by:
-
-```text
-label
-language
-combined group
-```
+This project demonstrates skills relevant to AI research, data analysis, business analysis, process automation, technical documentation, and cross-functional collaboration.
 
 ---
 
-## 20. Deliverables Generated
+## 🧩 Skills Demonstrated
 
-The full baseline generated the following safe deliverables:
-
-| Deliverable                                 | Purpose                                                                     |
-| ------------------------------------------- | --------------------------------------------------------------------------- |
-| `full_baseline_model_comparison_summary.md` | Human-readable summary of the full XLSR, Wav2Vec2, and WavLM comparison     |
-| `full_model_comparison.csv`                 | Complete result table across all models, layers, scenarios, and classifiers |
-| `baseline_summary_xlsr.md`                  | Model-specific summary for XLSR                                             |
-| `baseline_summary_wav2vec2.md`              | Model-specific summary for Wav2Vec2                                         |
-| `baseline_summary_wavlm.md`                 | Model-specific summary for WavLM                                            |
-| `classification_results_*.csv`              | Detailed layer-wise classification results                                  |
-| `pca_*.png`                                 | PCA visualizations                                                          |
-| `tsne_*.png`                                | t-SNE visualizations                                                        |
-| `README.md`                                 | Explanation of package contents and privacy exclusions                      |
-| `full_baseline_outputs_for_tomas.zip`       | Safe package prepared for supervisor review                                 |
-
-The package intentionally excludes:
-
-```text
-raw audio
-private metadata
-input folder
-dataset index with speaker IDs or local paths
-raw feature embeddings
-speaker-identifiable data
-large derived feature files
-```
+| Category | Evidence |
+|---|---|
+| Machine Learning | SVM, Logistic Regression, cross-validation, UAR, AUC |
+| Deep Learning | XLSR, Wav2Vec2, WavLM, HiFi-GAN |
+| Speech Processing | Audio preprocessing, sampling rates, mel spectrograms, vocoding |
+| Biomedical AI | Parkinson’s Disease vs Healthy Control classification |
+| Crosslingual AI | Spanish–German transfer, language/domain mismatch analysis |
+| Research Engineering | staged experiments, reproducibility, logs, reports |
+| Python Development | modular scripts, experiment automation, file validation |
+| Data Privacy | local-only medical data handling, GitHub exclusion policy |
+| Documentation | supervisor-ready reports, GitHub README, result summaries |
+| Professional Communication | SAP stakeholder communication, content coordination, structured reporting |
 
 ---
 
-## 21. Interpretation of the Full Baseline
+## ⚠️ Limitations
 
-The full baseline provides a clear and useful result for the thesis.
-
-The model performs well within the same language:
-
-```text
-Spanish → Spanish: 0.8400 UAR using XLSR
-German → German: 0.8182 UAR using WavLM
-```
-
-But cross-language transfer is weaker:
-
-```text
-Spanish → German: 0.7273 UAR using WavLM
-German → Spanish: 0.6900 UAR using WavLM
-```
-
-This confirms that the model representations and classifiers are affected by language/domain differences.
-
-However, the extended comparison also shows that WavLM improves cross-language transfer compared with the first XLSR-only baseline.
-
-First XLSR-only transfer:
-
-```text
-Spanish → German: 0.6477 UAR
-German → Spanish: 0.6700 UAR
-```
-
-Best full comparison transfer:
-
-```text
-Spanish → German: 0.7273 UAR
-German → Spanish: 0.6900 UAR
-```
-
-This supports the next research step:
-
-> Apply voice conversion or speech-domain adaptation and test whether cross-language PD classification improves while preserving disease-relevant cues.
+| Limitation | Explanation |
+|---|---|
+| Prototype conversion | The embedding-conditioned conversion is a research prototype, not a production VC system |
+| No language translation | Speech is converted toward acoustic/domain conditions, not translated linguistically |
+| Read-text only | Current experiments focus on read-text speech |
+| Crosslingual improvement limited | Stage 5C did not improve crosslingual-only UAR |
+| Sensitive dataset | Raw speech data cannot be shared publicly |
+| Local reproducibility | Full reproduction requires private data and local checkpoints |
+| Clinical limitation | This is research, not a medical diagnostic system |
 
 ---
 
-## 22. Limitations
+## 📬 Contact
 
-The current implementation has several limitations:
+**Prosenjit Chowdhury**  
+M.Sc. Artificial Intelligence  
+Friedrich-Alexander-Universität Erlangen-Nürnberg  
+Pattern Recognition Lab, FAU  
+Working Student at SAP SE  
 
-| Limitation                  | Explanation                                                                                       |
-| --------------------------- | ------------------------------------------------------------------------------------------------- |
-| **Read-text only**          | Only the read-text task was used in the first baseline.                                           |
-| **No voice conversion yet** | The current stage is the baseline stage before voice conversion.                                  |
-| **No fine-tuning yet**      | The speech models were used as fixed feature extractors.                                          |
-| **Selected layers only**    | Only layers 0, 4, 8, and 11 were evaluated.                                                       |
-| **Mean-pooled embeddings**  | Temporal information was summarized into fixed-length vectors.                                    |
-| **Exploratory plots**       | PCA and t-SNE help interpretation but do not replace classification metrics.                      |
-| **Setup dependency**        | Results depend on preprocessing, speaker split, random seed, and cross-validation setup.          |
-| **Other tasks pending**     | Monologue, vowel, pataka/DDK, words, sentences, and full recordings remain for later experiments. |
+GitHub: [github.com/prosenjit-chd](https://github.com/prosenjit-chd)
 
----
-
-## 23. Next Steps
-
-The next planned steps are:
-
-1. Review the full baseline comparison with **Dr.-Ing. Tomás Arias-Vergara** and align the next experimental direction based on his feedback.
-2. Use the current read-text baseline as the reference point for future experiments.
-3. Discuss whether WavLM should be treated as the main cross-lingual reference model before voice conversion.
-4. Evaluate whether additional layers improve PD vs HC classification.
-5. Analyze PCA and t-SNE plots together with classification metrics.
-6. Extend the dataset tasks if needed, including monologue, vowel, pataka/DDK, sentences, words, and full recordings.
-7. Start the voice conversion stage after the baseline is reviewed.
-8. Compare PD classification before and after voice conversion.
-9. Evaluate whether language mismatch is reduced while PD-relevant speech characteristics are preserved.
-
----
-
-## 24. Future Extension: Voice Conversion
-
-After the baseline stage, this thesis will move toward voice conversion or speech-domain transformation.
-
-Example idea:
-
-```text
-German speech
-        ↓
-Voice conversion
-        ↓
-Spanish-like speech/domain
-        ↓
-Embedding extraction
-        ↓
-Spanish-trained classifier
-        ↓
-PD/HC prediction
-```
-
-The key scientific challenge is:
-
-> Reduce language mismatch without removing Parkinson’s Disease information.
-
-Important PD-related cues may include:
-
-* articulation difficulty,
-* reduced pitch variation,
-* monotone voice,
-* rhythm irregularity,
-* breathiness,
-* pause patterns,
-* voice instability.
-
-The final evaluation will compare classification performance before and after voice conversion.
-
----
-
-## 25. Technical Skills Demonstrated
-
-This project demonstrates skills in:
-
-| Skill Area                  | Evidence in This Project                                              |
-| --------------------------- | --------------------------------------------------------------------- |
-| **Speech AI**               | Audio preprocessing, 16 kHz conversion, speech embeddings             |
-| **Deep Learning**           | XLSR, Wav2Vec2, and WavLM representation extraction                   |
-| **Machine Learning**        | SVM, Logistic Regression, cross-validation, UAR/AUC evaluation        |
-| **Multilingual AI**         | Spanish-German transfer and language mismatch analysis                |
-| **Biomedical AI**           | PD vs HC classification using medical speech data                     |
-| **Research Engineering**    | Reproducible pipeline, structured results, safe deliverables          |
-| **Data Privacy**            | Exclusion of raw medical data and private metadata                    |
-| **Technical Communication** | Report writing, result interpretation, supervisor-ready documentation |
-
----
-
-## 26. Professional Context
-
-I am **Prosenjit Chowdhury**, an M.Sc. Artificial Intelligence student at **Friedrich-Alexander-Universität Erlangen-Nürnberg**.
-
-Alongside my studies, I work as a **Working Student at SAP SE**. My professional experience includes work across three SAP areas:
-
-| SAP Area                                                                        | Experience Focus                                                                                                                          |
-| ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| **SAP LeanIX and SAP Signavio Content Marketing**                               | Digital content operations, publishing workflows, product communication, content coordination, and marketing content support              |
-| **Professional Services and Engineering, Construction & Operations Industries** | Business content coordination, stakeholder communication, customer success stories, go-live stories, and industry-focused content support |
-| **ERP PCX / Enterprise Systems and Process Automation**                         | Data validation, metadata quality, enterprise system support, Excel automation, VBA, and Power Automate                                   |
-
-This thesis connects my academic focus in artificial intelligence with practical experience in enterprise technology, structured documentation, data-driven analysis, responsible AI project execution, and cross-functional collaboration.
-
----
-
-## 27. Selected References
-
-1. J. C. Vásquez-Correa et al., “Convolutional Neural Networks and a Transfer Learning Strategy to Classify Parkinson’s Disease from Speech in Three Different Languages,” Springer, 2019.
-
-2. A. Hernandez et al., “Adapting Self-Supervised Speech Representations for Cross-lingual Dysarthria Detection in Parkinson’s Disease,” arXiv, 2026.
-
-3. C.-J. Li et al., “Towards Inclusive ASR: Investigating Voice Conversion for Dysarthric Speech Recognition in Low-Resource Languages,” Interspeech, 2025.
-
-4. A. Suppa et al., “Voice in Parkinson’s Disease: A Machine Learning Study,” Frontiers in Neurology, 2022.
-
-5. Y. A. Li et al., “StyleTTS 2: Towards Human-Level Text-to-Speech,” NeurIPS, 2023.
-
----
-
-## 28. Contact
-
-<div align="center">
-
-### 👤 Prosenjit Chowdhury
-
-**M.Sc. Artificial Intelligence | FAU Erlangen-Nürnberg**
-**Pattern Recognition Lab | Master’s Thesis Research**
-**Working Student at SAP SE**
-
-</div>
-
-<br>
-
-| Category             | Information                                                                                                                    |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| **Name**             | Prosenjit Chowdhury                                                                                                            |
-| **Degree Program**   | M.Sc. Artificial Intelligence                                                                                                  |
-| **University**       | Friedrich-Alexander-Universität Erlangen-Nürnberg                                                                              |
-| **Research Lab**     | Pattern Recognition Lab, FAU Erlangen-Nürnberg                                                                                 |
-| **Supervisor**       | Dr.-Ing. Tomás Arias-Vergara                                                                                                   |
-| **GitHub**           | [github.com/prosenjit-chd](https://github.com/prosenjit-chd)                                                                   |
-| **Research Project** | Voice Conversion for Multilingual Detection of Parkinson’s Disease Using Speech Signals                                        |
-| **Project Focus**    | Speech AI, Parkinson’s Disease detection, multilingual speech processing, XLSR/Wav2Vec2/WavLM embeddings, and voice conversion |
-
----
-
-## 💼 SAP Professional Experience
-
-| Area                   | Details                                                                                                  |
-| ---------------------- | -------------------------------------------------------------------------------------------------------- |
-| **Current Role**       | Working Student at SAP SE                                                                                |
-| **Professional Track** | Enterprise Systems, Data Operations, Business Transformation, Content Operations, and Process Automation |
-| **SAP Area 1**         | SAP LeanIX and SAP Signavio Content Marketing                                                            |
-| **SAP Area 2**         | Professional Services and Engineering, Construction & Operations Industries                              |
-| **SAP Area 3**         | ERP PCX / Enterprise Systems and Process Automation                                                      |
-
----
-
-## 🧩 Professional Focus Areas
-
-<div align="center">
-
-**Business & Data Analysis** • **Digital Transformation** • **Product Operations** • **Process Automation** • **AI Research** • **Speech Technology**
-
-</div>
-
----
-
-<div align="center">
-
-### 🚀 Current Status
-
-**Full first baseline model comparison completed.**
-**XLSR, Wav2Vec2, and WavLM evaluated on Spanish-German read-text PD vs HC classification.**
-**Next stage: supervisor review, deeper analysis, and preparation for voice conversion experiments.**
-
-</div>
-```
+Research interests: Speech AI, Biomedical AI, Machine Learning, Crosslingual AI, Voice Conversion, Data Analysis, Process Automation, and Enterprise AI.

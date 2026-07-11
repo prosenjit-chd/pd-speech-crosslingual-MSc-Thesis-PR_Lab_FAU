@@ -1,0 +1,13 @@
+stage5_filename,source_path,language,label,group,original_filename,copied_status
+SP_PD_001.wav,input\Spanish\readtext_PDvsHC\readtext\pd\AVPEPUDEA0001_readtext.wav,Spanish,PD,PD,AVPEPUDEA0001_readtext.wav,copied
+SP_PD_002.wav,input\Spanish\readtext_PDvsHC\readtext\pd\AVPEPUDEA0002_readtext.wav,Spanish,PD,PD,AVPEPUDEA0002_readtext.wav,copied
+SP_PD_003.wav,input\Spanish\readtext_PDvsHC\readtext\pd\AVPEPUDEA0003_readtext.wav,Spanish,PD,PD,AVPEPUDEA0003_readtext.wav,copied
+SP_HC_001.wav,input\Spanish\readtext_PDvsHC\readtext\hc\AVPEPUDEAC0001_readtext.wav,Spanish,HC,HC,AVPEPUDEAC0001_readtext.wav,copied
+SP_HC_002.wav,input\Spanish\readtext_PDvsHC\readtext\hc\AVPEPUDEAC0003_readtext.wav,Spanish,HC,HC,AVPEPUDEAC0003_readtext.wav,copied
+SP_HC_003.wav,input\Spanish\readtext_PDvsHC\readtext\hc\AVPEPUDEAC0004_readtext.wav,Spanish,HC,HC,AVPEPUDEAC0004_readtext.wav,copied
+DE_PD_001.wav,input\German\Parkinson_German_Sabine_Skoda\Parkinson_German\Recordings\readtext\withoutnormalization\pd\002.u1.02.wav,German,PD,PD,002.u1.02.wav,copied
+DE_PD_002.wav,input\German\Parkinson_German_Sabine_Skoda\Parkinson_German\Recordings\readtext\withoutnormalization\pd\003.u1.02.wav,German,PD,PD,003.u1.02.wav,copied
+DE_PD_003.wav,input\German\Parkinson_German_Sabine_Skoda\Parkinson_German\Recordings\readtext\withoutnormalization\pd\007.u2.02.wav,German,PD,PD,007.u2.02.wav,copied
+DE_HC_001.wav,input\German\Parkinson_German_Sabine_Skoda\Parkinson_German\Recordings\readtext\withoutnormalization\hc\001.u1.02.wav,German,HC,HC,001.u1.02.wav,copied
+DE_HC_002.wav,input\German\Parkinson_German_Sabine_Skoda\Parkinson_German\Recordings\readtext\withoutnormalization\hc\003.u1.02.wav,German,HC,HC,003.u1.02.wav,copied
+DE_HC_003.wav,input\German\Parkinson_German_Sabine_Skoda\Parkinson_German\Recordings\readtext\withoutnormalization\hc\005.u1.02.wav,German,HC,HC,005.u1.02.wav,copied

@@ -16,7 +16,6 @@ data/
 *.ogg
 *.xlsx
 
-
 checkpoints/
 models/
 
@@ -29,13 +28,49 @@ Thumbs.db
 # Excel temporary files
 ~$*.xlsx
 
-# Voice Conversion
+# Voice Conversion Baseline
 features/
+
+# HiFi-GAN repo/checkpoints
 voice_conversion/checkpoints/
+voice_conversion/hifi-gan/
+
+# ============================================================
+# Metadata / private dataset index
+# ============================================================
+metadata/
+
+# ============================================================
+# Additional model / feature / binary artifacts
+# ============================================================
+*.npz
+*.joblib
+*.bin
+*.safetensors
+
+# ============================================================
+# HiFi-GAN Reconstruction Stage 4: Full 276-file dataset
+# ============================================================
+voice_conversion/input_full/
+voice_conversion/input_full_22050/
+voice_conversion/generated_full/
+voice_conversion/metadata_full/
+voice_conversion/features_original_full/
+voice_conversion/features_generated_full/
+voice_conversion/outputs_original_full/
+voice_conversion/outputs_generated_full/
+
+# ============================================================
+# Temporary local files
+# ============================================================
+powershell.cmd
+task.md
+
+# Voice Conversion Stage 1-2 pilot files
 voice_conversion/input_pilot/
 voice_conversion/input_pilot_22050/
 voice_conversion/generated/
-voice_conversion/**/*.wav
+
 voice_conversion/**/*.pt
 voice_conversion/**/*.pth
 voice_conversion/**/*.ckpt
@@ -43,13 +78,13 @@ voice_conversion/**/*.npy
 voice_conversion/**/*.pkl
 voice_conversion/**/*.jsonl
 voice_conversion/**/*.log
-voice_conversion/hifi-gan/
+
+# Pilot-related output folders
 voice_conversion/features_generated_pilot/
 voice_conversion/features_original_pilot/
 voice_conversion/metadata_generated_pilot/
 voice_conversion/outputs_generated_pilot/
 voice_conversion/outputs_original_pilot/
-
 
 # Voice conversion Stage 3 large/generated files
 voice_conversion/input_subset_80/
@@ -61,6 +96,47 @@ voice_conversion/features_generated_subset_80/
 voice_conversion/outputs_original_subset_80/
 voice_conversion/outputs_generated_subset_80/
 
-# Local HiFi-GAN repo/checkpoints/env
-voice_conversion/hifi-gan/
-voice_conversion/checkpoints/
+# Voice Conversion Stage 5 generated/intermediate outputs
+voice_conversion/stage5_embedding_conditioned_vc/converted_german_to_spanish/
+voice_conversion/stage5_embedding_conditioned_vc/converted_spanish_to_german/
+voice_conversion/stage5_embedding_conditioned_vc/converted_mels_stage5/
+voice_conversion/stage5_embedding_conditioned_vc/features_converted_stage5/
+voice_conversion/stage5_embedding_conditioned_vc/features_original_stage5/
+voice_conversion/stage5_embedding_conditioned_vc/input_pilot_12/
+voice_conversion/stage5_embedding_conditioned_vc/outputs_converted_stage5/
+voice_conversion/stage5_embedding_conditioned_vc/outputs_original_stage5/
+voice_conversion/stage5_embedding_conditioned_vc/source_embeddings/
+voice_conversion/stage5_embedding_conditioned_vc/target_domain_embeddings/
+
+# Stage 5A-Refinement intermediate/large folders
+voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/converted_audio_refinement/
+voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/converted_mels_refinement/
+voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/features_converted_refinement/
+voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/features_original_refinement/
+voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/input_pilot_12_refinement/
+voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/outputs_converted_refinement/
+voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/outputs_original_refinement/
+voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/source_embeddings_refinement/
+voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/target_domain_embeddings_refinement/
+
+# Stage 5B intermediate/large folders
+voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/converted_audio_stage5b/
+voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/converted_mels_stage5b/
+voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/features_converted_stage5b/
+voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/features_original_stage5b/
+voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/input_subset_80_stage5b/
+voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/outputs_converted_stage5b/
+voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/outputs_original_stage5b/
+voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/source_embeddings_stage5b/
+voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/target_domain_embeddings_stage5b/
+
+# Stage 5C intermediate/large folders
+voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/converted_audio_stage5c/
+voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/converted_mels_stage5c/
+voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/features_converted_stage5c/
+voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/features_original_stage5c/
+voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/input_full_276_stage5c/
+voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/outputs_converted_stage5c/
+voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/outputs_original_stage5c/
+voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/source_embeddings_stage5c/
+voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/target_domain_embeddings_stage5c/

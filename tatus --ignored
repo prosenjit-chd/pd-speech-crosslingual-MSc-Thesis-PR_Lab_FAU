@@ -1,0 +1,133 @@
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mindex e0f3c10..a434250 100644[m
+[1m--- a/.gitignore[m
+[1m+++ b/.gitignore[m
+[36m@@ -16,7 +16,6 @@[m [mdata/[m
+ *.ogg[m
+ *.xlsx[m
+ [m
+[31m-[m
+ checkpoints/[m
+ models/[m
+ [m
+[36m@@ -29,13 +28,49 @@[m [mThumbs.db[m
+ # Excel temporary files[m
+ ~$*.xlsx[m
+ [m
+[31m-# Voice Conversion[m
+[32m+[m[32m# Voice Conversion Baseline[m
+ features/[m
+[32m+[m
+[32m+[m[32m# HiFi-GAN repo/checkpoints[m
+ voice_conversion/checkpoints/[m
+[32m+[m[32mvoice_conversion/hifi-gan/[m
+[32m+[m
+[32m+[m[32m# ============================================================[m
+[32m+[m[32m# Metadata / private dataset index[m
+[32m+[m[32m# ============================================================[m
+[32m+[m[32mmetadata/[m
+[32m+[m
+[32m+[m[32m# ============================================================[m
+[32m+[m[32m# Additional model / feature / binary artifacts[m
+[32m+[m[32m# ============================================================[m
+[32m+[m[32m*.npz[m
+[32m+[m[32m*.joblib[m
+[32m+[m[32m*.bin[m
+[32m+[m[32m*.safetensors[m
+[32m+[m
+[32m+[m[32m# ============================================================[m
+[32m+[m[32m# HiFi-GAN Reconstruction Stage 4: Full 276-file dataset[m
+[32m+[m[32m# ============================================================[m
+[32m+[m[32mvoice_conversion/input_full/[m
+[32m+[m[32mvoice_conversion/input_full_22050/[m
+[32m+[m[32mvoice_conversion/generated_full/[m
+[32m+[m[32mvoice_conversion/metadata_full/[m
+[32m+[m[32mvoice_conversion/features_original_full/[m
+[32m+[m[32mvoice_conversion/features_generated_full/[m
+[32m+[m[32mvoice_conversion/outputs_original_full/[m
+[32m+[m[32mvoice_conversion/outputs_generated_full/[m
+[32m+[m
+[32m+[m[32m# ============================================================[m
+[32m+[m[32m# Temporary local files[m
+[32m+[m[32m# ============================================================[m
+[32m+[m[32mpowershell.cmd[m
+[32m+[m[32mtask.md[m
+[32m+[m
+[32m+[m[32m# Voice Conversion Stage 1-2 pilot files[m
+ voice_conversion/input_pilot/[m
+ voice_conversion/input_pilot_22050/[m
+ voice_conversion/generated/[m
+[31m-voice_conversion/**/*.wav[m
+[32m+[m
+ voice_conversion/**/*.pt[m
+ voice_conversion/**/*.pth[m
+ voice_conversion/**/*.ckpt[m
+[36m@@ -43,14 +78,14 @@[m [mvoice_conversion/**/*.npy[m
+ voice_conversion/**/*.pkl[m
+ voice_conversion/**/*.jsonl[m
+ voice_conversion/**/*.log[m
+[31m-voice_conversion/hifi-gan/[m
+[32m+[m
+[32m+[m[32m# Pilot-related output folders[m
+ voice_conversion/features_generated_pilot/[m
+ voice_conversion/features_original_pilot/[m
+ voice_conversion/metadata_generated_pilot/[m
+ voice_conversion/outputs_generated_pilot/[m
+ voice_conversion/outputs_original_pilot/[m
+ [m
+[31m-[m
+ # Voice conversion Stage 3 large/generated files[m
+ voice_conversion/input_subset_80/[m
+ voice_conversion/input_subset_80_22050/[m
+[36m@@ -61,6 +96,47 @@[m [mvoice_conversion/features_generated_subset_80/[m
+ voice_conversion/outputs_original_subset_80/[m
+ voice_conversion/outputs_generated_subset_80/[m
+ [m
+[31m-# Local HiFi-GAN repo/checkpoints/env[m
+[31m-voice_conversion/hifi-gan/[m
+[31m-voice_conversion/checkpoints/[m
+[32m+[m[32m# Voice Conversion Stage 5 generated/intermediate outputs[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/converted_german_to_spanish/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/converted_spanish_to_german/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/converted_mels_stage5/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/features_converted_stage5/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/features_original_stage5/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/input_pilot_12/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/outputs_converted_stage5/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/outputs_original_stage5/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/source_embeddings/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/target_domain_embeddings/[m
+[32m+[m
+[32m+[m[32m# Stage 5A-Refinement intermediate/large folders[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/converted_audio_refinement/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/converted_mels_refinement/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/features_converted_refinement/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/features_original_refinement/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/input_pilot_12_refinement/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/outputs_converted_refinement/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/outputs_original_refinement/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/source_embeddings_refinement/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/target_domain_embeddings_refinement/[m
+[32m+[m
+[32m+[m[32m# Stage 5B intermediate/large folders[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/converted_audio_stage5b/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/converted_mels_stage5b/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/features_converted_stage5b/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/features_original_stage5b/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/input_subset_80_stage5b/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/outputs_converted_stage5b/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/outputs_original_stage5b/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/source_embeddings_stage5b/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/target_domain_embeddings_stage5b/[m
+[32m+[m
+[32m+[m[32m# Stage 5C intermediate/large folders[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/converted_audio_stage5c/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/converted_mels_stage5c/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/features_converted_stage5c/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/features_original_stage5c/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/input_full_276_stage5c/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/outputs_converted_stage5c/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/outputs_original_stage5c/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/source_embeddings_stage5c/[m
+[32m+[m[32mvoice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/target_domain_embeddings_stage5c/[m

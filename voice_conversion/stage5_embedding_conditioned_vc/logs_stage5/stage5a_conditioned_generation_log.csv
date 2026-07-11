@@ -1,0 +1,13 @@
+source_file,source_language,target_domain,model_condition,layer_condition,output_file,generation_status,method_used,notes
+SP_PD_001.wav,Spanish,German-domain,xlsr,11,converted_spanish_to_german\SP_PD_001_to_DE_domain.wav,success,prototype embedding-conditioned conversion,"Ridge mapping embedding-to-mel shift, conversion scale alpha=0.5"
+SP_PD_002.wav,Spanish,German-domain,xlsr,11,converted_spanish_to_german\SP_PD_002_to_DE_domain.wav,success,prototype embedding-conditioned conversion,"Ridge mapping embedding-to-mel shift, conversion scale alpha=0.5"
+SP_PD_003.wav,Spanish,German-domain,xlsr,11,converted_spanish_to_german\SP_PD_003_to_DE_domain.wav,success,prototype embedding-conditioned conversion,"Ridge mapping embedding-to-mel shift, conversion scale alpha=0.5"
+SP_HC_001.wav,Spanish,German-domain,xlsr,11,converted_spanish_to_german\SP_HC_001_to_DE_domain.wav,success,prototype embedding-conditioned conversion,"Ridge mapping embedding-to-mel shift, conversion scale alpha=0.5"
+SP_HC_002.wav,Spanish,German-domain,xlsr,11,converted_spanish_to_german\SP_HC_002_to_DE_domain.wav,success,prototype embedding-conditioned conversion,"Ridge mapping embedding-to-mel shift, conversion scale alpha=0.5"
+SP_HC_003.wav,Spanish,German-domain,xlsr,11,converted_spanish_to_german\SP_HC_003_to_DE_domain.wav,success,prototype embedding-conditioned conversion,"Ridge mapping embedding-to-mel shift, conversion scale alpha=0.5"
+DE_PD_001.wav,German,Spanish-domain,xlsr,11,converted_german_to_spanish\DE_PD_001_to_SP_domain.wav,success,prototype embedding-conditioned conversion,"Ridge mapping embedding-to-mel shift, conversion scale alpha=0.5"
+DE_PD_002.wav,German,Spanish-domain,xlsr,11,converted_german_to_spanish\DE_PD_002_to_SP_domain.wav,success,prototype embedding-conditioned conversion,"Ridge mapping embedding-to-mel shift, conversion scale alpha=0.5"
+DE_PD_003.wav,German,Spanish-domain,xlsr,11,converted_german_to_spanish\DE_PD_003_to_SP_domain.wav,success,prototype embedding-conditioned conversion,"Ridge mapping embedding-to-mel shift, conversion scale alpha=0.5"
+DE_HC_001.wav,German,Spanish-domain,xlsr,11,converted_german_to_spanish\DE_HC_001_to_SP_domain.wav,success,prototype embedding-conditioned conversion,"Ridge mapping embedding-to-mel shift, conversion scale alpha=0.5"
+DE_HC_002.wav,German,Spanish-domain,xlsr,11,converted_german_to_spanish\DE_HC_002_to_SP_domain.wav,success,prototype embedding-conditioned conversion,"Ridge mapping embedding-to-mel shift, conversion scale alpha=0.5"
+DE_HC_003.wav,German,Spanish-domain,xlsr,11,converted_german_to_spanish\DE_HC_003_to_SP_domain.wav,success,prototype embedding-conditioned conversion,"Ridge mapping embedding-to-mel shift, conversion scale alpha=0.5"
