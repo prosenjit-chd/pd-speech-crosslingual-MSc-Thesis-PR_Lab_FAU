@@ -1,0 +1,5 @@
+﻿Scenario,Best model,Layer,Classifier,Best UAR
+Spanish → Spanish,XLSR,4,linear_svm,0.84
+German → German,WavLM,8,logistic_regression,0.8181818181818181
+Spanish → German,WavLM,11,logistic_regression,0.7272727272727273
+German → Spanish,Wav2Vec2,8,logistic_regression,0.8079710144927537

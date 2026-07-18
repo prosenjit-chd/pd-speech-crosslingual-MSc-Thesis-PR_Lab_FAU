@@ -1,0 +1,8 @@
+﻿Item,Path
+Project root,C:\pd-speech-crosslingual
+Baseline file,C:\pd-speech-crosslingual\full_baseline_outputs_for_tomas\outputs\tables\full_model_comparison.csv
+HiFi-GAN comparison file,C:\pd-speech-crosslingual\voice_conversion\logs_full\full_evaluation_comparison_summary.csv
+Duration file,C:\pd-speech-crosslingual\voice_conversion\logs_full\full_original_vs_generated_duration_comparison.csv
+Audio validation file,C:\pd-speech-crosslingual\voice_conversion\logs_full\generated_full_audio_inspection_summary.csv
+Dataset index file,C:\pd-speech-crosslingual\metadata\dataset_index_readtext.csv
+Output directory,C:\pd-speech-crosslingual\supervisor_report_outputs

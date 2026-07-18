@@ -1,0 +1,2 @@
+stage,selection_log_found,selection_check,audio_pairing_check,seed,models,layers,outer_cv_folds,inner_cv_folds,hyperparameter_search,feature_scaling,classifiers,embeddings_reused_or_regenerated,original_index_created,generated_index_created
+Stage 12,True,Passed,Passed,42,"xlsr, wav2vec2, wavlm","[0, 4, 8, 11]",3,2,"GridSearchCV (C: [0.01, 0.1, 1, 10])",StandardScaler,"linear_svm, logistic_regression",Regenerated (Extracted afresh from audio files),True,True

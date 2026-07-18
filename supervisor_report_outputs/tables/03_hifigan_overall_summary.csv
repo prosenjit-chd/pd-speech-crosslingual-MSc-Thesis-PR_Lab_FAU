@@ -1,0 +1,9 @@
+﻿Measure,Result
+Number of paired configurations,120
+Mean original UAR,0.7016061703996487
+Mean reconstructed UAR,0.7046495937637242
+Mean UAR difference,0.0030434233640755314
+Mean absolute UAR difference,0.02640634606938952
+Median absolute UAR difference,0.0157691040843214
+Maximum absolute UAR difference,0.13
+Configurations within ±0.05 UAR,102 of 120
