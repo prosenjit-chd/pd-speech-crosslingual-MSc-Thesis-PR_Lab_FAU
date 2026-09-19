@@ -1,0 +1,18 @@
+feature,reliability_note,orig_pd_mean,orig_hc_mean,orig_pd_median,orig_hc_median,original_effect_direction,ref_pd_mean,ref_hc_mean,ref_pd_median,ref_hc_median,refined_effect_direction,direction_preserved
+f0_mean_hz,Robust acoustic feature,155.725,167.265,159.845,165.335,PD < HC,139.98,156.735,152.655,156.24,PD < HC,Yes
+f0_median_hz,Robust acoustic feature,158.213,165.385,158.51,165.94,PD < HC,136.955,161.867,153.875,161.2,PD < HC,Yes
+f0_std_hz,High clinical relevance (prosody & timing),37.063,37.31,23.42,36.58,PD < HC,47.88,42.92,41.165,33.795,PD > HC,No
+f0_range_hz,High clinical relevance (prosody & timing),114.195,126.558,66.26,111.775,PD < HC,137.727,134.98,134.835,97.41,PD > HC,No
+voiced_fraction,Robust acoustic feature,0.607,0.763,0.68,0.741,PD < HC,0.644,0.695,0.656,0.707,PD < HC,Yes
+pause_ratio,High clinical relevance (prosody & timing),0.372,0.29,0.321,0.3,PD > HC,0.393,0.328,0.377,0.332,PD > HC,Yes
+pause_count,Robust acoustic feature,13.5,12.333,11.5,12.0,PD > HC,25.333,18.0,23.5,15.5,PD > HC,Yes
+mean_pause_dur_s,High clinical relevance (prosody & timing),0.781,0.413,0.52,0.401,PD > HC,0.686,0.701,0.566,0.688,PD < HC,No
+rms_mean,Robust acoustic feature,0.08,0.078,0.081,0.077,PD > HC,0.085,0.101,0.085,0.102,PD < HC,No
+rms_variability,Robust acoustic feature,0.077,0.074,0.077,0.082,PD > HC,0.091,0.098,0.09,0.102,PD < HC,No
+spec_centroid_hz,Robust acoustic feature,1745.55,1616.717,1809.0,1593.45,PD > HC,1397.717,1346.867,1456.0,1385.3,PD > HC,Yes
+spec_bandwidth_hz,Robust acoustic feature,1787.883,1696.4,1724.45,1689.9,PD > HC,1518.217,1425.317,1493.6,1457.8,PD > HC,Yes
+spec_rolloff_hz,Robust acoustic feature,3592.9,3302.867,3453.85,3292.75,PD > HC,2857.317,2635.567,2847.0,2697.4,PD > HC,Yes
+spec_flatness,Robust acoustic feature,0.025,0.02,0.027,0.018,PD > HC,0.087,0.095,0.092,0.088,PD < HC,No
+hnr_db,Robust acoustic feature,1.842,0.62,1.59,-0.045,PD > HC,0.123,0.113,1.365,0.345,PD > HC,Yes
+jitter_local,Heuristic only (synthetic phase artifact caveat),0.013,0.013,0.012,0.012,PD < HC,0.013,0.014,0.014,0.012,PD < HC,Yes
+shimmer_local,Heuristic only (synthetic phase artifact caveat),0.125,0.131,0.124,0.129,PD < HC,0.128,0.122,0.128,0.122,PD > HC,No

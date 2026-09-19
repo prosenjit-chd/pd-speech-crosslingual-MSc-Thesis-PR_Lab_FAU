@@ -1,532 +1,993 @@
 # Voice Conversion for Crosslingual Detection of Parkinson’s Disease Using Speech Signals
 
-### Spanish–German Parkinson’s Disease Speech Classification using XLSR, Wav2Vec2, WavLM, HiFi-GAN, and Prototype Embedding-Conditioned Voice Conversion
-### Master’s Thesis Project | Pattern Recognition Lab | FAU Erlangen-Nürnberg
+### Master’s Thesis Project | Pattern Recognition Lab (PRL) | Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)
 
----
-
-## 👤 Author & Professional Profile
-
-**Prosenjit Chowdhury**  
-M.Sc. Artificial Intelligence, Friedrich-Alexander-Universität Erlangen-Nürnberg  
-Master’s Thesis Researcher, Pattern Recognition Lab, FAU  
-Working Student at SAP SE  
-GitHub: [github.com/prosenjit-chd](https://github.com/prosenjit-chd)
+**Author:** Prosenjit Chowdhury  
+**Program:** M.Sc. Artificial Intelligence  
+**Registration No.:** 23361276  
+**Supervisor:** Dr.-Ing. Tomás Arias-Vergara  
+**Professor / Thesis Advisor:** Prof. Dr.-Ing. habil. Andreas Maier  
 
 I am an M.Sc. Artificial Intelligence student at FAU Erlangen-Nürnberg with hands-on experience in Speech AI, Machine Learning, Biomedical AI, Data Analysis, Enterprise Systems, Process Automation, and Digital Transformation.
 
 Alongside my thesis research, I work as a Working Student at SAP SE, where I have contributed across SAP LeanIX and SAP Signavio Content Marketing, Industry Content Coordination for Professional Services and Engineering, Construction & Operations, and ERP PCX / Enterprise Systems and Process Automation.
-
-This project demonstrates my ability to design, implement, evaluate, document, and communicate a complete applied AI research pipeline from baseline modeling to speech generation, voice conversion, and full-dataset experimental analysis.
-
-| Area | Skills Demonstrated |
-|---|---|
-| AI / ML | Speech embeddings, classification, cross-validation, UAR/AUC evaluation |
-| Speech AI | XLSR, Wav2Vec2, WavLM, HiFi-GAN, audio preprocessing |
-| Biomedical AI | Parkinson’s Disease vs Healthy Control speech analysis |
-| Research Engineering | Reproducible pipeline, staged experiments, structured reporting |
-| Data Analysis | Result comparison, model/layer/scenario analysis |
-| Software Engineering | Python pipeline, modular scripts, local privacy-safe execution |
-| Enterprise Experience | SAP SE, content operations, process automation, stakeholder communication |
-
 ---
 
-## 🚀 Current Project Status
+## Project Status
 
-| Phase | Status | Description |
+> **Research implementation, full evaluation, and scientific audit are complete.**  
+> The project now contains the complete experimental path from baseline classification and HiFi-GAN reconstruction to an earlier acoustic-domain conversion prototype and the final **true Spanish↔German cross-language speech-generation pipeline**.
+
+| Component | Status | Final role |
 |---|---|---|
-| Project Proposal | ✅ Completed | Research direction defined with Spanish–German PD speech and voice conversion |
-| Baseline Model Comparison | ✅ Completed | XLSR, Wav2Vec2, and WavLM evaluated across layers and scenarios |
-| HiFi-GAN Reconstruction Pilot | ✅ Completed | 12-file reconstruction validation |
-| HiFi-GAN Reconstruction Subset | ✅ Completed | 80-file reconstruction validation |
-| HiFi-GAN Reconstruction Full Dataset | ✅ Completed | 276-file reconstruction validation |
-| Stage 5A Voice Conversion Pilot | ✅ Completed | 12-file prototype embedding-conditioned conversion |
-| Stage 5A-Refinement | ✅ Completed | 15-setting alpha/model grid search |
-| Stage 5B Subset Evaluation | ✅ Completed | 80-file prototype conversion evaluation |
-| Stage 5C Full Evaluation | ✅ Completed | 276-file full prototype conversion evaluation |
-| Thesis Writing / Final Interpretation | 🔄 In Progress | Formal thesis documentation and result interpretation |
+| Original-speech PD/HC baseline | ✅ Complete | Quantifies the Spanish–German cross-language gap |
+| HiFi-GAN reconstruction validation | ✅ Complete | Verifies that neural waveform reconstruction does not substantially collapse diagnostic behavior |
+| Earlier acoustic-domain conversion prototype | ✅ Complete | Historical experiment; showed acoustic target-domain movement but no cross-language PD benefit |
+| True cross-language pilot | ✅ Complete | Verified actual target-language generation |
+| Pilot refinement | ✅ Complete | Improved language correctness and content stability |
+| Spanish→German final refinement | ✅ Complete | Frozen final Spanish→German synthesis configuration |
+| Independent 80-file validation | ✅ Complete | Primary out-of-sample validation |
+| Full 276-file evaluation | ✅ Complete | Full-cohort extension / sensitivity analysis |
+| Development-excluded analysis | ✅ Complete | 264-file sensitivity analysis |
+| Final scientific audit | ✅ Complete | Reconciled metrics, statistics, and final interpretation |
+| Thesis reporting | ✅ Finalization | Final thesis and supervisor-ready reports prepared |
 
 ---
 
-## 📌 Project Overview
+## Project Overview
 
-This repository contains the implementation work for my Master’s thesis at the Pattern Recognition Lab, FAU Erlangen-Nürnberg:
+This repository contains the implementation and evaluation work for the Master’s thesis:
 
-**Voice Conversion for Crosslingual Detection of Parkinson’s Disease Using Speech Signals**
+> **Voice Conversion for Crosslingual Detection of Parkinson’s Disease Using Speech Signals**
 
-The project investigates whether AI-based speech representations and voice conversion can support Parkinson’s Disease detection across languages. The work focuses on Spanish and German read-text speech recordings and evaluates whether converted speech can reduce language/domain mismatch while preserving Parkinson’s Disease-related acoustic cues.
+The thesis investigates a central problem in clinical speech AI:
 
-The project follows a staged research pipeline:
+> A Parkinson’s disease classifier trained on one language may perform substantially worse when evaluated on another language because speech representations contain language- and corpus-related information in addition to pathology-related information.
 
-1. Build a strong baseline using original Spanish and German speech.
-2. Compare XLSR, Wav2Vec2, and WavLM embeddings for PD vs HC classification.
-3. Validate HiFi-GAN reconstruction to ensure generated speech preserves diagnostic information.
-4. Develop and test a prototype embedding-conditioned conversion method.
-5. Scale the conversion experiments from 12 files to 80 files and finally to the full 276-file dataset.
-6. Compare original vs converted speech using UAR, accuracy, sensitivity, specificity, and AUC.
+The project asks whether speech can be converted across **Spanish and German** while preserving the speaker and clinically relevant Parkinson’s disease (PD) information, and whether doing so improves cross-language PD-versus-healthy-control (HC) classification.
 
-The final Stage 5C experiment confirms that the prototype conversion method is technically feasible on the full dataset and preserves most diagnostic information, although strong crosslingual improvement remains limited.
+The final project distinguishes three different questions that must not be confused:
 
----
+1. **Can the spoken language actually be changed?**
+2. **Can speaker identity and pathology-related speech information survive the conversion?**
+3. **Does the converted speech improve downstream cross-language PD classification?**
 
-## 🎯 Main Research Question
+The final answer is:
 
-Can prototype embedding-conditioned voice conversion reduce Spanish–German language/domain mismatch in Parkinson’s Disease speech classification while preserving disease-relevant acoustic information?
-
-In simpler terms:
-
-> If a classifier is trained in one language, can converted speech from another language become acoustically closer to the training domain without losing PD/HC diagnostic cues?
+> **True cross-language generation is technically successful, speaker identity is substantially preserved, and a meaningful proportion of pathology-related information remains; however, voice conversion alone does not reliably solve the cross-language PD-classification problem.**
 
 ---
 
-## 🗂️ Dataset Overview
+## Important Conceptual Correction
 
-The current experiments use Spanish and German read-text Parkinson’s Disease speech recordings.
+The thesis contains an earlier experimental branch that performed **embedding-conditioned acoustic-domain conversion**. That method shifted acoustic characteristics toward the opposite language domain, but **did not translate the spoken words**.
 
-| Group | Count |
-|---|---:|
-| Spanish HC | 50 |
-| Spanish PD | 50 |
-| German HC | 88 |
-| German PD | 88 |
-| **Total** | **276** |
+That experiment was scientifically useful, but it is **not the final definition of true cross-language voice conversion used in this thesis**.
+
+### Earlier acoustic-domain prototype
+
+```text
+source speech
+   ↓
+SSL/domain representation
+   ↓
+acoustic-domain shift
+   ↓
+HiFi-GAN reconstruction
+   ↓
+same linguistic content, acoustically shifted speech
+```
+
+### Final true cross-language pipeline
+
+```text
+source speech
+   ↓
+known source read-text / transcript representation
+   ↓
+frozen target-language translation
+   ↓
+speaker-conditioned multilingual speech synthesis
+   ↓
+actual target-language speech
+```
+
+Because the task uses fixed read-text passages, the final implementation uses **known canonical source text and frozen target-language translations** rather than relying on speaker-specific ASR text as the synthesis target. ASR is then used independently for **evaluation** of generated content.
+
+For example:
+
+```text
+German source speaker
+        ↓
+German read-text content
+        ↓
+Spanish translation
+        ↓
+XTTS-v2 conditioned on the German speaker
+        ↓
+Spanish speech in a voice resembling the original speaker
+```
+
+The reverse direction is evaluated analogously for Spanish→German.
+
+---
+
+# Dataset
+
+The full read-text dataset contains **276 recordings**.
+
+| Language / Corpus | HC | PD | Total |
+|---|---:|---:|---:|
+| Spanish / PC-GITA | 50 | 50 | 100 |
+| German / G-Read | 88 | 88 | 176 |
+| **Total** | **138** | **138** | **276** |
+
+Only the **read-text** task is used for the principal cross-language experiments because it is available in both language cohorts and provides a controlled comparison.
+
+### Core labels
 
 | Label | Meaning |
 |---|---|
-| PD | Parkinson’s Disease patient |
-| HC | Healthy Control |
-
-Only read-text speech is used in the current full pipeline because this task is available in both Spanish and German datasets and supports controlled crosslingual comparison.
+| PD | Parkinson’s disease |
+| HC | Healthy control |
+| ES / SP | Spanish |
+| DE | German |
+| UAR | Unweighted Average Recall |
 
 ---
 
-## 🔒 Data Privacy and Repository Policy
+# Research Questions
 
-This project uses sensitive medical speech data. Raw speech recordings, patient metadata, speaker-identifiable information, and local dataset paths are **not included** in this repository.
+The final thesis can be summarized through the following questions:
 
-The following must remain local and must not be uploaded to GitHub:
+| Question | Final answer |
+|---|---|
+| Is there a measurable Spanish–German cross-language PD-detection problem? | **Yes.** |
+| Can neural reconstruction preserve downstream PD/HC behavior? | **Largely yes.** |
+| Can actual Spanish↔German linguistic speech generation be achieved? | **Yes, very reliably.** |
+| Is target-language content preserved? | **Partially and asymmetrically.** |
+| Is speaker identity retained? | **Substantially.** |
+| Are pathology-related acoustic characteristics retained? | **A majority, but not all.** |
+| Does synthesis normalize PD speech toward HC? | **Partial acoustic normalization appears in the full cohort.** |
+| Does true cross-language conversion improve PD detection? | **Not consistently.** |
+| Is the diagnostic effect symmetric across directions? | **No.** |
 
-- raw audio files (`*.wav`, `*.mp3`, `*.flac`, `*.m4a`)
+---
+
+# 1. Original-Speech Baseline
+
+The baseline evaluates original Spanish and German speech without conversion.
+
+### Models
+
+- **XLSR-53**
+- **Wav2Vec 2.0**
+- **WavLM**
+
+### Representation layers
+
+- 0
+- 4
+- 8
+- 11
+
+### Classifiers
+
+- Linear SVM
+- Logistic Regression
+
+### Evaluation scenarios
+
+| Scenario | Type |
+|---|---|
+| Spanish→Spanish | Within-language |
+| German→German | Within-language |
+| Spanish→German | Cross-language |
+| German→Spanish | Cross-language |
+| Spanish + German → combined | Combined-language |
+
+### Best scenario-specific baseline results
+
+| Scenario | Best model | Layer | Classifier | UAR |
+|---|---|---:|---|---:|
+| Spanish→Spanish | XLSR | 4 | Linear SVM | **0.8400** |
+| German→German | WavLM | 8 | Logistic Regression | **0.8182** |
+| Spanish→German | WavLM | 11 | Logistic Regression | **0.7273** |
+| German→Spanish | WavLM | 0 | Logistic Regression | **0.6900** |
+| Combined | Wav2Vec2 | 8 | Logistic Regression | **0.8080** |
+
+Across matched configurations:
+
+- **Mean within-language UAR:** 0.7666
+- **Mean cross-language UAR:** 0.6021
+- **Absolute gap:** 0.1645
+- **Relative cross-language degradation:** **21.46%**
+
+This establishes the central problem: the models retain strong language/domain information, and PD/HC performance drops when the train and test languages differ.
+
+Additional analysis found that **38 of 43 acoustic features** differed significantly between Spanish and German after multiple-testing correction.
+
+---
+
+# 2. HiFi-GAN Reconstruction Validation
+
+Before attempting voice conversion, HiFi-GAN Universal V1 was evaluated as a waveform reconstruction component.
+
+The purpose was **not** to change language. The goal was to determine whether neural resynthesis itself destroys the information required for downstream PD/HC classification.
+
+### Controlled scaling
+
+| Evaluation | Files | Result |
+|---|---:|---|
+| Reconstruction pilot | 12 | Technically successful |
+| Reconstruction validation | 80 | Stable |
+| Full reconstruction | 276 | 276/276 generated |
+
+### Full 276-file reconstruction result
+
+| Metric | Original | Reconstructed |
+|---|---:|---:|
+| Mean UAR across 120 matched configurations | 0.7016 | 0.7046 |
+| Mean UAR change |  | **+0.0030** |
+| Mean absolute UAR difference |  | **0.0264** |
+
+**Interpretation:** HiFi-GAN reconstruction did not produce a substantial aggregate collapse in PD/HC classification behavior, supporting its use as a waveform synthesis component in the earlier prototype work.
+
+---
+
+# 3. Earlier Acoustic-Domain Conversion Prototype — Historical Experiment
+
+An earlier branch developed an embedding-conditioned method that moved speech acoustics toward the opposite language/domain condition.
+
+This branch remains part of the thesis because it provides an important negative scientific result, but it must not be confused with true linguistic conversion.
+
+### Method concept
+
+```text
+source log-mel representation
+        +
+embedding-derived source→target domain shift
+        ↓
+modified log-mel representation
+        ↓
+HiFi-GAN
+        ↓
+acoustically shifted waveform
+```
+
+The selected configuration used:
+
+- XLSR layer 11
+- conversion strength α = 1.0
+
+### Full 276-file result
+
+| Metric | Original | Converted | Delta |
+|---|---:|---:|---:|
+| All-scenario mean UAR | 0.6979 | 0.7330 | +0.0352 |
+| Pure cross-language mean UAR | 0.6021 | 0.5663 | **-0.0358** |
+
+Additional analysis showed:
+
+- substantial acoustic target-domain movement,
+- strong speaker preservation,
+- substantial pathology preservation,
+- but **no improvement in pure cross-language PD classification**.
+
+This experiment established an important distinction:
+
+> **Moving acoustic features toward another language domain is not the same as genuinely changing the linguistic language, and acoustic-domain movement alone does not guarantee improved clinical transfer.**
+
+---
+
+# 4. True Cross-Language Speech Generation
+
+The final branch implements actual linguistic Spanish↔German speech generation.
+
+## Model
+
+**XTTS-v2** is used for multilingual, speaker-conditioned synthesis.
+
+The target text is the frozen translation of the known read-text passage, while the speaker reference is extracted from the original source recording.
+
+### Evaluation dimensions
+
+The generated audio is evaluated using:
+
+1. Technical audio quality
+2. Target-language identification
+3. Content fidelity
+   - WER
+   - CER
+   - WIP
+4. Speaker preservation
+   - ECAPA-TDNN cosine similarity
+   - different-speaker controls
+5. Pathology-related acoustic feature preservation
+6. PD→HC normalization analysis
+7. Frozen downstream PD/HC classification
+8. Bootstrap statistics and Benjamini-Hochberg FDR correction
+
+---
+
+# 5. 12-File True Cross-Language Pilot and Refinement
+
+The first pilot used:
+
+- 3 Spanish HC
+- 3 Spanish PD
+- 3 German HC
+- 3 German PD
+
+The initial 12-file pipeline demonstrated that true target-language generation was feasible, but content stability required refinement.
+
+### Refinement goals
+
+Refinement focused on:
+
+- sentence / semantic segmentation,
+- cleaner deterministic speaker references,
+- pause handling,
+- synthesis temperature,
+- repetition control,
+- target-language stability,
+- speaker preservation.
+
+The refined pilot achieved:
+
+- **100% target-language identification**
+- zero clipping
+- improved stability
+
+---
+
+# 6. Final Spanish→German Refinement
+
+Spanish→German was the more difficult content-generation direction and therefore received one additional controlled refinement before the independent validation.
+
+The final frozen configuration used:
+
+- XTTS-v2
+- semantic 4-chunk target segmentation
+- deterministic ~15 s clean voiced speaker reference
+- temperature = 0.65
+- repetition penalty = 3.5
+- top-p = 0.85
+- speed = 1.00
+- peak normalization = 0.95
+
+### Final six-speaker development result
+
+| Metric | Result |
+|---|---:|
+| German LID | 6/6 = 100% |
+| Mean target P(German) | 0.9637 |
+| Mean WER | 0.5109 |
+| Mean CER | 0.4599 |
+| Mean WIP | 0.5579 |
+| Mean speaker cosine similarity | 0.6245 |
+| Clipping | 0 |
+| Exploratory pathology direction preservation | 15/17 = 88.2% |
+
+This configuration was then **frozen** before the larger validation.
+
+---
+
+# 7. Independent 80-File True Cross-Language Validation
+
+The independent validation cohort contained:
+
+- 20 Spanish HC
+- 20 Spanish PD
+- 20 German HC
+- 20 German PD
+
+**Total: 80**
+
+All 12 pilot-development subjects were excluded.
+
+No per-speaker parameter tuning was performed.
+
+> This 80-file experiment is the **primary independent validation** for the final true cross-language method.
+
+## Technical and linguistic results
+
+| Metric | Result |
+|---|---:|
+| Synthesis success | 80/80 |
+| Audio QC pass | 96.2% |
+| Clipping | 0% |
+| Target LID | **100%** |
+| ES→DE LID | 40/40 |
+| DE→ES LID | 40/40 |
+| Overall mean WER | 0.4739 |
+| Overall median WER | 0.2500 |
+| Overall mean CER | 0.3593 |
+| Overall mean WIP | 0.6537 |
+
+### Content fidelity by direction
+
+| Direction | Mean WER | Mean WIP |
+|---|---:|---:|
+| Spanish→German | 0.8130 | 0.4862 |
+| German→Spanish | 0.1347 | 0.8212 |
+
+This shows pronounced linguistic asymmetry: German→Spanish had substantially better content fidelity than Spanish→German.
+
+## Speaker preservation
+
+| Measure | Value |
+|---|---:|
+| Matched source/generated mean cosine | 0.5654 |
+| Matched median | 0.5698 |
+| Different-speaker control mean | 0.1080 |
+| Different-speaker control median | 0.0977 |
+| Discrimination margin | **+0.4573** |
+
+The different-speaker control used 6,320 strictly mismatched pairs.
+
+## Pathology preservation
+
+- **68.2% (15/22)** evaluated pathology-effect directions preserved their sign.
+- This is a **majority**, but it is **below the predefined 70% engineering target**.
+
+### Normalization analysis
+
+- Original PD→HC centroid distance: 4.708
+- Generated PD→HC centroid distance: 4.715
+- Wilcoxon W = 181.0
+- p = 0.4125
+
+Correct interpretation:
+
+> **No statistically significant evidence of disproportionate PD-to-HC normalization was detected in the independent 80-file validation.**
+
+This does **not** prove equivalence or absence of normalization.
+
+## PD classification — 80-file validation
+
+### Spanish→German  
+German-trained classifier evaluated on Spanish speakers before and after generating German speech.
+
+| Classifier | Original UAR | Generated UAR | Delta | p | FDR q |
+|---|---:|---:|---:|---:|---:|
+| Linear SVM | 0.5000 | 0.6250 | **+0.1250** | 0.062 | 0.124 |
+| Logistic Regression | 0.5000 | 0.6500 | **+0.1500** | 0.025 | 0.100 |
+
+The Logistic Regression gain is **nominally significant before FDR correction**, but **not significant after FDR correction**.
+
+### German→Spanish
+
+| Classifier | Original UAR | Generated UAR | Delta |
+|---|---:|---:|---:|
+| Linear SVM | 0.5750 | 0.4250 | **-0.1500** |
+| Logistic Regression | 0.5750 | 0.5250 | **-0.0500** |
+
+**Interpretation:** the independent validation produced a promising Spanish→German gain but no German→Spanish benefit.
+
+---
+
+# 8. Full 276-File True Cross-Language Evaluation
+
+The frozen system was then applied to all available read-text recordings.
+
+### Generation
+
+| Direction | Files |
+|---|---:|
+| Spanish→German | 100 |
+| German→Spanish | 176 |
+| **Total** | **276** |
+
+### Technical validation
+
+| Metric | Result |
+|---|---:|
+| Generated successfully | **276/276** |
+| Failed | 0 |
+| Audio QC pass | **100.0%** |
+| Clipped files | 0 |
+
+## Target-language correctness
+
+| Direction | LID accuracy |
+|---|---:|
+| Spanish→German | **100.00%** |
+| German→Spanish | **99.43%** |
+| Overall | **99.64%** |
+
+This confirms that the final system performs genuine linguistic cross-language generation at scale.
+
+## Content fidelity
+
+| Metric | Result |
+|---|---:|
+| ES→DE mean WER | 0.8065 |
+| DE→ES mean WER | 0.4430 |
+| Overall mean WER | 0.5747 |
+| Median WER | 0.4396 |
+| Mean CER | 0.4976 |
+| Mean WIP | 0.4685 |
+
+The directional content asymmetry remained present.
+
+## Speaker preservation
+
+| Measure | Value |
+|---|---:|
+| Matched mean cosine | 0.5610 |
+| Matched median | 0.5581 |
+| Different-speaker mean | 0.0963 |
+| Different-speaker median | 0.0875 |
+| Discrimination margin | **+0.4647** |
+
+Speaker identity remains clearly more similar for matched original/generated pairs than for different-speaker controls.
+
+---
+
+# 9. Full-Cohort Pathology Analysis
+
+The final scientific audit reconciled the pathology-preservation calculations.
+
+## Authoritative preservation results
+
+| Analysis | Direction preservation |
+|---|---:|
+| Spanish→German | 63.6% |
+| German→Spanish | 72.7% |
+| **Pooled overall** | **59.1%** |
+| Development-excluded cohort | 63.6% |
+
+The earlier reported overall value of **65.2%** was incorrect because it was an unweighted arithmetic mean of directional percentages rather than a pooled contrast calculation.
+
+Therefore:
+
+> **59.1% is the authoritative overall pathology-direction preservation value for the full cohort.**
+
+A majority of pathology-related acoustic contrasts were retained, but preservation was incomplete.
+
+---
+
+# 10. PD→HC Acoustic Normalization — Final Corrected Result
+
+The full-cohort normalization analysis produced a different result from the independent 80-file subset.
+
+| Measure | Value |
+|---|---:|
+| Original PD→HC centroid distance | 4.3870 |
+| Generated PD→HC centroid distance | 3.8429 |
+| Paired change | -0.5441 |
+| Wilcoxon W | 2236.0 |
+| p-value | < 0.0001 |
+
+Because generated PD speech became significantly closer to the HC centroid, the final correct interpretation is:
+
+> **Generated PD speech showed partial acoustic normalization toward the HC centroid under the evaluated feature-space distance measure.**
+
+This does **not** mean that all Parkinsonian information disappeared. Pathology-preservation and normalization analyses address different aspects of the generated speech.
+
+---
+
+# 11. Full-Cohort PD Classification
+
+## Full 276 cohort
+
+### Spanish→German
+
+| Classifier | Original UAR | Generated UAR | Delta | p | FDR q |
+|---|---:|---:|---:|---:|---:|
+| Linear SVM | 0.6000 | 0.6400 | +0.0400 | 0.248 | 0.992 |
+| Logistic Regression | 0.6000 | 0.6500 | +0.0500 | 0.173 | 0.992 |
+
+### German→Spanish
+
+| Classifier | Original UAR | Generated UAR | Delta | p | FDR q |
+|---|---:|---:|---:|---:|---:|
+| Linear SVM | 0.5909 | 0.5455 | -0.0455 | 0.885 | 1.000 |
+| Logistic Regression | 0.5909 | 0.5057 | -0.0852 | 1.000 | 1.000 |
+
+The Spanish→German improvement observed in the independent 80-file validation attenuated to small, non-significant gains in the full cohort.
+
+German→Spanish again showed no diagnostic benefit.
+
+---
+
+# 12. Development-Excluded Sensitivity Analysis
+
+The full 276 cohort includes the 12 pilot-development subjects, so a separate analysis excludes those subjects.
+
+**N = 264**
+
+| Direction | Linear SVM ΔUAR | Logistic Regression ΔUAR |
+|---|---:|---:|
+| Spanish→German | -0.0213 | -0.0426 |
+| German→Spanish | -0.0118 | -0.0706 |
+
+This analysis is important because it shows that the positive Spanish→German effect seen in the independent 80-file validation does **not** persist robustly across the broader development-excluded cohort.
+
+---
+
+# 13. Evidence Hierarchy
+
+The final interpretation uses the following hierarchy:
+
+1. **Independent 80-file validation**  
+   Primary out-of-sample validation result.
+
+2. **Full 276-file evaluation**  
+   Full-cohort extension / descriptive sensitivity analysis.
+
+3. **Development-excluded 264-file analysis**  
+   Broad sensitivity analysis excluding pilot-development subjects.
+
+The full 276 cohort must **not** be described as a second independent validation because it contains earlier development and validation subjects.
+
+---
+
+# 14. Final Scientific Finding
+
+The final audited result is:
+
+1. Genuine Spanish↔German linguistic speech generation was technically successful at full scale.
+2. Target-language identification was extremely reliable.
+3. Speaker identity remained substantially distinguishable from different-speaker controls.
+4. A majority, but not all, pathology-related acoustic effect directions were retained.
+5. The full cohort showed evidence of partial acoustic normalization of PD speech toward HC.
+6. Spanish→German showed a promising improvement in the independent 80-file validation.
+7. That improvement attenuated in the full cohort and disappeared in the development-excluded analysis.
+8. German→Spanish showed no consistent diagnostic benefit.
+9. Better linguistic fidelity did not necessarily produce better PD classification.
+
+Therefore:
+
+> **Successful language conversion, speaker preservation, and partial pathology preservation are not sufficient by themselves to guarantee reliable cross-language Parkinson’s disease classification.**
+
+---
+
+# Key Thesis Impact
+
+The main contribution is not simply a positive classification score.
+
+The thesis demonstrates that:
+
+- the Spanish–German language mismatch is a real barrier for PD speech classification;
+- true cross-language speech generation can reliably change the spoken language;
+- source-speaker identity can survive the language change to a substantial degree;
+- clinically relevant acoustic information can partially survive neural cross-language synthesis;
+- synthesis can also partially normalize PD speech acoustically;
+- high linguistic fidelity is not a reliable predictor of downstream diagnostic benefit;
+- and voice conversion alone does not robustly eliminate the cross-language classification shift.
+
+This motivates future approaches that combine generative speech conversion with **classifier domain adaptation, recalibration, or pathology-aware representation learning**.
+
+---
+
+# Authoritative Final Metrics
+
+| Category | Final verified result |
+|---|---|
+| Dataset | 276 read-text recordings |
+| Class balance | 138 HC / 138 PD |
+| Full synthesis | 276/276 successful |
+| Audio QC | 100% pass, 0 clipping |
+| Target LID | 99.64% overall |
+| ES→DE LID | 100.0% |
+| DE→ES LID | 99.43% |
+| Overall WER | 0.5747 |
+| Overall CER | 0.4976 |
+| Overall WIP | 0.4685 |
+| Matched speaker cosine | 0.5610 |
+| Different-speaker mean | 0.0963 |
+| Speaker discrimination margin | +0.4647 |
+| Full-cohort pathology direction preservation | **59.1%** |
+| Full-cohort normalization | **Partial normalization; p < 0.0001** |
+| 80-file ES→DE LR ΔUAR | +0.1500, p=0.025, q=0.100 |
+| Full 276 ES→DE SVM ΔUAR | +0.0400, q=0.992 |
+| Full 276 DE→ES SVM ΔUAR | -0.0455, q=1.000 |
+| Dev-excluded ES→DE SVM ΔUAR | -0.0213 |
+| Dev-excluded DE→ES SVM ΔUAR | -0.0118 |
+
+---
+
+# Important Repository Locations
+
+## Original baseline and reconstruction
+
+```text
+outputs/
+voice_conversion/
+```
+
+## Earlier acoustic-domain prototype
+
+```text
+voice_conversion/stage5_embedding_conditioned_vc/
+```
+
+This branch is preserved as historical experimental evidence.
+
+## Final true cross-language work
+
+```text
+true_cross_language_vc/
+```
+
+### True cross-language pilot
+
+```text
+true_cross_language_vc/17_reports/12_file_true_crosslanguage_pilot_report.md
+```
+
+### Refined 12-file pilot
+
+```text
+true_cross_language_vc/19_pilot_refinement/12_report/
+```
+
+### Final Spanish→German refinement
+
+```text
+true_cross_language_vc/20_spanish_to_german_final_refinement/
+```
+
+Key report:
+
+```text
+true_cross_language_vc/20_spanish_to_german_final_refinement/
+19_reports/final_spanish_to_german_refinement_report.md
+```
+
+### Independent 80-file validation
+
+```text
+true_cross_language_vc/21_validation_80/
+```
+
+Key reports:
+
+```text
+true_cross_language_vc/21_validation_80/
+17_reports/80_file_true_crosslanguage_validation_report.md
+
+true_cross_language_vc/21_validation_80/
+17_reports/scientific_interpretation_corrections.md
+```
+
+### Full 276-file evaluation
+
+```text
+true_cross_language_vc/22_full_276_evaluation/
+```
+
+Key report:
+
+```text
+true_cross_language_vc/22_full_276_evaluation/
+19_reports/full_276_true_crosslanguage_evaluation_report.md
+```
+
+### Final scientific audit — highest-authority interpretation
+
+```text
+true_cross_language_vc/22_full_276_evaluation/
+21_final_scientific_audit/
+```
+
+Use these files for thesis-level interpretation:
+
+```text
+08_corrected_reports/full_276_true_crosslanguage_evaluation_VERIFIED.md
+08_corrected_reports/scientific_errata_and_corrections.md
+09_thesis_summary/final_thesis_results_summary.md
+09_thesis_summary/final_research_question_matrix.csv
+09_thesis_summary/supervisor_update_short.md
+```
+
+---
+
+# Full 276 Evaluation Outputs
+
+```text
+true_cross_language_vc/22_full_276_evaluation/
+├── 01_inventory/
+├── 02_cohort_tags/
+├── 03_transcripts/
+├── 04_translation/
+├── 07_audio_qc/
+├── 08_language_id/
+├── 09_content_accuracy/
+├── 10_speaker_preservation/
+├── 11_pathology_features/
+├── 12_pathology_preservation/
+├── 13_pd_classification/
+├── 14_statistics/
+├── 15_subgroup_analysis/
+├── 16_figures/
+├── 17_tables/
+├── 18_listening_examples/
+├── 19_reports/
+├── 20_reproducibility/
+├── 21_final_scientific_audit/
+├── logs/
+└── scripts/
+```
+
+The full evaluation includes:
+
+- 13 figures
+- 18 formal tables
+- supervisor listening examples
+- execution manifests
+- checksums
+- environment information
+- frozen configuration documentation
+- statistical analysis outputs
+- final scientific audit artifacts
+
+---
+
+# Full 276 Pipeline Scripts
+
+The full evaluation is organized through the following scripts:
+
+```text
+true_cross_language_vc/22_full_276_evaluation/scripts/
+├── 00_preflight_and_inventory.py
+├── 01_cohort_provenance_tagging.py
+├── 02_prepare_texts_and_references.py
+├── 03_synthesize_276.py
+├── 04_audio_qc_lid_asr_spk_276.py
+├── 05_pathology_and_normalization_276.py
+├── 06_pd_classification_and_statistics_276.py
+├── 07_subgroup_and_error_analyses_276.py
+├── 08_figures_tables_listening_repro_276.py
+├── 09_compile_full_276_report.py
+├── run_full_276_pipeline.py
+└── run_final_audit.py
+```
+
+The final experiment is frozen. These scripts are retained for reproducibility, **not for further tuning**.
+
+---
+
+# Data Privacy and Repository Policy
+
+This project uses sensitive medical speech data.
+
+Raw audio, speaker-identifiable data, patient metadata, and private local paths must not be committed to a public repository.
+
+## Keep private / local
+
+- raw `.wav`, `.mp3`, `.flac`, `.m4a` files
+- generated patient speech unless explicitly approved for sharing
 - private metadata
-- patient-related information
+- speaker-identifying filenames
 - local dataset paths
-- raw input folders
-- large derived features if they expose dataset structure
-- checkpoint files and local generated audio folders unless explicitly safe
+- embedding tables tied to individual speakers
+- model checkpoints if licensing or size makes them inappropriate for redistribution
+- private clinical information
 
-This repository is intended to contain:
+## Safe repository content
 
 - source code
 - configuration files
-- documentation
-- safe result summaries
-- non-identifying plots
+- anonymized aggregate results
+- safe reports
+- non-identifying figures
 - non-sensitive tables
-- reproducible experiment structure
+- reproducibility documentation
+- environment manifests
+- public model references
+
+This repository is a research implementation and documentation repository, **not a public medical speech dataset**.
 
 ---
 
-# 🧪 Experimental Pipeline and Results
+# Reproducibility
 
-## Phase 1 — Project Proposal
+The project uses a staged, frozen-evaluation philosophy.
 
-The original research direction was to investigate voice conversion for multilingual Parkinson’s Disease detection. After supervisor feedback, the wording was updated from **Multilingual** to **Crosslingual**, because the main focus is language transfer between Spanish and German.
+Important reproducibility artifacts include:
 
-The thesis goal became:
+- environment snapshots
+- execution manifests
+- frozen synthesis configuration
+- statistical analysis plan
+- checksums
+- failure logs
+- cohort provenance
+- corrected final reports
 
-> Investigate whether voice conversion can support crosslingual Parkinson’s Disease detection from speech signals by reducing Spanish–German language mismatch while preserving disease-relevant acoustic cues.
-
----
-
-## Phase 2 — Baseline Model Comparison
-
-The baseline evaluates original speech without conversion. It compares XLSR, Wav2Vec2, and WavLM embeddings across layers 0, 4, 8, and 11 using Linear SVM and Logistic Regression.
-
-### Baseline Scenarios
-
-| Scenario | Purpose |
-|---|---|
-| Spanish → Spanish | Within-language Spanish baseline |
-| German → German | Within-language German baseline |
-| Spanish → German | Crosslingual transfer from Spanish to German |
-| German → Spanish | Crosslingual transfer from German to Spanish |
-| Spanish + German → Spanish + German | Combined bilingual training/testing |
-
-### Best Baseline Results
-
-| Scenario | Best Model | Layer | Classifier | UAR |
-|---|---|---:|---|---:|
-| Spanish → Spanish | XLSR | 4 | Linear SVM | 0.8400 |
-| German → German | WavLM | 8 | Logistic Regression | 0.8182 |
-| Spanish → German | WavLM | 11 | Logistic Regression | 0.7273 |
-| German → Spanish | WavLM | 0 | Logistic Regression | 0.6900 |
-| Spanish + German → Spanish + German | Wav2Vec2 | 8 | Logistic Regression | 0.8080 |
-
-### Baseline Interpretation
-
-The baseline confirms that within-language classification is stronger than crosslingual transfer. This shows a clear Spanish–German language/domain mismatch and motivates the voice conversion stage.
-
----
-
-## Phase 3 — HiFi-GAN Reconstruction / Vocoder Validation
-
-Before testing true conversion, HiFi-GAN reconstruction was validated to check whether generated/reconstructed audio can preserve PD/HC diagnostic information.
-
-This stage is not true Spanish↔German conversion. It is a vocoder validation stage.
-
-### HiFi-GAN Setup
-
-| Item | Value |
-|---|---|
-| Vocoder | HiFi-GAN |
-| Repository | `jik876/hifi-gan` |
-| Checkpoint | `voice_conversion/checkpoints/universal_v1/generator_v1` |
-| Config | `voice_conversion/checkpoints/universal_v1/config.json` |
-| Target sample rate | 22050 Hz |
-| Output format | mono WAV |
-
-### Reconstruction Stages
-
-| Stage | Files | Purpose | Result |
-|---|---:|---|---|
-| Pilot reconstruction | 12 | Small technical validation | Successful |
-| Controlled subset reconstruction | 80 | Balanced subset validation | Successful |
-| Full reconstruction | 276 | Full-dataset reconstruction validation | Successful |
-
-### 80-File Reconstruction Result
-
-| Metric | Value |
-|---|---:|
-| Files generated | 80/80 |
-| Average UAR original | 0.6467 |
-| Average UAR reconstructed | 0.6538 |
-| Average UAR delta | +0.0071 |
-| Rows within ±0.05 UAR change | 96/120 |
-| Rows within ±0.15 UAR change | 120/120 |
-
-### 276-File Reconstruction Result
-
-| Metric | Value |
-|---|---:|
-| Files generated | 276/276 |
-| Average UAR original | 0.7016 |
-| Average UAR reconstructed | 0.7047 |
-| Average UAR delta | +0.0030 |
-| Mean absolute UAR change | 0.0264 |
-| Median absolute UAR change | 0.0158 |
-
-### Reconstruction Interpretation
-
-HiFi-GAN reconstruction did not collapse diagnostic performance. This means generated speech remained usable for downstream PD/HC classification and justified moving toward voice conversion.
-
----
-
-## Phase 4 — Stage 5A: 12-File Prototype Embedding-Conditioned Conversion
-
-Stage 5A introduced the first prototype embedding-conditioned conversion experiment.
-
-### Stage 5A Setup
-
-| Item | Value |
-|---|---|
-| Files | 12 |
-| Composition | 3 Spanish HC, 3 Spanish PD, 3 German HC, 3 German PD |
-| Conversion method | Prototype embedding-conditioned conversion |
-| Conditioning feature | XLSR layer 11 |
-| Alpha | 0.5 |
-| Vocoder | HiFi-GAN universal_v1 |
-
-### Stage 5A Output
-
-| Output | Result |
-|---|---:|
-| Spanish → German-domain files | 6 |
-| German → Spanish-domain files | 6 |
-| Total converted files | 12 |
-| Audio validation success | 12/12 |
-
-### Stage 5A Interpretation
-
-The first Stage 5A pilot showed that the conversion pipeline could generate technically valid converted audio. However, classification results were mixed. Therefore, a refinement experiment was needed before scaling to 80 files.
-
----
-
-## Phase 5 — Stage 5A-Refinement: Parameter Search
-
-Because the first 12-file conversion result was mixed, a refinement grid search was performed before scaling.
-
-### Tested Settings
-
-| Conditioning Model | Layer |
-|---|---:|
-| XLSR | 11 |
-| WavLM | 8 |
-| WavLM | 11 |
-
-| Alpha Values |
-|---|
-| 0.1 |
-| 0.25 |
-| 0.5 |
-| 0.75 |
-| 1.0 |
-
-Total:
-
-| Item | Count |
-|---|---:|
-| Parameter settings | 15 |
-| Files per setting | 12 |
-| Converted files | 180 |
-
-### Stage 5A-Refinement Result
-
-| Setting | Mean UAR Delta | Positive Rows | Negative Rows | Audio Success |
-|---|---:|---:|---:|---:|
-| XLSR layer 11, alpha 1.0 | +0.1250 | 5 | 0 | 100% |
-| XLSR layer 11, alpha 0.75 | +0.0972 | 5 | 0 | 100% |
-| XLSR layer 11, alpha 0.5 | +0.0278 | 2 | 0 | 100% |
-| WavLM layer 8, all alpha values | +0.0139 | 1 | 0 | 100% |
-| WavLM layer 11, all alpha values | +0.0139 | 1 | 0 | 100% |
-
-### Selected Setting
-
-| Parameter | Selected Value |
-|---|---|
-| Conditioning model | XLSR |
-| Layer | 11 |
-| Alpha | 1.0 |
-
-### Interpretation
-
-Stage 5A-Refinement solved the parameter-selection problem. It identified XLSR layer 11 with alpha 1.0 as the strongest prototype setting for the next scale-up.
-
----
-
-## Phase 6 — Stage 5B: 80-File Subset Evaluation
-
-Stage 5B tested whether the selected setting from Stage 5A-Refinement remains stable on a larger 80-file subset.
-
-### Stage 5B Setup
-
-| Item | Value |
-|---|---|
-| Files | 80 |
-| Composition | 20 Spanish HC, 20 Spanish PD, 20 German HC, 20 German PD |
-| Conditioning model | XLSR |
-| Layer | 11 |
-| Alpha | 1.0 |
-| Converted files | 80 |
-
-### Stage 5B Audio Validation
-
-| Metric | Value |
-|---|---:|
-| Converted files | 80/80 |
-| Validation success | 100% |
-| Sample rate | 22050 Hz |
-| Mono | Yes |
-| Clipping rate | 0% |
-| Maximum peak amplitude | 0.9999 |
-| Average RMS | 0.1122 |
-
-### Stage 5B Classification Summary
-
-| Metric | Original | Converted | Delta |
-|---|---:|---:|---:|
-| All-scenario average UAR | 0.6560 | 0.7392 | +0.0831 |
-| Crosslingual-only average UAR | 0.5339 | 0.5312 | -0.0026 |
-| Spanish → German-domain UAR delta | — | — | -0.0115 |
-| German → Spanish-domain UAR delta | — | — | +0.0062 |
-
-### Stage 5B Interpretation
-
-Stage 5B confirmed that the selected setting scales from 12 files to 80 files. It achieved perfect technical validation and improved the all-scenario average UAR. Crosslingual-only UAR remained nearly stable but did not clearly improve.
-
----
-
-## Phase 7 — Stage 5C: Full 276-File Evaluation
-
-Stage 5C applied the selected prototype conversion setting to the full 276-file read-text dataset.
-
-### Stage 5C Setup
-
-| Item | Value |
-|---|---|
-| Files | 276 |
-| Spanish HC | 50 |
-| Spanish PD | 50 |
-| German HC | 88 |
-| German PD | 88 |
-| Conditioning model | XLSR |
-| Layer | 11 |
-| Alpha | 1.0 |
-| Converted files | 276 |
-
-### Stage 5C Audio Validation
-
-| Metric | Value |
-|---|---:|
-| Converted files | 276/276 |
-| Validation success | 100% |
-| Sample rate | 22050 Hz |
-| Mono | Yes |
-| Clipped files | 3/276 |
-| Clipping rate | 1.1% |
-| Warning threshold | 5% |
-| Validation status | Passed |
-
-### Stage 5C Classification Summary
-
-| Metric | Original | Converted | Delta |
-|---|---:|---:|---:|
-| All-scenario average UAR | 0.6979 | 0.7330 | +0.0352 |
-| Crosslingual-only average UAR | 0.6021 | 0.5663 | -0.0358 |
-
-### Stage 5C Interpretation
-
-Stage 5C confirms that the prototype embedding-conditioned conversion method is technically valid on the full 276-file dataset. The all-scenario average improved after conversion, while the crosslingual-only average decreased slightly.
-
-Therefore, the method supports technical feasibility and diagnostic preservation, but it does not yet prove strong crosslingual performance improvement.
-
----
-
-## 📊 Full Stage-by-Stage Result Summary
-
-| Phase | Files | Method | Key Output | Result |
-|---|---:|---|---|---|
-| Baseline | 276 | XLSR/Wav2Vec2/WavLM embeddings | Original speech classification | Completed |
-| HiFi-GAN Pilot | 12 | Reconstruction | Reconstructed speech | 12/12 generated |
-| HiFi-GAN Subset | 80 | Reconstruction | Reconstructed speech | 80/80 generated |
-| HiFi-GAN Full | 276 | Reconstruction | Reconstructed speech | 276/276 generated |
-| Stage 5A | 12 | Prototype conversion, XLSR L11, alpha 0.5 | Converted audio | 12/12 valid |
-| Stage 5A-Refinement | 180 generated files | Grid search | Best setting selected | XLSR L11 alpha 1.0 |
-| Stage 5B | 80 | Prototype conversion, XLSR L11, alpha 1.0 | Subset conversion | 80/80 valid |
-| Stage 5C | 276 | Prototype conversion, XLSR L11, alpha 1.0 | Full conversion | 276/276 valid |
-
----
-
-## 📁 Important Local Paths
-
-| Item | Local Path |
-|---|---|
-| Project root | `C:\pd-speech-crosslingual` |
-| Voice conversion root | `C:\pd-speech-crosslingual\voice_conversion` |
-| HiFi-GAN repo | `C:\pd-speech-crosslingual\voice_conversion\hifi-gan` |
-| HiFi-GAN environment | `C:\pd-speech-crosslingual\voice_conversion\hifi-gan\hifigan_env` |
-| HiFi-GAN checkpoint | `C:\pd-speech-crosslingual\voice_conversion\checkpoints\universal_v1\generator_v1` |
-| HiFi-GAN config | `C:\pd-speech-crosslingual\voice_conversion\checkpoints\universal_v1\config.json` |
-| Stage 5 root | `C:\pd-speech-crosslingual\voice_conversion\stage5_embedding_conditioned_vc` |
-| Stage 5A | `C:\pd-speech-crosslingual\voice_conversion\stage5_embedding_conditioned_vc` |
-| Stage 5A-Refinement | `C:\pd-speech-crosslingual\voice_conversion\stage5_embedding_conditioned_vc\stage5a_refinement` |
-| Stage 5B | `C:\pd-speech-crosslingual\voice_conversion\stage5_embedding_conditioned_vc\stage5b_subset_80` |
-| Stage 5C | `C:\pd-speech-crosslingual\voice_conversion\stage5_embedding_conditioned_vc\stage5c_full_276` |
-
----
-
-## 🧾 Key Output Files
-
-| Stage | Key Output |
-|---|---|
-| Baseline | `outputs/reports/full_baseline_model_comparison_summary.md` |
-| Baseline | `outputs/tables/full_model_comparison.csv` |
-| HiFi-GAN Full | `voice_conversion/logs_full/hifigan_stage4_evaluation_report.md` |
-| Stage 5A | `voice_conversion/stage5_embedding_conditioned_vc/logs_stage5/stage5a_embedding_conditioned_conversion_report.md` |
-| Stage 5A-Refinement | `voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/logs_refinement/stage5a_refinement_report.md` |
-| Stage 5A-Refinement Best Setting | `voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/logs_refinement/stage5a_refinement_best_setting.md` |
-| Stage 5B | `voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/logs_stage5b/stage5b_subset_80_report.md` |
-| Stage 5C | `voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/logs_stage5c/stage5c_full_276_report.md` |
-
----
-
-## 🏗️ Repository Structure
+The final full-cohort reproducibility package is located at:
 
 ```text
-pd-speech-crosslingual/
-│
-├── configs/
-├── metadata/
-├── features/
-├── outputs/
-├── scripts/
-├── src/
-│
-├── voice_conversion/
-│   ├── hifi-gan/
-│   ├── checkpoints/
-│   ├── input_pilot/
-│   ├── input_subset_80/
-│   ├── input_full/
-│   ├── generated/
-│   ├── generated_subset_80/
-│   ├── generated_full/
-│   ├── logs_subset_80/
-│   ├── logs_full/
-│   │
-│   └── stage5_embedding_conditioned_vc/
-│       ├── input_pilot_12/
-│       ├── converted_spanish_to_german/
-│       ├── converted_german_to_spanish/
-│       ├── logs_stage5/
-│       │
-│       ├── stage5a_refinement/
-│       ├── stage5b_subset_80/
-│       └── stage5c_full_276/
-│
-├── README.md
-├── requirements.txt
-└── .gitignore
+true_cross_language_vc/22_full_276_evaluation/20_reproducibility/
 ```
 
-Sensitive raw audio, private metadata, generated audio, checkpoints, large features, and local experiment outputs should remain excluded from public GitHub unless explicitly reviewed and anonymized.
+The final audit reproducibility material is located at:
+
+```text
+true_cross_language_vc/22_full_276_evaluation/
+21_final_scientific_audit/10_reproducibility/
+```
 
 ---
 
-## ⚙️ How to Run Baseline
+# Scientific Reporting Rules Used in This Repository
 
-```bash
-python scripts/06_run_full_baseline.py --model xlsr
-python scripts/06_run_full_baseline.py --model wav2vec2
-python scripts/06_run_full_baseline.py --model wavlm
-python scripts/08_compare_all_models.py
-```
+To avoid over-interpretation:
 
-## ⚙️ How to Run Stage 5C Full Evaluation
-
-```bash
-python voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/scripts/01_prepare_stage5c_full_276_inputs.py
-python voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/scripts/02_extract_stage5c_xlsr_layer11_embeddings.py
-python voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/scripts/03_create_stage5c_domain_conditions.py
-python voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/scripts/04_generate_stage5c_converted_audio.py
-python voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/scripts/05_validate_stage5c_converted_audio.py
-python voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/scripts/06_evaluate_stage5c_classification.py
-python voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/scripts/07_write_stage5c_report.py
-```
-
-These commands require local private data, local HiFi-GAN checkpoints, and local generated feature folders. They will not run from a public repository without the private research data.
+- `p < 0.05` with `q >= 0.05` is described as **nominally significant before FDR correction, but not significant after correction**.
+- `p > 0.05` is **not** interpreted as proof of equivalence.
+- The 80-file validation remains the **primary independent validation**.
+- The 276-file cohort is a **full-cohort extension**, not a second independent validation.
+- The 264-file analysis is a **development-excluded sensitivity analysis**.
+- Acoustic normalization, pathology preservation, speaker preservation, content fidelity, and PD classification are reported as **different outcomes**.
+- No causal explanation for directional asymmetry is claimed without direct evidence.
 
 ---
 
-## 🧠 Final Current Scientific Interpretation
+# Limitations
 
-The completed experiments show that speech representation models can detect Parkinson’s Disease from Spanish and German read-text speech with strong within-language performance and weaker crosslingual transfer.
-
-HiFi-GAN reconstruction experiments showed that generated/reconstructed audio remains diagnostically usable and does not collapse PD/HC classification.
-
-The prototype embedding-conditioned conversion pipeline successfully generated technically valid converted speech across 12, 80, and 276-file stages. The full 276-file Stage 5C result improved the all-scenario average UAR from 0.6979 to 0.7330, while crosslingual-only UAR decreased from 0.6021 to 0.5663.
-
-Therefore, the current conclusion is:
-
-> The proposed prototype conversion method is technically feasible and diagnostically stable, but it does not yet provide strong evidence of crosslingual improvement.
-
-This result is valuable because it gives a complete, reproducible experimental answer rather than only a positive claim.
+| Limitation | Interpretation |
+|---|---|
+| Read-text only | Generalization to spontaneous speech remains unknown |
+| Spanish and German only | Findings do not establish universal multilingual generalization |
+| Directional asymmetry | ES→DE and DE→ES behave differently |
+| Content fidelity asymmetry | ES→DE remains more difficult than DE→ES |
+| Partial pathology preservation | Not all clinical acoustic contrasts survive synthesis |
+| Partial acoustic normalization | Generated PD speech may move toward HC in feature space |
+| Classification benefit not robust | Positive ES→DE validation gains attenuate in broader cohorts |
+| Private medical data | Full public reproducibility is constrained by data access |
+| Clinical scope | The system is a research experiment, not a medical diagnostic device |
 
 ---
 
-## 💼 Professional Context
+# Future Work
 
-This thesis project connects my academic research in Artificial Intelligence with my professional experience in enterprise technology at SAP SE.
+The final results motivate several directions:
 
+- explicit classifier domain adaptation,
+- classifier recalibration for generated speech,
+- pathology-aware speech synthesis objectives,
+- pathology-preserving representation learning,
+- spontaneous-speech and monologue validation,
+- additional languages and cohorts,
+- stronger semantic/content constraints for Spanish→German synthesis,
+- clinical validation on independent external datasets.
+
+The main lesson is that the generator and the diagnostic classifier should not be treated as independent components if the end goal is cross-language clinical generalization.
+
+---
+
+# Skills Demonstrated
+
+| Category | Evidence |
+|---|---|
+| Speech AI | XLSR, Wav2Vec2, WavLM, HiFi-GAN, XTTS-v2 |
+| Machine Learning | Linear SVM, Logistic Regression, cross-validation, UAR |
+| Crosslingual AI | Spanish↔German domain shift and target-language generation |
+| Biomedical AI | PD-versus-HC speech analysis |
+| Audio Analysis | LID, ASR, WER, CER, WIP, spectral/acoustic features |
+| Speaker Analysis | ECAPA-TDNN speaker embeddings and control-pair evaluation |
+| Statistical Analysis | bootstrap inference, Wilcoxon testing, BH-FDR correction |
+| Research Engineering | frozen configs, staged validation, reproducibility manifests |
+| Python | modular experiment pipelines and automated evaluation |
+| Scientific Reporting | error audits, corrected interpretation, figures and formal tables |
+| Data Privacy | private clinical data handling and GitHub exclusion policy |
+
+---
+
+# Professional Context
+
+**Prosenjit Chowdhury**  
+M.Sc. Artificial Intelligence  
+Friedrich-Alexander-Universität Erlangen-Nürnberg  
+Pattern Recognition Lab
+
+GitHub: [github.com/prosenjit-chd](https://github.com/prosenjit-chd)
+
+Research interests include Speech AI, Biomedical AI, Crosslingual AI, Machine Learning, Voice Conversion, Data Analysis, and applied AI systems.
 My SAP experience includes:
 
 | SAP Area | Experience Focus |
@@ -553,31 +1014,14 @@ This project demonstrates skills relevant to AI research, data analysis, busines
 | Data Privacy | local-only medical data handling, GitHub exclusion policy |
 | Documentation | supervisor-ready reports, GitHub README, result summaries |
 | Professional Communication | SAP stakeholder communication, content coordination, structured reporting |
+---
+
+# Final One-Sentence Summary
+
+> **This thesis demonstrates that genuine Spanish–German cross-language speech generation can preserve substantial speaker and Parkinson’s-related information, but also shows that successful language conversion alone is insufficient to guarantee reliable cross-language Parkinson’s disease classification.**
 
 ---
 
-## ⚠️ Limitations
+## Disclaimer
 
-| Limitation | Explanation |
-|---|---|
-| Prototype conversion | The embedding-conditioned conversion is a research prototype, not a production VC system |
-| No language translation | Speech is converted toward acoustic/domain conditions, not translated linguistically |
-| Read-text only | Current experiments focus on read-text speech |
-| Crosslingual improvement limited | Stage 5C did not improve crosslingual-only UAR |
-| Sensitive dataset | Raw speech data cannot be shared publicly |
-| Local reproducibility | Full reproduction requires private data and local checkpoints |
-| Clinical limitation | This is research, not a medical diagnostic system |
-
----
-
-## 📬 Contact
-
-**Prosenjit Chowdhury**  
-M.Sc. Artificial Intelligence  
-Friedrich-Alexander-Universität Erlangen-Nürnberg  
-Pattern Recognition Lab, FAU  
-Working Student at SAP SE  
-
-GitHub: [github.com/prosenjit-chd](https://github.com/prosenjit-chd)
-
-Research interests: Speech AI, Biomedical AI, Machine Learning, Crosslingual AI, Voice Conversion, Data Analysis, Process Automation, and Enterprise AI.
+This repository documents academic research. The models and results presented here are **not intended for clinical diagnosis or medical decision-making**.

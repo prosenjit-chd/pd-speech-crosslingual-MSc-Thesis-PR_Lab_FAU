@@ -1,0 +1,4 @@
+cohort,n_pd,n_hc,pd_dist_to_hc_orig_before_mean,pd_dist_to_hc_orig_after_mean,pd_mean_shift_toward_hc,pct_pd_utterances_closer_to_hc,hc_dist_to_hc_orig_before_mean,hc_dist_to_hc_orig_after_mean,hc_mean_shift_relative_to_centroid,pd_vs_hc_shift_diff,welch_t_stat,p_value_disproportionate_shift,is_pd_disproportionately_normalized
+Overall_Pooled,138,138,7.1817,13.4395,-6.2577,18.12,6.8932,12.8742,-5.981,-0.2768,-0.3998,0.6896134297691923,False
+Spanish_Cohort,50,50,7.3943,8.3405,-0.9461,18.0,6.112,7.5217,-1.4097,0.4636,1.3665,0.1750611834411934,False
+German_Cohort,88,88,6.2385,16.8856,-10.6471,0.0,6.0576,16.2972,-10.2396,-0.4075,-0.598,0.5506053687814411,False

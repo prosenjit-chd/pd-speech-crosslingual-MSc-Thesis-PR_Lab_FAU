@@ -1,0 +1,7 @@
+scenario_group,n_models,uar_original_mean,uar_converted_mean,uar_delta_mean,relative_gap_change_pct,auc_original_mean,auc_converted_mean,acc_original_mean,acc_converted_mean,sens_original_mean,sens_converted_mean,spec_original_mean,spec_converted_mean,paired_t_stat,paired_t_pval,wilcoxon_pval,is_significant_change
+"D.1 Within-Language (Spanish->Spanish, German->German)",48,0.7666,0.8557,0.0892,11.63,0.8227,0.908,0.7666,0.8557,0.754,0.8423,0.7791,0.8692,11.9169,8.30962752407397e-16,6.777680871737089e-09,True
+D.2/D.3 Cross-Language: Spanish -> German,24,0.5992,0.5575,-0.0417,-6.95,0.6699,0.6395,0.5992,0.5575,0.6605,0.8291,0.5379,0.286,-3.9638,0.0006153627290871844,0.0012300328882333992,True
+D.2/D.3 Cross-Language: German -> Spanish,24,0.605,0.575,-0.03,-4.96,0.6975,0.6287,0.605,0.575,0.5392,0.535,0.6708,0.615,-3.1029,0.005013173181166529,0.006347413223483166,True
+D.2/D.3 Pure Cross-Language Pooled (Spanish<->German),48,0.6021,0.5663,-0.0358,-5.95,0.6837,0.6341,0.6021,0.5663,0.5998,0.682,0.6044,0.4505,-5.0358,7.451074451565227e-06,2.448913358652209e-05,True
+Pooled-Multilingual (Combined->Combined),24,0.752,0.8211,0.0691,9.19,0.8156,0.8801,0.752,0.8211,0.76,0.8166,0.744,0.8256,8.4143,1.7844847996824533e-08,3.873211156853177e-05,True
+All Scenarios Combined (120 configurations),120,0.6979,0.733,0.0352,5.04,0.7657,0.7929,0.6979,0.733,0.6935,0.773,0.7022,0.693,5.0679,1.4908515773246834e-06,2.4438570499384244e-06,True

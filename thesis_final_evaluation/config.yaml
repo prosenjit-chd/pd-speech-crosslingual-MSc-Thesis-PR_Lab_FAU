@@ -1,0 +1,38 @@
+project_root: "C:/pd-speech-crosslingual"
+output_root: "C:/pd-speech-crosslingual/thesis_final_evaluation"
+
+# Inputs (Strictly Read-Only)
+metadata_readtext: "C:/pd-speech-crosslingual/metadata/dataset_index_readtext.csv"
+metadata_original_full: "C:/pd-speech-crosslingual/voice_conversion/metadata_full/dataset_index_original_full.csv"
+original_audio_22050_root: "C:/pd-speech-crosslingual/voice_conversion/input_full_22050"
+converted_audio_stage5c_root: "C:/pd-speech-crosslingual/voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/converted_audio_stage5c"
+stage5c_logs_root: "C:/pd-speech-crosslingual/voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/logs_stage5c"
+baseline_outputs_root: "C:/pd-speech-crosslingual/outputs"
+
+# Audio parameters
+target_sample_rate: 22050
+expected_total_files: 276
+expected_spanish_files: 100
+expected_german_files: 176
+expected_hc_files: 138
+expected_pd_files: 138
+
+# General settings
+random_seed: 42
+python_interpreter: "C:/pd-speech-crosslingual/.venv/Scripts/python.exe"
+
+# Model configurations
+whisper_model_name: "base"
+speaker_model_name: "speechbrain/spkrec-ecapa-voxceleb"
+ssl_models:
+  - xlsr
+  - wav2vec2
+  - wavlm
+ssl_layers:
+  - 0
+  - 4
+  - 8
+  - 11
+classifiers:
+  - linear_svm
+  - logistic_regression

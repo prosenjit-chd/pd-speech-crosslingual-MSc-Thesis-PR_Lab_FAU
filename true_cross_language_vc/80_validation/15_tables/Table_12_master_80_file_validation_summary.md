@@ -1,0 +1,12 @@
+| Validation Metric                     | Spanish Cohort    | German Cohort     | Overall                      |
+|:--------------------------------------|:------------------|:------------------|:-----------------------------|
+| Cohort Size                           | 40 (20 HC, 20 PD) | 40 (20 HC, 20 PD) | 80 Subjects (Balanced)       |
+| Synthesis Success Rate                | 100.0% (40/40)    | 100.0% (40/40)    | 100.0% (80/80)               |
+| Audio QC Pass Rate                    | 97.5%             | 95.0%             | 96.2%                        |
+| Target LID Accuracy                   | 100.0%            | 100.0%            | 100.0%                       |
+| Mean WER                              | 0.8130            | 0.1347            | 0.4739                       |
+| Mean WIP                              | 0.4862            | 0.8212            | 0.6537                       |
+| Speaker Sim (Matched vs Ctrl)         | 0.622 vs 0.108    | 0.509 vs 0.108    | 0.565 vs 0.108 (+0.457)      |
+| Pathology Direction Preserved         | -                 | -                 | 68.2% (15/22)                |
+| Acoustic Normalization                | -                 | -                 | NO EVIDENCE OF NORMALIZATION |
+| Cross-Language PD Detection Delta UAR | +0.1375           | -0.1000           | +0.0187                      |

@@ -1,0 +1,14 @@
+| cohort_tag        | language   | diagnosis   |   Count |
+|:------------------|:-----------|:------------|--------:|
+| FULL_COHORT_ONLY  | German     | HC          |      65 |
+| FULL_COHORT_ONLY  | German     | PD          |      65 |
+| FULL_COHORT_ONLY  | Spanish    | HC          |      27 |
+| FULL_COHORT_ONLY  | Spanish    | PD          |      27 |
+| PILOT_DEVELOPMENT | German     | HC          |       3 |
+| PILOT_DEVELOPMENT | German     | PD          |       3 |
+| PILOT_DEVELOPMENT | Spanish    | HC          |       3 |
+| PILOT_DEVELOPMENT | Spanish    | PD          |       3 |
+| VALIDATION_80     | German     | HC          |      20 |
+| VALIDATION_80     | German     | PD          |      20 |
+| VALIDATION_80     | Spanish    | HC          |      20 |
+| VALIDATION_80     | Spanish    | PD          |      20 |

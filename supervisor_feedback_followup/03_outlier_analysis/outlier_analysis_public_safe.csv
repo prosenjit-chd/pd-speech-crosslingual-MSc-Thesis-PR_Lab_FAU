@@ -1,0 +1,4 @@
+safe_label,language,diagnosis,dataset,duration_sec,sample_rate,dist_to_spanish_centroid,dist_to_german_centroid,centroid_preference,prob_german,tsne_5nn_langs
+OUT-ES-01,Spanish,PD,PCGITA,18.3534,22050,1.1854,1.1714,German,0.0043,3 ES / 2 DE
+OUT-DE-01,German,PD,German_Sabine_Skoda,51.6877,22050,3.258,3.3507,Spanish,0.9996,2 ES / 3 DE
+OUT-DE-02,German,PD,German_Sabine_Skoda,120.6857,22050,2.8346,3.0069,Spanish,0.999,4 ES / 1 DE

@@ -1,0 +1,7 @@
+safe_id,WER,CER,WIP,language,P_target,speaker_similarity,duration,clipping
+SP_HC_001.wav,0.8043,0.7167,0.1258,de,0.9619,0.7134,36.2313,False
+SP_HC_002.wav,0.5217,0.4249,0.4485,de,0.934,0.6671,39.0153,False
+SP_HC_003.wav,0.8913,0.7124,0.3216,de,0.9241,0.6244,51.4527,False
+SP_PD_001.wav,0.6087,0.4979,0.3773,de,0.9648,0.6921,41.0953,False
+SP_PD_002.wav,0.9348,0.9356,0.0652,de,0.9678,0.5691,57.298,False
+SP_PD_003.wav,0.5652,0.4077,0.3093,de,0.989,0.5677,51.1113,False

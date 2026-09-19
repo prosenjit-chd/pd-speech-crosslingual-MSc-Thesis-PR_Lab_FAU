@@ -1,0 +1,50 @@
+
+================================================================================
+FINAL SPANISH→GERMAN REFINEMENT CHECKPOINT
+================================================================================
+Best model/configuration: C08 (S3_semantic_4chunk | R2 (15s) | temp=0.65 | rep=3.5 | top_p=0.85 | spd=1.00)
+Chunking method: S3_semantic_4chunk
+Reference-audio method: R2
+
+Target-language accuracy: 6/6 (100% German)
+Mean P(German): 0.9637
+
+Mean WER:
+  Before: 0.7210
+  After:  0.5109
+  Absolute improvement: -0.2101
+  Relative improvement: +29.14%
+
+Median WER:
+  Before: 0.7065
+  After:  0.5109
+
+Mean CER:
+  Before: 0.6159
+  After:  0.4599
+
+Mean WIP:
+  Before: 0.2746
+  After:  0.5579
+
+Mean speaker cosine:
+  Before: 0.6390
+  After:  0.6245
+
+Different-speaker baseline: ~0.35 - 0.40
+Clipped files: 0/6
+Fatal dropout files: 0/6
+
+Pathology direction preservation:
+  Preserved: 15/17 (88.2%)
+  Note: Descriptive only (3 HC vs 3 PD)
+
+Best-performing file:  SP_PD_003 (WER=0.1522, WIP=0.7561)
+Worst-performing file: SP_HC_001 (WER=0.8913, WIP=0.4294)
+
+Main technical improvement: Elimination of 1-word fragment ("Ja.") hallucination loops via cohesive semantic chunking, paired with calibrated temperature (0.55-0.65) and elevated repetition penalty (3.5).
+Remaining limitation: Residual dysarthric speech variability and German compound noun tokenization variance in Whisper ASR.
+
+FINAL DECISION:
+READY FOR 80-FILE VALIDATION
+================================================================================

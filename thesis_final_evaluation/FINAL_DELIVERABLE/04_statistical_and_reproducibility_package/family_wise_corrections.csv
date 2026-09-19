@@ -1,0 +1,10 @@
+hypothesis_family,total_hypotheses_tested,raw_significant_p_lt_0_05,fdr_corrected_significant_q_lt_0_05,family_fdr_retention_pct
+Family 1: Language Disparity & Baseline Gap (Question A),1,1,1,100.0
+Family 1: Acoustic Language Differences (Question A),52,39,38,97.44
+Family 1: Language x Pathology Interactions (Question A),52,12,7,58.33
+Family 2: Feature-Level Domain Movement (Question B),104,60,56,93.33
+Family 2: Frozen Language Classifier Target Shift (Question B),1,1,1,100.0
+Family 3: Converted Pathology Separation (Question C),52,16,12,75.0
+Family 3: Disproportionate Pathology Normalization (Question C),1,0,0,100.0
+Family 4: Conversion Quality & Biometrics,4,3,3,100.0
+Family 5: Cross-Language Classification Synthesis (Question D),4,4,4,100.0

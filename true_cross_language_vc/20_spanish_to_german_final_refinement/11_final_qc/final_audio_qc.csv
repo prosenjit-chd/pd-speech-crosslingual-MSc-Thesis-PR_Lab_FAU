@@ -1,0 +1,7 @@
+safe_id,diagnosis,duration,peak,rms,is_clipped,silence_ratio
+SP_HC_001,HC,49.41,0.95,0.1132,False,0.446
+SP_HC_002,HC,52.7,0.95,0.0975,False,0.492
+SP_HC_003,HC,46.57,0.95,0.1147,False,0.538
+SP_PD_001,PD,48.25,0.95,0.0923,False,0.608
+SP_PD_002,PD,44.17,0.95,0.1303,False,0.585
+SP_PD_003,PD,53.07,0.95,0.0883,False,0.407

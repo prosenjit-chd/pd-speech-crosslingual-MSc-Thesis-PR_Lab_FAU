@@ -1,0 +1,6 @@
+metric,hc_mean,hc_median,hc_sd,pd_mean,pd_median,pd_sd,cohens_d,mann_whitney_u,p_value,systematically_disadvantaged
+Word Error Rate (WER),0.649,0.4056,1.1235,0.5004,0.4836,0.23,-0.183,9548.0,0.9693,False
+Character Error Rate (CER),0.5409,0.3804,0.6259,0.4543,0.4175,0.2244,-0.184,9322.0,0.7635,False
+Word Information Preserved (WIP),0.4742,0.5768,0.2318,0.4627,0.4702,0.2148,-0.052,9109.0,0.5338,False
+LID Target Probability,0.9998,0.9999,0.0003,0.9998,0.9999,0.0004,0.01,9163.5,0.5679,False
+Speaker Cosine Similarity,0.5504,0.5398,0.0794,0.5716,0.565,0.0826,0.261,10908.0,0.0366,False

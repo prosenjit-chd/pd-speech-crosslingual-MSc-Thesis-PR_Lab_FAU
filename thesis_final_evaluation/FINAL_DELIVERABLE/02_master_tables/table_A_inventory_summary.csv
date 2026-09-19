@@ -1,0 +1,6 @@
+Language,Diagnosis,N_Speakers,N_Original_WAVs,N_Stage5C_Converted_WAVs,Conversion_Target,Sampling_Rate_Hz,Corpus_Source
+Spanish (PC-GITA read-text),Healthy Control (HC),50,50,50,German-domain,16000,PC-GITA
+Spanish (PC-GITA read-text),Parkinson's Disease (PD),50,50,50,German-domain,16000,PC-GITA
+German (G-Read read-text),Healthy Control (HC),88,88,88,Spanish-domain,16000,G-Read
+German (G-Read read-text),Parkinson's Disease (PD),88,88,88,Spanish-domain,16000,G-Read
+Total / Pooled,Total (138 HC / 138 PD),276,276,276,Cross-Language Bidirectional,16000,Unified Inventory

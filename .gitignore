@@ -1,142 +1,469 @@
-# Python
+# ============================================================
+# .gitignore — pd-speech-crosslingual
+# Purpose: keep ONLY source code, configs, safe docs/reports,
+# aggregate tables/figures, and reproducibility metadata in Git.
+# Never commit environments, raw/private medical data, audio,
+# generated experiment outputs, checkpoints, embeddings, or caches.
+# ============================================================
+
+
+# ============================================================
+# 1) PYTHON / ENVIRONMENTS / PACKAGE CACHES
+# ============================================================
 __pycache__/
+**/__pycache__/
 *.py[cod]
+*.pyo
+*.pyd
+*.so
+
 .venv/
 venv/
-.env
+env/
+ENV/
+env_*/
+*env*/
+**/.venv/
+**/venv/
+**/env/
+**/ENV/
+**/env_*/
+**/*env*/
 
-# Private medical/audio datasets
-input/
-data/
+# Explicit thesis environments
+true_cross_language_vc/env_xtts/
+true_cross_language_vc/**/env_xtts/
+voice_conversion/**/hifigan_env/
+voice_conversion/**/env_*/
+
+# Extra protection against accidentally tracking installed packages
+site-packages/
+**/site-packages/
+Lib/site-packages/
+**/Lib/site-packages/
+
+# Python tooling/cache
+.pytest_cache/
+**/.pytest_cache/
+.mypy_cache/
+**/.mypy_cache/
+.ruff_cache/
+**/.ruff_cache/
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+.coverage
+coverage.xml
+htmlcov/
+pip-wheel-metadata/
+build/
+dist/
+*.egg-info/
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+
+# ============================================================
+# 2) IDE / OS / LOCAL WORKSPACE FILES
+# ============================================================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*.lock
+~$*
+powershell.cmd
+task.md
+
+
+# ============================================================
+# 3) PRIVATE MEDICAL / AUDIO DATA
+# NEVER COMMIT AUDIO
+# ============================================================
 *.wav
 *.mp3
 *.m4a
 *.flac
 *.aac
 *.ogg
-*.xlsx
+*.wma
+*.opus
 
+# Generic private-data folders
+data/
+dataset/
+datasets/
+raw/
+private/
+private_data/
+clinical_data/
+audio/
+audios/
+
+**/data/
+**/dataset/
+**/datasets/
+**/raw/
+**/private/
+**/private_data/
+**/clinical_data/
+**/audio/
+**/audios/
+
+
+# ============================================================
+# 4) ALL INPUT FOLDERS
+# User requirement: no input folders on Git
+# ============================================================
+input/
+inputs/
+input_*/
+inputs_*/
+*_input/
+*_inputs/
+
+**/input/
+**/inputs/
+**/input_*/
+**/inputs_*/
+**/*_input/
+**/*_inputs/
+
+# Reference/source speaker audio
+speaker_references/
+references_audio/
+reference_audio/
+**/speaker_references/
+**/references_audio/
+**/reference_audio/
+
+
+# ============================================================
+# 5) ALL OUTPUT / GENERATED EXPERIMENT FOLDERS
+# User requirement: no output folders on Git
+# ============================================================
+output/
+outputs/
+generated/
+results/
+synthesis/
+synthesized/
+converted_audio/
+converted_mels/
+reconstructed_audio/
+audio_outputs/
+
+output_*/
+outputs_*/
+generated_*/
+results_*/
+synthesis_*/
+synthesized_*/
+
+*_output/
+*_outputs/
+*_generated/
+*_results/
+
+**/output/
+**/outputs/
+**/generated/
+**/results/
+**/synthesis/
+**/synthesized/
+**/converted_audio/
+**/converted_mels/
+**/reconstructed_audio/
+**/audio_outputs/
+
+**/output_*/
+**/outputs_*/
+**/generated_*/
+**/results_*/
+**/synthesis_*/
+**/synthesized_*/
+
+**/*_output/
+**/*_outputs/
+**/*_generated/
+**/*_results/
+
+
+# ============================================================
+# 6) PRIVATE METADATA / DATASET INDEXES
+# ============================================================
+metadata/
+metadata_*/
+*_metadata/
+
+**/metadata/
+**/metadata_*/
+**/*_metadata/
+
+private_metadata/
+**/private_metadata/
+cohort_private/
+**/cohort_private/
+
+
+# ============================================================
+# 7) FEATURES / EMBEDDINGS / INTERMEDIATE ARRAYS
+# ============================================================
+features/
+embeddings/
+feature_cache/
+embedding_cache/
+
+**/features/
+**/features_*/
+**/*_features/
+**/embeddings/
+**/embedding/
+**/embeddings_*/
+**/*_embeddings/
+**/feature_cache/
+**/embedding_cache/
+
+**/source_embeddings*/
+**/target_domain_embeddings*/
+**/speaker_embeddings*/
+**/ssl_embeddings*/
+
+*.npy
+*.npz
+*.pkl
+*.pickle
+*.joblib
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+
+# ============================================================
+# 8) MODEL CHECKPOINTS / DOWNLOADED MODELS
+# ============================================================
 checkpoints/
 models/
+model_cache/
+pretrained_models/
 
-# OS/editor
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
+**/checkpoints/
+**/models/
+**/model_cache/
+**/pretrained_models/
+
+# Hugging Face / Torch / TTS caches
+.cache/
+**/.cache/
+huggingface/
+**/huggingface/
+torch_cache/
+**/torch_cache/
+tts_models/
+**/tts_models/
+
+
+# ============================================================
+# 9) LARGE / PRIVATE TABLES AND DATABASES
+# ============================================================
+*.xlsx
+*.xls
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.db
+*.sqlite
+*.sqlite3
 
 # Excel temporary files
 ~$*.xlsx
 
-# Voice Conversion Baseline
-features/
 
-# HiFi-GAN repo/checkpoints
+# ============================================================
+# 10) LOGS / RUNTIME FILES
+# ============================================================
+*.log
+*.jsonl
+
+logs/
+logs_*/
+*_logs/
+
+**/logs/
+**/logs_*/
+**/*_logs/
+
+
+# ============================================================
+# 11) ARCHIVES / EXPORTS
+# ============================================================
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+
+
+# ============================================================
+# 12) HIFI-GAN LOCAL REPOSITORY / CHECKPOINTS
+# ============================================================
 voice_conversion/checkpoints/
 voice_conversion/hifi-gan/
+voice_conversion/**/hifigan_env/
+
 
 # ============================================================
-# Metadata / private dataset index
+# 13) HIFI-GAN RECONSTRUCTION — PRIVATE / GENERATED
 # ============================================================
-metadata/
-
-# ============================================================
-# Additional model / feature / binary artifacts
-# ============================================================
-*.npz
-*.joblib
-*.bin
-*.safetensors
-
-# ============================================================
-# HiFi-GAN Reconstruction Stage 4: Full 276-file dataset
-# ============================================================
+voice_conversion/input_pilot/
+voice_conversion/input_pilot_22050/
+voice_conversion/input_subset_80/
+voice_conversion/input_subset_80_22050/
 voice_conversion/input_full/
 voice_conversion/input_full_22050/
+
+voice_conversion/generated/
+voice_conversion/generated_subset_80/
 voice_conversion/generated_full/
+
+voice_conversion/metadata_generated_pilot/
+voice_conversion/metadata_subset_80/
 voice_conversion/metadata_full/
+
+voice_conversion/features_generated_pilot/
+voice_conversion/features_original_pilot/
+voice_conversion/features_original_subset_80/
+voice_conversion/features_generated_subset_80/
 voice_conversion/features_original_full/
 voice_conversion/features_generated_full/
+
+voice_conversion/outputs_generated_pilot/
+voice_conversion/outputs_original_pilot/
+voice_conversion/outputs_original_subset_80/
+voice_conversion/outputs_generated_subset_80/
 voice_conversion/outputs_original_full/
 voice_conversion/outputs_generated_full/
 
+
 # ============================================================
-# Temporary local files
+# 14) EARLIER EMBEDDING-CONDITIONED ACOUSTIC-DOMAIN PROTOTYPE
+# Keep scripts/config/report source files; ignore data/intermediates.
 # ============================================================
-powershell.cmd
-task.md
-
-# Voice Conversion Stage 1-2 pilot files
-voice_conversion/input_pilot/
-voice_conversion/input_pilot_22050/
-voice_conversion/generated/
-
-voice_conversion/**/*.pt
-voice_conversion/**/*.pth
-voice_conversion/**/*.ckpt
-voice_conversion/**/*.npy
-voice_conversion/**/*.pkl
-voice_conversion/**/*.jsonl
-voice_conversion/**/*.log
-
-# Pilot-related output folders
-voice_conversion/features_generated_pilot/
-voice_conversion/features_original_pilot/
-voice_conversion/metadata_generated_pilot/
-voice_conversion/outputs_generated_pilot/
-voice_conversion/outputs_original_pilot/
-
-# Voice conversion Stage 3 large/generated files
-voice_conversion/input_subset_80/
-voice_conversion/input_subset_80_22050/
-voice_conversion/generated_subset_80/
-voice_conversion/metadata_subset_80/
-voice_conversion/features_original_subset_80/
-voice_conversion/features_generated_subset_80/
-voice_conversion/outputs_original_subset_80/
-voice_conversion/outputs_generated_subset_80/
-
-# Voice Conversion Stage 5 generated/intermediate outputs
+voice_conversion/stage5_embedding_conditioned_vc/input_pilot_12/
 voice_conversion/stage5_embedding_conditioned_vc/converted_german_to_spanish/
 voice_conversion/stage5_embedding_conditioned_vc/converted_spanish_to_german/
 voice_conversion/stage5_embedding_conditioned_vc/converted_mels_stage5/
 voice_conversion/stage5_embedding_conditioned_vc/features_converted_stage5/
 voice_conversion/stage5_embedding_conditioned_vc/features_original_stage5/
-voice_conversion/stage5_embedding_conditioned_vc/input_pilot_12/
 voice_conversion/stage5_embedding_conditioned_vc/outputs_converted_stage5/
 voice_conversion/stage5_embedding_conditioned_vc/outputs_original_stage5/
 voice_conversion/stage5_embedding_conditioned_vc/source_embeddings/
 voice_conversion/stage5_embedding_conditioned_vc/target_domain_embeddings/
 
-# Stage 5A-Refinement intermediate/large folders
+# Parameter refinement
+voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/input_pilot_12_refinement/
 voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/converted_audio_refinement/
 voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/converted_mels_refinement/
 voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/features_converted_refinement/
 voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/features_original_refinement/
-voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/input_pilot_12_refinement/
 voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/outputs_converted_refinement/
 voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/outputs_original_refinement/
 voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/source_embeddings_refinement/
 voice_conversion/stage5_embedding_conditioned_vc/stage5a_refinement/target_domain_embeddings_refinement/
 
-# Stage 5B intermediate/large folders
+# 80-file prototype evaluation
+voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/input_subset_80_stage5b/
 voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/converted_audio_stage5b/
 voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/converted_mels_stage5b/
 voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/features_converted_stage5b/
 voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/features_original_stage5b/
-voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/input_subset_80_stage5b/
 voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/outputs_converted_stage5b/
 voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/outputs_original_stage5b/
 voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/source_embeddings_stage5b/
 voice_conversion/stage5_embedding_conditioned_vc/stage5b_subset_80/target_domain_embeddings_stage5b/
 
-# Stage 5C intermediate/large folders
+# Full 276 prototype evaluation
+voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/input_full_276_stage5c/
 voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/converted_audio_stage5c/
 voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/converted_mels_stage5c/
 voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/features_converted_stage5c/
 voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/features_original_stage5c/
-voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/input_full_276_stage5c/
 voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/outputs_converted_stage5c/
 voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/outputs_original_stage5c/
 voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/source_embeddings_stage5c/
 voice_conversion/stage5_embedding_conditioned_vc/stage5c_full_276/target_domain_embeddings_stage5c/
+
+
+# ============================================================
+# 15) TRUE CROSS-LANGUAGE VC — PRIVATE / GENERATED
+# Keep scripts, configs, safe reports/tables/figures/reproducibility.
+# ============================================================
+
+# Environments
+true_cross_language_vc/env_xtts/
+true_cross_language_vc/**/env_xtts/
+true_cross_language_vc/**/.venv/
+true_cross_language_vc/**/venv/
+true_cross_language_vc/**/env/
+true_cross_language_vc/**/ENV/
+true_cross_language_vc/**/env_*/
+
+# Input/reference audio
+true_cross_language_vc/**/input/
+true_cross_language_vc/**/inputs/
+true_cross_language_vc/**/input_*/
+true_cross_language_vc/**/speaker_references/
+true_cross_language_vc/**/references_audio/
+true_cross_language_vc/**/reference_audio/
+
+# Generated/synthesized audio
+true_cross_language_vc/**/generated/
+true_cross_language_vc/**/generated_*/
+true_cross_language_vc/**/synthesis/
+true_cross_language_vc/**/synthesized/
+true_cross_language_vc/**/converted_audio/
+true_cross_language_vc/**/audio_outputs/
+
+# Embeddings/features/intermediates
+true_cross_language_vc/**/embeddings/
+true_cross_language_vc/**/features/
+true_cross_language_vc/**/*_embeddings/
+true_cross_language_vc/**/*_features/
+
+# Private metadata
+true_cross_language_vc/**/metadata/
+true_cross_language_vc/**/private_metadata/
+true_cross_language_vc/**/cohort_private/
+
+# Explicit full 276 generated audio
+true_cross_language_vc/22_full_276_evaluation/06_synthesis/
+
+# Listening audio stays private
+true_cross_language_vc/22_full_276_evaluation/18_listening_examples/
+
+
+# ============================================================
+# 16) KEEP SAFE PROJECT FILES
+# ============================================================
+!README.md
+!.gitignore
+!requirements.txt
+!.env.example
+
+# Safe source/documentation formats remain trackable by default:
+# *.py, *.md, *.txt, *.yaml, *.yml, *.toml, *.json, *.csv, *.png, *.pdf
+# unless they are inside an ignored private/input/output/environment folder.

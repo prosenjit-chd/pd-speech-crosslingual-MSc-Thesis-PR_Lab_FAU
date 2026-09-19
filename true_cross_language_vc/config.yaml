@@ -1,0 +1,37 @@
+project:
+  name: "True Cross-Language Voice Conversion for Parkinson's Disease Speech Analysis"
+  institution: "Friedrich-Alexander-Universitaet Erlangen-Nuernberg, Pattern Recognition Lab"
+  student: "Prosenjit Chowdhury"
+  root_dir: "C:/pd-speech-crosslingual"
+  workspace_dir: "C:/pd-speech-crosslingual/true_cross_language_vc"
+
+data:
+  total_recordings: 276
+  spanish_total: 100
+  spanish_hc: 50
+  spanish_pd: 50
+  german_total: 176
+  german_hc: 88
+  german_pd: 88
+  target_sample_rate: 24000
+  target_channels: 1
+
+pilot_12:
+  spanish_hc: 3
+  spanish_pd: 3
+  german_hc: 3
+  german_pd: 3
+  total: 12
+
+models:
+  tts_engine: "XTTS-v2"
+  tts_checkpoint: "tts_models/multilingual/multi-dataset/xtts_v2"
+  device: "cpu"
+  speaker_encoder: "speechbrain/spkrec-ecapa-voxceleb"
+  asr_model: "openai/whisper-base"
+  lid_model: "speechbrain/lang-id-voxlingua107-ecapa"
+  random_seed: 42
+
+thresholds:
+  min_target_language_id_accuracy: 0.90
+  max_peak_amplitude: 1.0

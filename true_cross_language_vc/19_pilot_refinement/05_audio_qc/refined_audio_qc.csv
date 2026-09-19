@@ -1,0 +1,13 @@
+safe_id,direction,diagnosis,duration,sample_rate,channels,peak_amplitude,rms_amplitude,is_clipped,has_nan_inf,silence_ratio,qc_status
+SP_HC_001.wav,Spanish->German,HC,36.2313,24000,1,0.95,0.1295,False,False,0.5735,PASSED
+SP_HC_002.wav,Spanish->German,HC,39.0153,24000,1,0.95,0.0964,False,False,0.6013,PASSED
+SP_HC_003.wav,Spanish->German,HC,51.4527,24000,1,0.95,0.1307,False,False,0.5675,PASSED
+SP_PD_001.wav,Spanish->German,PD,41.0953,24000,1,0.95,0.1054,False,False,0.6055,PASSED
+SP_PD_002.wav,Spanish->German,PD,57.298,24000,1,0.95,0.1131,False,False,0.7031,PASSED
+SP_PD_003.wav,Spanish->German,PD,51.1113,24000,1,0.95,0.0988,False,False,0.6875,PASSED
+DE_HC_001.wav,German->Spanish,HC,40.406,24000,1,0.95,0.1595,False,False,0.2576,PASSED
+DE_HC_002.wav,German->Spanish,HC,38.8593,24000,1,0.95,0.1744,False,False,0.2741,PASSED
+DE_HC_003.wav,German->Spanish,HC,37.9313,24000,1,0.95,0.1589,False,False,0.2971,PASSED
+DE_PD_001.wav,German->Spanish,PD,38.358,24000,1,0.95,0.1358,False,False,0.3074,PASSED
+DE_PD_002.wav,German->Spanish,PD,46.614,24000,1,0.95,0.1492,False,False,0.4281,PASSED
+DE_PD_003.wav,German->Spanish,PD,46.7953,24000,1,0.95,0.1513,False,False,0.337,PASSED

@@ -1,0 +1,4 @@
+safe_label,source_filename,speaker_internal_id,feature_speaker_id,language,diagnosis,dataset,full_path
+OUT-ES-01,SP_PD_035.wav,AVPEPUDEA0043,AVPEPUDEA0043,Spanish,PD,PCGITA,C:/pd-speech-crosslingual/voice_conversion/input_full_22050\SP_PD_035.wav
+OUT-DE-01,DE_PD_024.wav,059,059.u2.02,German,PD,German_Sabine_Skoda,C:/pd-speech-crosslingual/voice_conversion/input_full_22050\DE_PD_024.wav
+OUT-DE-02,DE_PD_088.wav,193,193.u2.02,German,PD,German_Sabine_Skoda,C:/pd-speech-crosslingual/voice_conversion/input_full_22050\DE_PD_088.wav

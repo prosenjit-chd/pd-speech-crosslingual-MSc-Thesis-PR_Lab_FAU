@@ -1,0 +1,6 @@
+| classifier          | scenario                                          | training_language   | test_domain       |   uar |   ci_95_low |   ci_95_high |   sensitivity |   specificity |   tn |   fp |   fn |   tp |   best_C |
+|:--------------------|:--------------------------------------------------|:--------------------|:------------------|------:|------------:|-------------:|--------------:|--------------:|-----:|-----:|-----:|-----:|---------:|
+| linear_svm          | Generated True Cross-Language (Spanish in German) | German              | Generated German  | 0.625 |      0.4749 |       0.7674 |          0.65 |          0.6  |   12 |    8 |    7 |   13 |     0.01 |
+| linear_svm          | Generated True Cross-Language (German in Spanish) | Spanish             | Generated Spanish | 0.425 |      0.2903 |       0.5632 |          0.2  |          0.65 |   13 |    7 |   16 |    4 |     0.01 |
+| logistic_regression | Generated True Cross-Language (Spanish in German) | German              | Generated German  | 0.65  |      0.5012 |       0.7812 |          0.7  |          0.6  |   12 |    8 |    6 |   14 |     1    |
+| logistic_regression | Generated True Cross-Language (German in Spanish) | Spanish             | Generated Spanish | 0.525 |      0.4271 |       0.6253 |          0.15 |          0.9  |   18 |    2 |   17 |    3 |     0.1  |

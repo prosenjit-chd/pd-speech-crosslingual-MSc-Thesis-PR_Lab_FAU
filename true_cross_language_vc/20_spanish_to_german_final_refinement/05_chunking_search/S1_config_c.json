@@ -1,0 +1,14 @@
+{
+  "strategy_id": "S1_config_c",
+  "description": "Original Config C 6-segment baseline (contains 1-word fragment 'Ja.')",
+  "passed_qc": false,
+  "rejection_reasons": "Contains one-word fragment(s); Chunk 5 lacks a recognized finite verb",
+  "chunks": [
+    "Gestern ging ich zum Arzt.",
+    "Was fehlt Ihnen? fragte er mich.",
+    "Ich sagte: Ach Herr Doktor, wo immer ich den Finger hinlege, tut es weh!",
+    "Haben Sie einen gebrochenen Nagel?",
+    "Ja.",
+    "Nun, dann wissen wir ja, was es ist! Geben Sie Ihren Scheck am Ausgang ab."
+  ]
+}

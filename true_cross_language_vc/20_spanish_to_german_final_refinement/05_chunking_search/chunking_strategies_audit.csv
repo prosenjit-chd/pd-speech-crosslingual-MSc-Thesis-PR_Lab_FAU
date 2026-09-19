@@ -1,0 +1,7 @@
+strategy_id,description,num_chunks,total_words,exact_word_match,has_one_word_fragment,passed_qc,rejection_reasons
+S1_config_c,Original Config C 6-segment baseline (contains 1-word fragment 'Ja.'),6,46,True,True,False,Contains one-word fragment(s); Chunk 5 lacks a recognized finite verb
+S1_sentence,Clean sentence-level splitting with dialogue interjection merge (no 1-word fragment),6,46,True,False,True,NONE
+S1_dialogue_q,Sentence-level splitting with question-response coupling (Ja coupled to prompt),6,46,True,False,True,NONE
+S2_clause,Sentence + clause-level splitting at natural grammatical boundaries,7,46,True,False,True,NONE
+S3_semantic_4chunk,Balanced 4-chunk semantic grouping targeting 8-15 words per chunk,4,46,True,False,True,NONE
+S3_semantic_3chunk,Balanced 3-chunk macro semantic units (11-18 words per chunk),3,46,True,False,True,NONE

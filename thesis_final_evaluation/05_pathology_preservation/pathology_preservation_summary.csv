@@ -1,0 +1,4 @@
+cohort,total_features,evaluable_features_d_gte_0_10,preserved_stable_count,attenuated_count,exaggerated_count,sign_reversed_count,negligible_baseline_count,sign_preservation_rate_pct,mean_abs_cohens_d_orig,mean_abs_cohens_d_conv,mean_preservation_ratio,significant_fdr_orig_count,significant_fdr_conv_count,significant_retained_count
+Overall_Pooled,52,32,10,12,1,9,20,69.23,0.2105,0.1998,0.3074,14,12,8
+Spanish_Cohort,52,42,11,10,12,9,10,75.0,0.3005,0.3121,0.6735,6,9,5
+German_Cohort,52,37,10,14,2,11,15,69.23,0.2731,0.2076,0.3308,17,6,4

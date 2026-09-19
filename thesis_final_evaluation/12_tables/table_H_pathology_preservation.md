@@ -1,0 +1,25 @@
+### Table H: Parkinson's Pathology Effect Size Retention and Preservation Categories
+
+| Acoustic Feature        |   Original Cohen's d |   Converted Cohen's d |   Delta Cohen's d |   Preservation Ratio (R) | Preservation Category   | Sign Preserved?   |
+|:------------------------|---------------------:|----------------------:|------------------:|-------------------------:|:------------------------|:------------------|
+| hnr_hpss_db             |               0.7099 |                0.3553 |           -0.3546 |                   0.5005 | ATTENUATED              | True              |
+| f0_range_robust_hz      |              -0.6735 |               -0.5469 |            0.1266 |                   0.812  | PRESERVED_STABLE        | True              |
+| f0_cv                   |              -0.6269 |               -0.3161 |            0.3108 |                   0.5042 | ATTENUATED              | True              |
+| f0_std_hz               |              -0.5971 |               -0.4466 |            0.1505 |                   0.7479 | ATTENUATED              | True              |
+| mfcc_5_std              |              -0.5439 |               -0.577  |           -0.0331 |                   1.0609 | PRESERVED_STABLE        | True              |
+| mfcc_3_std              |              -0.5436 |               -0.5782 |           -0.0346 |                   1.0636 | PRESERVED_STABLE        | True              |
+| jitter_local_proxy      |              -0.5436 |               -0.4727 |            0.0709 |                   0.8696 | PRESERVED_STABLE        | True              |
+| rms_std                 |               0.4588 |               -0.0591 |           -0.5179 |                  -0.1288 | SIGN_REVERSED           | False             |
+| mfcc_4_std              |              -0.4316 |               -0.3058 |            0.1258 |                   0.7085 | ATTENUATED              | True              |
+| mean_pause_duration_sec |               0.3776 |                0.0917 |           -0.2859 |                   0.2428 | ATTENUATED              | True              |
+| mfcc_11_mean            |              -0.3728 |               -0.0562 |            0.3166 |                   0.1508 | ATTENUATED              | True              |
+| mfcc_6_std              |              -0.3419 |               -0.2882 |            0.0537 |                   0.8429 | PRESERVED_STABLE        | True              |
+| mfcc_7_std              |              -0.3072 |               -0.3283 |           -0.0211 |                   1.0687 | PRESERVED_STABLE        | True              |
+| mfcc_12_mean            |              -0.2936 |               -0.195  |            0.0986 |                   0.6642 | ATTENUATED              | True              |
+| voiced_segment_rate_hz  |              -0.2868 |               -0.175  |            0.1118 |                   0.6102 | ATTENUATED              | True              |
+| mfcc_2_std              |              -0.2856 |               -0.3287 |           -0.0431 |                   1.1509 | PRESERVED_STABLE        | True              |
+| rms_mean                |               0.2818 |               -0.1281 |           -0.4099 |                  -0.4546 | SIGN_REVERSED           | False             |
+| mfcc_3_mean             |               0.2708 |               -0.0526 |           -0.3234 |                  -0.1942 | SIGN_REVERSED           | False             |
+| mfcc_9_mean             |              -0.2689 |               -0.1373 |            0.1316 |                   0.5106 | ATTENUATED              | True              |
+| num_pauses              |              -0.2301 |               -0.0556 |            0.1745 |                   0.2416 | ATTENUATED              | True              |
+

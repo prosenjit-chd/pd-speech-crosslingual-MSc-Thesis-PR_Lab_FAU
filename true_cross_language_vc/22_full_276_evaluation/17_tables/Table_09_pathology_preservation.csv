@@ -1,0 +1,10 @@
+direction,preservation_status,Feature_Count
+Combined,ATTENUATED,5
+Combined,PRESERVED,22
+Combined,REVERSED,17
+German -> Spanish,ATTENUATED,9
+German -> Spanish,PRESERVED,22
+German -> Spanish,REVERSED,13
+Spanish -> German,ATTENUATED,3
+Spanish -> German,PRESERVED,25
+Spanish -> German,REVERSED,16
