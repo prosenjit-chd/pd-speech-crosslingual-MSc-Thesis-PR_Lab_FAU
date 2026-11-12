@@ -1,5 +1,0 @@
-source_language,diagnosis,Accuracy,Mean_Target_P,Median_Target_P,Accuracy_Pct
-German,HC,1.0,0.9999511363636363,1.0,100.0
-German,PD,0.9886363636363636,0.99995,1.0,98.86363636363636
-Spanish,HC,1.0,0.999628,0.9998,100.0
-Spanish,PD,1.0,0.99964,0.9998,100.0

@@ -1,4 +1,0 @@
-subset,orig_target_lang_acc,ref_target_lang_acc,orig_mean_wer,ref_mean_wer,orig_median_wer,ref_median_wer,orig_mean_cer,ref_mean_cer,orig_mean_wip,ref_mean_wip,orig_mean_spk_sim,ref_mean_spk_sim,orig_failed_files,ref_failed_files,orig_clipped_files,ref_clipped_files
-Spanish->German,83.3,100.0,0.6486,0.721,0.75,0.7065,0.5772,0.6159,0.3474,0.2746,0.6541,0.639,3,0,0,0
-German->Spanish,100.0,100.0,0.2959,0.4389,0.2584,0.2889,0.2862,0.4341,0.6812,0.5454,0.5815,0.5757,0,0,0,0
-Overall (12 Files),91.7,100.0,0.4722,0.5799,0.3687,0.587,0.4317,0.525,0.5143,0.41,0.6178,0.6073,3,0,0,0

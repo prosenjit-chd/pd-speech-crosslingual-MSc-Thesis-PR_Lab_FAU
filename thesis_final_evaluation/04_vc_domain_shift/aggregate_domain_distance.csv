@@ -1,3 +1,0 @@
-conversion_direction,n_samples,euclidean_dist_before_mean,euclidean_dist_after_mean,euclidean_dist_movement,euclidean_pct_closer,centroid_dist_before,centroid_dist_after,centroid_dist_reduction,mahalanobis_dist_before_mean,mahalanobis_dist_after_mean,mahalanobis_movement,mahalanobis_pct_closer
-Spanish->German-domain,100,9.2612,9.3192,-0.058,51.0,6.4131,7.2887,-0.8756,19.2752,28.622,-9.3467,15.0
-German->Spanish-domain,176,8.8649,15.6827,-6.8178,2.84,6.4131,14.5115,-8.0984,22.6295,37.5128,-14.8833,4.55

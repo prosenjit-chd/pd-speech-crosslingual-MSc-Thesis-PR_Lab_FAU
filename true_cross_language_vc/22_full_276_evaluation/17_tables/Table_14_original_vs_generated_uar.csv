@@ -1,5 +1,0 @@
-direction,classifier,within_language_uar,original_crosslanguage_uar,generated_crosslanguage_uar,absolute_delta_uar,relative_improvement_pct,nominal_p_value,fdr_q_value
-Spanish -> German,Linear SVM,0.733,0.6,0.64,0.04,6.67,0.248,0.992
-German -> Spanish,Linear SVM,0.83,0.5909,0.5455,-0.0455,-7.69,0.885,1.0
-Spanish -> German,Logistic Regression,0.7614,0.66,0.71,0.05,7.58,0.173,0.992
-German -> Spanish,Logistic Regression,0.85,0.6193,0.5341,-0.0852,-13.76,1.0,1.0

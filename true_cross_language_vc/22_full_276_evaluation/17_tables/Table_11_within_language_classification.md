@@ -1,6 +1,0 @@
-| training_language   | classifier          |   within_language_uar |
-|:--------------------|:--------------------|----------------------:|
-| German              | Linear SVM          |                0.733  |
-| Spanish             | Linear SVM          |                0.83   |
-| German              | Logistic Regression |                0.7614 |
-| Spanish             | Logistic Regression |                0.85   |

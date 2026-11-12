@@ -1,9 +1,0 @@
-set,direction,training_language,classifier,n_eval,within_language_uar,original_crosslanguage_uar,generated_crosslanguage_uar,absolute_delta_uar,relative_improvement_pct,ci_95_low,ci_95_high,nominal_p_value,fdr_q_value,statistically_significant_after_fdr,nominally_significant
-Set A: Full Cohort,Spanish -> German,German,Linear SVM,100,0.733,0.6,0.64,0.04,6.67,-0.0656,0.1457,0.248,0.992,False,False
-Set A: Full Cohort,German -> Spanish,Spanish,Linear SVM,176,0.83,0.5909,0.5455,-0.0455,-7.69,-0.1169,0.0239,0.885,1.0,False,False
-Set A: Full Cohort,Spanish -> German,German,Logistic Regression,100,0.7614,0.66,0.71,0.05,7.58,-0.0497,0.1475,0.173,0.992,False,False
-Set A: Full Cohort,German -> Spanish,Spanish,Logistic Regression,176,0.85,0.6193,0.5341,-0.0852,-13.76,-0.1457,-0.0338,1.0,1.0,False,False
-Set B: Development-Excluded,Spanish -> German,German,Linear SVM,94,0.7176,0.6489,0.6277,-0.0213,-3.28,-0.145,0.0948,0.641,1.0,False,False
-Set B: Development-Excluded,German -> Spanish,Spanish,Linear SVM,170,0.7979,0.5529,0.5412,-0.0118,-2.13,-0.075,0.0546,0.621,1.0,False,False
-Set B: Development-Excluded,Spanish -> German,German,Logistic Regression,94,0.7588,0.7128,0.6702,-0.0426,-5.97,-0.1499,0.0487,0.814,1.0,False,False
-Set B: Development-Excluded,German -> Spanish,Spanish,Logistic Regression,170,0.8191,0.6353,0.5647,-0.0706,-11.11,-0.1316,-0.0058,0.986,1.0,False,False

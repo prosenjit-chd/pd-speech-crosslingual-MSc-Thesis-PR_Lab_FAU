@@ -1,6 +1,0 @@
-| direction         | classifier          |   original_crosslanguage_uar |
-|:------------------|:--------------------|-----------------------------:|
-| Spanish -> German | Linear SVM          |                       0.6    |
-| German -> Spanish | Linear SVM          |                       0.5909 |
-| Spanish -> German | Logistic Regression |                       0.66   |
-| German -> Spanish | Logistic Regression |                       0.6193 |

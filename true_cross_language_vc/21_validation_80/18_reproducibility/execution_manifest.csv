@@ -1,9 +1,0 @@
-Step,Description,Status
-00_preflight,ECAPA-TDNN Speaker Control Baseline Verification,SUCCESS
-01_selection,Cohort Selection of 80 Out-of-Sample Recordings,SUCCESS
-02_transcripts_and_refs,"Source Transcripts, Translations & Reference Extraction",SUCCESS
-03_synthesis,"Autonomous XTTS-v2 Synthesis (40 ES->DE, 40 DE->ES)",SUCCESS
-04_qc_lid_asr_spk,"Audio QC, Whisper LID, Whisper ASR & ECAPA-TDNN Similarity",SUCCESS
-05_pathology_and_norm,"19 Feature Extraction, Preservation Analysis & Centroid Shift",SUCCESS
-06_pd_classification,Frozen Baseline XLSR-53 L11 Classification & Statistical Tests,SUCCESS
-07_figures_tables_repro,"Figures 1-11, Tables 1-12, Listening Package & Reproducibility",SUCCESS

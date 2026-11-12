@@ -1,7 +1,0 @@
-safe_id,diagnosis,LID_before,LID_after,P_de_before,P_de_after,WER_before,WER_after,WER_abs_change,WER_rel_improvement_pct,CER_before,CER_after,WIP_before,WIP_after,WIP_abs_change,Similarity_before,Similarity_after,Duration_before,Duration_after,Clipping_before,Clipping_after
-SP_HC_001,HC,de,de,0.9619,0.9351,0.8043,0.8913,0.087,-10.82,0.7167,0.9013,0.1258,0.4294,0.3036,0.7134,0.6975,36.2313,49.41,False,False
-SP_HC_002,HC,de,de,0.934,0.9299,0.5217,0.8261,0.3044,-58.35,0.4249,0.7725,0.4485,0.4854,0.0369,0.6671,0.658,39.0153,52.7,False,False
-SP_HC_003,HC,de,de,0.9241,0.9731,0.8913,0.6957,-0.1956,21.95,0.7124,0.6609,0.3216,0.2663,-0.0553,0.6244,0.6466,51.4527,46.57,False,False
-SP_PD_001,PD,de,de,0.9648,0.9779,0.6087,0.3261,-0.2826,46.43,0.4979,0.2318,0.3773,0.6644,0.2871,0.6921,0.6671,41.0953,48.25,False,False
-SP_PD_002,PD,de,de,0.9678,0.9828,0.9348,0.1739,-0.7609,81.4,0.9356,0.103,0.0652,0.7458,0.6806,0.5691,0.5864,57.298,44.17,False,False
-SP_PD_003,PD,de,de,0.989,0.9835,0.5652,0.1522,-0.413,73.07,0.4077,0.0901,0.3093,0.7561,0.4468,0.5677,0.4912,51.1113,53.07,False,False

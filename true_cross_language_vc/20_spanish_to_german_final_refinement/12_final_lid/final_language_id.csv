@@ -1,7 +1,0 @@
-safe_id,diagnosis,predicted_language,p_german,is_german
-SP_HC_001,HC,de,0.9351,True
-SP_HC_002,HC,de,0.9299,True
-SP_HC_003,HC,de,0.9731,True
-SP_PD_001,PD,de,0.9779,True
-SP_PD_002,PD,de,0.9828,True
-SP_PD_003,PD,de,0.9835,True

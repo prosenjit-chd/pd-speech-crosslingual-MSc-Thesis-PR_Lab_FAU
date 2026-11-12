@@ -1,4 +1,0 @@
-exists,sample_rate,channels,duration,rms,clipping_count,voicing_ratio,nan_inf,safe_label,source_filename,language,diagnosis
-True,22050,1,18.3534,0.1428,2,0.7668,False,OUT-ES-01,SP_PD_035.wav,Spanish,PD
-True,22050,1,51.6877,0.0697,12,0.9876,False,OUT-DE-01,DE_PD_024.wav,German,PD
-True,22050,1,120.6857,0.1059,12,0.5031,False,OUT-DE-02,DE_PD_088.wav,German,PD

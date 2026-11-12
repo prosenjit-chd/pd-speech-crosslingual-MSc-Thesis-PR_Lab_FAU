@@ -1,9 +1,0 @@
-set,direction,classifier,metric,mean_delta,ci_95_low,ci_95_high,bootstrap_p
-Set A: Full Cohort,Spanish -> German,Linear SVM,Delta UAR,0.04,-0.0656,0.1457,0.248
-Set A: Full Cohort,German -> Spanish,Linear SVM,Delta UAR,-0.0455,-0.1169,0.0239,0.885
-Set A: Full Cohort,Spanish -> German,Logistic Regression,Delta UAR,0.05,-0.0497,0.1475,0.173
-Set A: Full Cohort,German -> Spanish,Logistic Regression,Delta UAR,-0.0852,-0.1457,-0.0338,1.0
-Set B: Development-Excluded,Spanish -> German,Linear SVM,Delta UAR,-0.0213,-0.145,0.0948,0.641
-Set B: Development-Excluded,German -> Spanish,Linear SVM,Delta UAR,-0.0118,-0.075,0.0546,0.621
-Set B: Development-Excluded,Spanish -> German,Logistic Regression,Delta UAR,-0.0426,-0.1499,0.0487,0.814
-Set B: Development-Excluded,German -> Spanish,Logistic Regression,Delta UAR,-0.0706,-0.1316,-0.0058,0.986
